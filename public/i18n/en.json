@@ -13,5 +13,7 @@
   "typeHere": "Type ...",
   "Active": "Active",
   "InActive": "InActive",
-  "Undefined": "Undefined"
+  "Undefined": "Undefined",
+  "tenants": "Tenants",
+  "addNew": "Add New"
 }

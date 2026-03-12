@@ -1,8 +1,8 @@
 @use './variables' as vars;
 
 @mixin set-theme($primary, $secondary, $accent) {
-  --bg-primary-color: #{$primary};
-  --bg-secondary-color: #{$secondary};
+  --primary-color: #{$primary};
+  --secondary-color: #{$secondary};
   --accent-color: #{$accent};
   --primary-color: #{$primary};
   --secondary-color: #{$secondary};

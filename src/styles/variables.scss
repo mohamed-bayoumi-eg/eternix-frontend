@@ -11,36 +11,15 @@ $theme-3-secondary: #4d6657;
 $theme-3-accent: #5d7a69;
 
 :root {
-  --bg-primary-color: #{$theme-1-primary};
-  --bg-secondary-color: #{$theme-1-secondary};
-  --accent-color: #{$theme-1-accent};
   --primary-color: #{$theme-1-primary};
   --secondary-color: #{$theme-1-secondary};
-  
-  // Backgrounds
-  --bg-white-color: #ffffff;
-  --bg-light-gray-color: #f5f6f8;
-  --bg-dark-gray-color: #1f2933;
+  --accent-color: #{$theme-1-accent};
 
-  // Text
-  --text-white-color: #ffffff;
-  --text-black-color: #000000;
-  --text-dark-gray-color: #6b7280;
-
-  // Borders (ERP)
-  --border-white-color: #ffffff;
-  --border-light-color: rgba(179, 175, 175, 0.445);
-  --border-dark-color: rgba(255, 255, 255, 0.08);
-  --border-accent-color: rgba(255, 255, 255, 0.15);
-
-  // Buttons (ERP Standard)
-  --btn-add-bg-color: #16a34a;
-  --btn-save-bg-color: #16a34a;
-  --btn-delete-bg-color: #dc2626;
-  --btn-back-bg-color: #6b7280;
-
-  // Status
-  --text-error-color: #ef4444;
-  --text-warning-color: #f59e0b;
-  --text-success-color: #22c55e;
+  --white-color: #ffffff;
+  --gray-color: #6b7280;
+  --light-gray-color: #d6d6d6;
+  --dark-gray-color: #424242;
+  --green-color: #16a34a;
+  --red-color: #dc2626;
+  --yellow-color: #f59e0b;
 }

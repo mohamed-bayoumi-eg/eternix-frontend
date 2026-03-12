@@ -95,13 +95,13 @@ export class DynamicInputComponent implements OnInit {
     }
   }
 
-getSelectedLabel(): string {
-  const selectedKey = this.control.value;
-  if (!selectedKey) return '';
+  getSelectedLabel(): string {
+    const selectedKey = this.control.value;
+    if (!selectedKey) return '';
 
-  const opt = this.options()?.find((o) => o.key === selectedKey);
-  return opt ? opt.value : '';
-}
+    const opt = this.options()?.find((o) => o.key === selectedKey);
+    return opt ? opt.value : '';
+  }
   selectOption(opt: ComboResultBase) {
     this.lastSelectedLabel = opt.value;
     this.control.setValue(opt.key);
@@ -169,7 +169,6 @@ getSelectedLabel(): string {
           this.options.set(res);
           this.updateLabelFromValue();
         },
-        error: (err) => console.error('Combo API Error:', err),
       });
     } else if (this.config.type === InputType.Enum && this.config.enumData) {
       this.options.set(this.mapEnum(this.config.enumData));
@@ -183,16 +182,22 @@ getSelectedLabel(): string {
     this.searchTerm = value;
   }
 
-private mapEnum(enumObj: any): ComboResultBase[] {
-  return Object.entries(enumObj)
-    .filter(([key]) => isNaN(Number(key)))
-    .map(([key, value]) => {
-      return {
-        key: key,             // القيمة البرمجية (مثل 'Active') -> تذهب للـ API
-        value: value as string // مفتاح الترجمة (مثل 'Active') -> يُستخدم في الـ Pipe
-      };
-    });
-}
+  private mapEnum(enumObj: any): ComboResultBase[] {
+    return Object.entries(enumObj)
+      .filter(([key]) => isNaN(Number(key)))
+      .map(([key, value]) => {
+        return {
+          key: key,
+          value: value as string,
+        };
+      });
+  }
+  clearSelection(event: MouseEvent) {
+    event.stopPropagation();
+    this.control.setValue(null);
+    this.lastSelectedLabel = '';
+    this.valueChange.emit({ field: this.config.fieldName, value: null });
+  }
   getErrorMessage(): string {
     const errors = this.control.errors;
     if (!errors) return '';

@@ -33,22 +33,20 @@ export class ApiService {
     return this.http.delete<TResult>(`${this.baseUrl}/${path}/${id}`);
   }
 
-getCombo(endpoint: string, query?: any): Observable<ComboResultBase[]> {
-  let params = new HttpParams();
+  getCombo(endpoint: string, query?: any): Observable<ComboResultBase[]> {
+    let params = new HttpParams();
 
-  if (query) {
-    Object.keys(query).forEach((key) => {
-      const value = query[key];
-      console.log(query)
-      if (value !== null && value !== undefined) {
-        params = params.set(key, value.toString());
-      }
-    });
+    if (query) {
+      Object.keys(query).forEach((key) => {
+        const value = query[key];
+        if (value !== null && value !== undefined) {
+          params = params.set(key, value.toString());
+        }
+      });
+    }
+
+    return this.http
+      .get<any>(`${this.baseUrl}/${endpoint}/combo`, { params })
+      .pipe(map((res) => res.data));
   }
-
-  return this.http
-    .get<any>(`${this.baseUrl}/${endpoint}/combo`, { params })
-    .pipe(map((res) => res.data));
-}
-
 }

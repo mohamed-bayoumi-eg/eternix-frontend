@@ -6,6 +6,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--light-gray-color);
 }
 
 html,
@@ -54,21 +56,4 @@ button {
   display: flex;
   height: 100vh;
   width: 100vw;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  &:hover {
-    background: rgba(0, 0, 0, 0.2);
-  }
 }

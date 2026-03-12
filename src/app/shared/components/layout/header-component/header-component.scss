@@ -7,8 +7,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background: var(--bg-primary-color);
-  color: var(--text-white-color);
+  background: var(--primary-color);
+  color: var(--white-color);
   font-family: 'Roboto', sans-serif;
 
   .header-left {
@@ -35,7 +35,7 @@
 
       &:hover {
         transform: rotate(90deg);
-        color: var(--bg-secondary-color);
+        color: var(--secondary-color);
       }
     }
   }
@@ -50,11 +50,10 @@
       height: 22px;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid var(--border-white-color);
+      border: 2px solid var(--light-gray-color);
       transition:
         transform 0.2s,
         box-shadow 0.2s;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 
       &:hover {
         transform: scale(1.2);
@@ -84,7 +83,7 @@
       border-radius: 6px;
       border: 1px solid var(--accent-color);
       background: var(--accent-color);
-      color: var(--text-white-color);
+      color: var(--white-color);
       font-weight: 500;
       cursor: pointer;
       transition:
@@ -92,7 +91,7 @@
         transform 0.2s;
 
       &:hover {
-        background: var(--bg-secondary-color);
+        background: var(--secondary-color);
         transform: scale(1.05);
       }
     }

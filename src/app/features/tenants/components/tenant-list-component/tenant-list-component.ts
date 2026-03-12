@@ -39,13 +39,6 @@ export class TenantListComponent extends BaseListComponent<
       fieldName: 'isActive',
       enumData: IsActive,
     },
-    {
-      type: InputType.Select,
-      label: 'tenant',
-      fieldName: 'tenantId',
-      endpoint: 'tenants',
-      queryModel: GetTenantsComboQuery,
-    },
   ];
 
   onFilterChanged(event: any) {

@@ -13,5 +13,7 @@
   "typeHere": "اكتب هنا ...",
   "Active": "نشط",
   "InActive": "غير نشط",
-  "Undefined": "غير معرف"
+  "Undefined": "غير معرف",
+  "tenants": "المستأجرين",
+  "addNew": "اضافة جديد"
 }

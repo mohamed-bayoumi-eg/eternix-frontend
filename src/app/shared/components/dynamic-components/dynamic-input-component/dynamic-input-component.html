@@ -22,6 +22,7 @@
               [class.is-invalid]="isInvalid"
             />
           }
+
           @case (types.Number) {
             <input
               type="number"
@@ -32,6 +33,7 @@
               [class.is-invalid]="isInvalid"
             />
           }
+
           @case (types.Date) {
             <input
               type="date"
@@ -49,8 +51,17 @@
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ getSelectedLabel() || ('choose' | translate) }}
                   </span>
-                  <i class="bi bi-caret-down-fill arrow"></i>
+
+                  @if (control.value) {
+                    <i
+                      class="fas fa-times clear-btn"
+                      (click)="control.setValue(null); $event.stopPropagation()"
+                    ></i>
+                  }
+
+                  <i class="fas fa-chevron-down arrow"></i>
                 </div>
+
                 <div class="select-dropdown" [class.open]="dropdownOpen">
                   <input
                     type="text"
@@ -61,6 +72,7 @@
                     (ngModelChange)="onSearch($event)"
                     [placeholder]="'search' | translate"
                   />
+
                   <ul class="options-list">
                     <li
                       *ngFor="let opt of options(); trackBy: trackByValue"
@@ -74,6 +86,7 @@
               </div>
             </div>
           }
+
           @case (types.Enum) {
             <div class="select-wrapper w-100">
               <div class="custom-select">
@@ -81,7 +94,15 @@
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ (getSelectedLabel() | translate) || ('choose' | translate) }}
                   </span>
-                  <i class="bi bi-caret-down-fill arrow"></i>
+
+                  @if (control.value) {
+                    <i
+                      class="fas fa-times clear-btn"
+                      (click)="control.setValue(null); $event.stopPropagation()"
+                    ></i>
+                  }
+
+                  <i class="fas fa-chevron-down arrow"></i>
                 </div>
 
                 <div class="select-dropdown" [class.open]="dropdownOpen">

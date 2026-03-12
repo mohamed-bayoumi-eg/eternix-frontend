@@ -51,10 +51,6 @@ export abstract class BaseListComponent<
 
         this.isLoading.set(false);
       },
-      error: (err: any) => {
-        console.error('Error loading data:', err);
-        this.isLoading.set(false);
-      },
     });
   }
 

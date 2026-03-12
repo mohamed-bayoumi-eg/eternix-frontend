@@ -1,0 +1,132 @@
+<div [formGroup]="form" [class]="config.className || 'col-12'" class="dynamic-field-wrapper">
+  <div class="field-container">
+    <div class="label-side">
+      <label [for]="config.fieldName" class="field-label mb-0">
+        {{ config.label | translate }}
+        @if (isRequired) {
+          <span class="required-dot text-danger">*</span>
+        }
+      </label>
+    </div>
+
+    <div class="input-side flex-grow-1">
+      <div class="input-relative-container">
+        @switch (config.type) {
+          @case (types.Text) {
+            <input
+              type="text"
+              [formControlName]="config.fieldName"
+              class="erp-input"
+              [id]="config.fieldName"
+              [placeholder]="config.label | translate"
+              [class.is-invalid]="isInvalid"
+            />
+          }
+          @case (types.Number) {
+            <input
+              type="number"
+              [formControlName]="config.fieldName"
+              class="erp-input"
+              [id]="config.fieldName"
+              [placeholder]="config.label | translate"
+              [class.is-invalid]="isInvalid"
+            />
+          }
+          @case (types.Date) {
+            <input
+              type="date"
+              [formControlName]="config.fieldName"
+              class="erp-input"
+              [id]="config.fieldName"
+              [class.is-invalid]="isInvalid"
+            />
+          }
+
+          @case (types.Select) {
+            <div class="select-wrapper w-100">
+              <div class="custom-select">
+                <div class="select-display" (click)="toggleDropdown()">
+                  <span class="text-truncate" [class.is-placeholder]="!control.value">
+                    {{ getSelectedLabel() || ('choose' | translate) }}
+                  </span>
+                  <i class="bi bi-caret-down-fill arrow"></i>
+                </div>
+                <div class="select-dropdown" [class.open]="dropdownOpen">
+                  <input
+                    type="text"
+                    class="erp-select-search"
+                    (click)="$event.stopPropagation()"
+                    [ngModel]="searchTerm"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onSearch($event)"
+                    [placeholder]="'search' | translate"
+                  />
+                  <ul class="options-list">
+                    <li
+                      *ngFor="let opt of options(); trackBy: trackByValue"
+                      (click)="selectOption(opt)"
+                      [class.selected]="opt.key === control.value"
+                    >
+                      {{ opt.value }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
+          @case (types.Enum) {
+            <div class="select-wrapper w-100">
+              <div class="custom-select">
+                <div class="select-display" (click)="toggleDropdown()">
+                  <span class="text-truncate" [class.is-placeholder]="!control.value">
+                    {{ (getSelectedLabel() | translate) || ('choose' | translate) }}
+                  </span>
+                  <i class="bi bi-caret-down-fill arrow"></i>
+                </div>
+
+                <div class="select-dropdown" [class.open]="dropdownOpen">
+                  <ul class="options-list">
+                    @for (opt of options(); track opt.key) {
+                      <li (click)="selectOption(opt)" [class.selected]="opt.key === control.value">
+                        {{ opt.value | translate }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
+
+          @case (types.Checkbox) {
+            <div class="form-check form-switch pt-1">
+              <input
+                type="checkbox"
+                [formControlName]="config.fieldName"
+                class="form-check-input"
+                [id]="config.fieldName"
+              />
+            </div>
+          }
+
+          @case (types.TextArea) {
+            <textarea
+              [formControlName]="config.fieldName"
+              class="erp-textarea"
+              rows="2"
+              [class.is-invalid]="isInvalid"
+            ></textarea>
+          }
+        }
+
+        @if (isInvalid) {
+          <div class="error-container">
+            <small class="error-text">
+              <i class="bi bi-exclamation-circle me-1"></i>
+              {{ getErrorMessage() | translate }}
+            </small>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

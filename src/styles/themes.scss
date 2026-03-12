@@ -1,0 +1,19 @@
+@use './variables' as vars;
+
+@mixin set-theme($primary, $secondary, $accent) {
+  --bg-primary-color: #{$primary};
+  --bg-secondary-color: #{$secondary};
+  --accent-color: #{$accent};
+  --primary-color: #{$primary};
+  --secondary-color: #{$secondary};
+}
+
+.first-theme {
+  @include set-theme(vars.$theme-1-primary, vars.$theme-1-secondary, vars.$theme-1-accent);
+}
+.second-theme {
+  @include set-theme(vars.$theme-2-primary, vars.$theme-2-secondary, vars.$theme-2-accent);
+}
+.third-theme {
+  @include set-theme(vars.$theme-3-primary, vars.$theme-3-secondary, vars.$theme-3-accent);
+}

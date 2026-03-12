@@ -7,6 +7,7 @@ import {
   GetListQueryBase,
   DeleteCommandBase,
   GetComboQueryBase,
+  ComboResultBase,
 } from '../../../shared/models/base-requests';
 
 export interface CreateTenantCommand extends CreateCommandBase<CreateTenantCommandResult> {
@@ -48,11 +49,6 @@ export interface GetTenantQueryResult extends ResultBase {
   isActive: IsActive;
 }
 
-export interface GetTenantsComboQuery extends GetComboQueryBase<GetTenantsComboQueryResult[]> {}
-
-export interface GetTenantsComboQueryResult extends ResultBase {
-  code: number;
-  arabicName: string;
-  englishName: string;
-  isActive: IsActive;
+export class GetTenantsComboQuery implements GetComboQueryBase<ComboResultBase[]> {
+  filter?: string;
 }

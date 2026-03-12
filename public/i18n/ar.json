@@ -1,0 +1,17 @@
+{
+  "appName": "نظام اتيرنيكس",
+  "screensMenu": "قائمة الشاشات ",
+  "code": "الكود",
+  "arabicName": "الاسم العربي",
+  "englishName": "الاسم الانجليزي",
+  "actions": "الاجراءات",
+  "isActive": "نشط",
+  "total": "الاجمالي",
+  "pageSize": "عدد اللصفوف",
+  "search": "بحث",
+  "choose": "اختر ...",
+  "typeHere": "اكتب هنا ...",
+  "Active": "نشط",
+  "InActive": "غير نشط",
+  "Undefined": "غير معرف"
+}

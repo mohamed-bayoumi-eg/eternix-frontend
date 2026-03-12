@@ -1,0 +1,46 @@
+$theme-1-primary: #24292e;
+$theme-1-secondary: #2f363d;
+$theme-1-accent: #444d56;
+
+$theme-2-primary: #334155;
+$theme-2-secondary: #475569;
+$theme-2-accent: #64748b;
+
+$theme-3-primary: #3d5245;
+$theme-3-secondary: #4d6657;
+$theme-3-accent: #5d7a69;
+
+:root {
+  --bg-primary-color: #{$theme-1-primary};
+  --bg-secondary-color: #{$theme-1-secondary};
+  --accent-color: #{$theme-1-accent};
+  --primary-color: #{$theme-1-primary};
+  --secondary-color: #{$theme-1-secondary};
+  
+  // Backgrounds
+  --bg-white-color: #ffffff;
+  --bg-light-gray-color: #f5f6f8;
+  --bg-dark-gray-color: #1f2933;
+
+  // Text
+  --text-white-color: #ffffff;
+  --text-black-color: #000000;
+  --text-dark-gray-color: #6b7280;
+
+  // Borders (ERP)
+  --border-white-color: #ffffff;
+  --border-light-color: rgba(179, 175, 175, 0.445);
+  --border-dark-color: rgba(255, 255, 255, 0.08);
+  --border-accent-color: rgba(255, 255, 255, 0.15);
+
+  // Buttons (ERP Standard)
+  --btn-add-bg-color: #16a34a;
+  --btn-save-bg-color: #16a34a;
+  --btn-delete-bg-color: #dc2626;
+  --btn-back-bg-color: #6b7280;
+
+  // Status
+  --text-error-color: #ef4444;
+  --text-warning-color: #f59e0b;
+  --text-success-color: #22c55e;
+}

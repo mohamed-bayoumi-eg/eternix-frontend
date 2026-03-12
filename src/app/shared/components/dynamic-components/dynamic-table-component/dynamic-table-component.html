@@ -1,0 +1,133 @@
+<div class="table-container">
+  <div class="table-responsive">
+    <table class="modern-table">
+      <thead>
+        <tr>
+          @for (col of columns; track col.field) {
+            <th
+              [class.sortable]="col.sortable"
+              (click)="col.sortable ? sortChange.emit(col.field) : null"
+            >
+              <div class="header-content">
+                {{ col.header | translate }}
+                @if (col.sortable) {
+                  <i class="fas" [ngClass]="getSortingIcon(col.field)"></i>
+                }
+              </div>
+            </th>
+          }
+          <th class="actions-header">{{ 'actions' | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @if (isLoading) {
+          @for (row of [1, 2, 3, 4, 5]; track row) {
+            <tr class="skeleton-row">
+              @for (col of columns; track col) {
+                <td><div class="skeleton-line"></div></td>
+              }
+              <td><div class="skeleton-line"></div></td>
+            </tr>
+          }
+        } @else {
+          @for (item of items; track item.id; let odd = $odd) {
+            <tr [class.odd-row]="odd">
+              @for (col of columns; track col.field) {
+                <td>
+                  {{ item[col.field] }}
+                </td>
+              }
+              <td class="actions-cell">
+                <div class="action-btns">
+                  @if (showEdit) {
+                    <button
+                      class="btn-table edit"
+                      (click)="editAction.emit(item)"
+                      [title]="'edit' | translate"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  }
+                  @if (showDelete) {
+                    <button
+                      class="btn-table delete"
+                      (click)="deleteAction.emit(item.id)"
+                      [title]="'delete' | translate"
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td [attr.colspan]="columns.length + 1" class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <p>{{ 'noDataAvailable' | translate }}</p>
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (metaData && !isLoading && items.length > 0) {
+    <div class="pagination-footer">
+      <div class="footer-left">
+        <label>{{ 'pageSize' | translate }}</label>
+        <div class="custom-select-wrapper">
+          <select [ngModel]="metaData.pageSize" (ngModelChange)="onPageSizeChange($event)">
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="footer-center">
+        <button class="nav-btn" [disabled]="metaData.currentPage === 1" (click)="goToPage(1)">
+          <i class="fas fa-angle-double-left"></i>
+        </button>
+
+        <button class="nav-btn" [disabled]="!metaData.hasPrevious" (click)="pageChange.emit(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div class="page-numbers">
+          @for (page of getPageNumbers(); track page) {
+            <button
+              class="page-num-btn"
+              [class.active]="page === metaData.currentPage"
+              (click)="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          }
+        </div>
+
+        <button class="nav-btn" [disabled]="!metaData.hasNext" (click)="pageChange.emit(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <button
+          class="nav-btn"
+          [disabled]="metaData.currentPage === metaData.totalPages"
+          (click)="goToPage(metaData.totalPages)"
+        >
+          <i class="fas fa-angle-double-right"></i>
+        </button>
+      </div>
+
+      <div class="footer-right">
+        <div class="total-badge">
+          {{ 'total' | translate }}: <b>{{ metaData.totalCount }}</b>
+        </div>
+      </div>
+    </div>
+  }
+</div>

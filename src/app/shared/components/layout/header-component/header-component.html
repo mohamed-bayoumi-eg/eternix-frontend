@@ -1,0 +1,19 @@
+<header class="main-header">
+  <div class="header-left">
+    <div class="logo" [routerLink]="'/'">{{ 'appName' | translate }}</div>
+    <button class="toggle-sidebar" (click)="onToggleSidebar()">☰</button>
+  </div>
+
+  <div class="header-center">
+    <div class="theme-circle theme-1" (click)="onThemeSelect('first-theme')"></div>
+    <div class="theme-circle theme-2" (click)="onThemeSelect('second-theme')"></div>
+    <div class="theme-circle theme-3" (click)="onThemeSelect('third-theme')"></div>
+  </div>
+
+  <div class="header-right">
+    <button class="lang-toggle" (click)="onToggleLanguage()">
+      {{ currentLang === 'en' ? 'AR' : 'EN' }}
+    </button>
+    <button class="btn login-btn">{{ 'login' | translate }}</button>
+  </div>
+</header>

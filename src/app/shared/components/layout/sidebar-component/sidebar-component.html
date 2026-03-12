@@ -1,0 +1,33 @@
+<div class="sidebar" [class.collapsed]="collapsed">
+  <div class="logo">
+    <span>
+      {{ 'screensMenu' | translate }}
+    </span>
+  </div>
+
+  <ul class="menu">
+    @for (menu of menus; track menu.key) {
+      <li>
+        @if (!menu.children) {
+          <a [routerLink]="menu.route" class="menu-link">
+            <span class="text">{{ menu.key | translate }}</span>
+          </a>
+        } @else {
+          <div (click)="toggleMenu(menu.key)" class="menu-item menu-link">
+            <span class="text">{{ menu.key | translate }}</span>
+          </div>
+
+          <ul class="submenu" [class.open]="isOpen(menu.key)">
+            @for (child of menu.children; track child.key) {
+              <li>
+                <a [routerLink]="child.route" routerLinkActive="active" class="menu-link sub-link">
+                  <span class="text">{{ child.key | translate }}</span>
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    }
+  </ul>
+</div>

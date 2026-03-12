@@ -1,0 +1,60 @@
+<div class="erp-page-wrapper">
+  <div class="erp-header-card">
+    <div class="right-section">
+      <div class="search-filters-column">
+        @if (config.showSearch) {
+          <div class="filter-row">
+            <label class="field-label mb-0">
+              {{ "search" | translate }}
+             
+            </label>
+            <div class="erp-search-wrapper">
+              <input
+                type="text"
+                [placeholder]="'typeHere' | translate"
+                (input)="onSearch.emit($any($event.target).value)"
+              />
+            </div>
+          </div>
+        }
+
+        @for (fConfig of filterConfigs; track fConfig.fieldName) {
+          <div class="filter-row">
+            <app-dynamic-input-component
+              [config]="fConfig"
+              [form]="filterForm"
+              (valueChange)="onFilterChange.emit($event)"
+            ></app-dynamic-input-component>
+          </div>
+        }
+      </div>
+    </div>
+    <div class="left-actions">
+      <h2 class="page-title">{{ config.title | translate }}</h2>
+      @if (config.showAddBtn) {
+        <button class="erp-btn btn-add" (click)="onAdd.emit()">
+          <i class="fas fa-plus-circle"></i>
+          <span>{{ 'add' | translate }}</span>
+        </button>
+      }
+    </div>
+  </div>
+  <div class="erp-content-card">
+    <app-dynamic-table-component
+      [columns]="columns"
+      [items]="items"
+      [metaData]="metaData"
+      [isLoading]="isLoading"
+      [sortField]="query?.sortField"
+      [sortType]="query?.sortType"
+      [showEdit]="config.showEditBtn ?? true"
+      [showDelete]="config.showDeleteBtn ?? true"
+      (sortChange)="onSort.emit($event)"
+      (pageChange)="onPageChange.emit($event)"
+      (editAction)="onEdit.emit($event)"
+      (deleteAction)="onDelete.emit($event)"
+      (pageSizeChange)="onPageSizeChange.emit($event)"
+    >
+    </app-dynamic-table-component>
+  </div>
+</div>

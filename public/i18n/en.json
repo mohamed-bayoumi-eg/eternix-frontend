@@ -1,0 +1,17 @@
+{
+  "appName": "Eternix ERP",
+  "screensMenu": "Screens Menu",
+  "code": "Code",
+  "arabicName": "Arabic Name",
+  "englishName": "English Name",
+  "actions": "Actions",
+  "isActive": "Is Active",
+  "total": "Total",
+  "pageSize": "Page Size",
+  "search": "Search",
+  "choose": "Choose ...",
+  "typeHere": "Type ...",
+  "Active": "Active",
+  "InActive": "InActive",
+  "Undefined": "Undefined"
+}

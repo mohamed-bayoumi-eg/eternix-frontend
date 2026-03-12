@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-import { PagedList, ComboResult } from '../models/base-requests';
+import { PagedList } from '../models/base-requests';
 
 export abstract class BaseFeatureService<
   TGetListQuery,
@@ -14,8 +14,6 @@ export abstract class BaseFeatureService<
   TUpdateResult,
   TDeleteCommand,
   TDeleteResult,
-  TGetComboQuery,
-  TGetComboResult,
 > {
   protected abstract endpoint: string;
   protected api = inject(ApiService);
@@ -40,9 +38,5 @@ export abstract class BaseFeatureService<
   delete(command: TDeleteCommand): Observable<TDeleteResult> {
     const id = (command as any).id;
     return this.api.delete<TDeleteResult>(this.endpoint, id);
-  }
-
-  getCombo(query: TGetComboQuery): Observable<TGetComboResult[]> {
-    return this.api.get<TGetComboResult[]>(`${this.endpoint}/combo`, query);
   }
 }

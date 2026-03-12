@@ -46,11 +46,16 @@ export interface GetListQueryBase<TResponse> {
   sortField: string;
   sortType: SortingType;
 }
-export interface ComboResult {
+export interface ComboResultBase {
   key: string;
   value: string;
 }
 
 export interface GetComboQueryBase<TResponse> {
-  filter: string;
+  filter?: string;
+}
+export interface TableColumn {
+  field: string;
+  header: string;
+  sortable?: boolean;
 }

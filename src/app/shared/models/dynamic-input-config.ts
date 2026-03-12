@@ -30,5 +30,4 @@ export interface DynamicInputConfig<TQuery = any> {
   enumData?: any;
   options?: any[];
   validations?: ValidationConfig;
-  className?: string;
 }

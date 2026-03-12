@@ -29,8 +29,10 @@ export class ApiService {
     return this.http.put<TResult>(`${this.baseUrl}/${path}`, body);
   }
 
-  delete<TResult>(path: string, id: string): Observable<TResult> {
-    return this.http.delete<TResult>(`${this.baseUrl}/${path}/${id}`);
+  delete<TResult>(path: string, body: any): Observable<TResult> {
+    return this.http.delete<TResult>(`${this.baseUrl}/${path}`, {
+      body: body,
+    });
   }
 
   getCombo(endpoint: string, query?: any): Observable<ComboResultBase[]> {

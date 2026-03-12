@@ -1,1 +1,11 @@
-<p>tenant-form-component works!</p>
+<app-dynamic-form-page-component
+  [title]="editData() ? 'editTenant' : 'addTenant'"
+  [controls]="formConfig"
+  [initialData]="editData"
+  [isLoading]="false"
+  (onSave)="handleSave($event)"
+  (onSaveAndAdd)="handleSaveAndAdd($event)"
+  (onDelete)="handleDelete()"
+  (onCancel)="handleCancel()"
+>
+</app-dynamic-form-page-component>

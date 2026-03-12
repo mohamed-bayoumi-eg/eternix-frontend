@@ -201,10 +201,9 @@ export class DynamicInputComponent implements OnInit {
   getErrorMessage(): string {
     const errors = this.control.errors;
     if (!errors) return '';
-    if (errors['required']) return 'VALIDATION.REQUIRED';
-    if (errors['minlength']) return 'VALIDATION.MIN_LENGTH';
-    if (errors['email']) return 'VALIDATION.INVALID_EMAIL';
-    return 'VALIDATION.INVALID_FIELD';
+    if (errors['required']) return 'fieldRequired';
+    if (errors['email']) return 'inValidEmail';
+    return 'inValidField';
   }
 
   trackByValue(index: number, item: any) {

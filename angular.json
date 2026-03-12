@@ -20,6 +20,9 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "ssr": false,
+            "prerender": false,
+            "outputPath": "dist/eternix-frontend",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -31,6 +34,7 @@
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ]
           },

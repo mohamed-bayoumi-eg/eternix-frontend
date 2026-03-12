@@ -15,5 +15,14 @@
   "InActive": "InActive",
   "Undefined": "Undefined",
   "tenants": "Tenants",
-  "addNew": "Add New"
+  "addNew": "Add New",
+  "inValidEmail": "Invalid email address",
+  "inValidField": "Invalid field value",
+  "fieldRequired": "This field is required",
+  "addTenant": "Add Tenant",
+  "save": "Save",
+  "saveAndAddNew": "Add New",
+  "back": "Back",
+  "delete": "Delete",
+  "noDataAvailable": "No Data Available"
 }

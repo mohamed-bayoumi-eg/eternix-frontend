@@ -59,3 +59,10 @@ export interface TableColumn {
   header: string;
   sortable?: boolean;
 }
+
+export interface ApiResponse {
+  isSuccess: boolean;
+  message?: string;
+  errors?: string[];
+  data?: any;
+}

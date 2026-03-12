@@ -1,4 +1,4 @@
-<div [formGroup]="form" [class]="config.className || 'col-12'" class="dynamic-field-wrapper">
+<div [formGroup]="form" class="dynamic-field-wrapper">
   <div class="field-container">
     <div class="label-side">
       <label [for]="config.fieldName" class="field-label mb-0">
@@ -46,7 +46,11 @@
 
           @case (types.Select) {
             <div class="select-wrapper w-100">
-              <div class="custom-select">
+              <div
+                class="custom-select"
+                [class.is-invalid]="isInvalid"
+                [class.is-valid]="control.valid && (control.dirty || control.touched)"
+              >
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ getSelectedLabel() || ('choose' | translate) }}
@@ -71,6 +75,7 @@
                     [ngModelOptions]="{ standalone: true }"
                     (ngModelChange)="onSearch($event)"
                     [placeholder]="'search' | translate"
+                    [class.is-invalid]="isInvalid"
                   />
 
                   <ul class="options-list">
@@ -89,7 +94,11 @@
 
           @case (types.Enum) {
             <div class="select-wrapper w-100">
-              <div class="custom-select">
+              <div
+                class="custom-select"
+                [class.is-invalid]="isInvalid"
+                [class.is-valid]="control.valid && (control.dirty || control.touched)"
+              >
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ (getSelectedLabel() | translate) || ('choose' | translate) }}
@@ -139,14 +148,12 @@
           }
         }
 
-        @if (isInvalid) {
-          <div class="error-container">
-            <small class="error-text">
-              <i class="bi bi-exclamation-circle me-1"></i>
-              {{ getErrorMessage() | translate }}
-            </small>
-          </div>
-        }
+        <div class="error-container" [style.visibility]="isInvalid ? 'visible' : 'hidden'">
+          <small class="error-text">
+            <i class="bi bi-exclamation-circle me-1"></i>
+            {{ getErrorMessage() | translate }}
+          </small>
+        </div>
       </div>
     </div>
   </div>

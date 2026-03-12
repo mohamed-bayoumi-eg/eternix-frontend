@@ -12,6 +12,7 @@ import { TableColumn } from '../../../../shared/models/base-requests';
 import { DynamicListPageComponent } from '../../../../shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { DynamicInputConfig, InputType } from '../../../../shared/models/dynamic-input-config';
 import { IsActive } from '../../../../shared/enums/common.enums';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tenant-list-component',
@@ -25,6 +26,7 @@ export class TenantListComponent extends BaseListComponent<
   GetTenantsListQuery
 > {
   protected override service = inject(TenantService);
+  protected override baseRoute = '/tenants';
 
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },
@@ -32,35 +34,8 @@ export class TenantListComponent extends BaseListComponent<
     { field: 'arabicName', header: 'arabicName', sortable: true },
     { field: 'isActive', header: 'isActive', sortable: true },
   ];
+
   filterConfigs: DynamicInputConfig<GetTenantsComboQuery>[] = [
-    {
-      type: InputType.Enum,
-      label: 'isActive',
-      fieldName: 'isActive',
-      enumData: IsActive,
-    },
+    { type: InputType.Enum, label: 'isActive', fieldName: 'isActive', enumData: IsActive },
   ];
-
-  onFilterChanged(event: any) {
-    this.updateFilter({ [event.field]: event.value });
-  }
-
-  addTenant() {
-    console.log('Open Dialog for Add');
-  }
-  editTenant(item: any) {
-    console.log('Open Dialog for Edit', item);
-  }
-
-  deleteTenant(id: string) {
-    this.onDeleteBase(id);
-  }
-  onPageSizeUpdate(newSize: number): void {
-    this.query.update((q) => ({
-      ...q,
-      pageSize: newSize,
-      pageNumber: 1,
-    }));
-    this.loadData();
-  }
 }

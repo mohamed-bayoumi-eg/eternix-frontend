@@ -1,0 +1,123 @@
+.erp-page-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-sizing: border-box;
+
+  .erp-header-card {
+    display: flex;
+    justify-content: end;
+    padding: 20px;
+    background-color: transparent;
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      margin: 0;
+      position: relative;
+      padding-bottom: 5px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: var(--primary-color);
+        border-radius: 2px;
+      }
+    }
+  }
+
+  .erp-content-card {
+    .form-body {
+      .filter-row {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .form-footer-actions {
+      display: flex;
+      justify-content: center;
+
+      .action-buttons-group {
+        display: flex;
+        gap: 12px;
+      }
+
+      .erp-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+        box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
+        width: 140px;
+
+        &.btn-save,
+        &.btn-save-new {
+          color: var(--green-color);
+          border: 2px solid var(--green-color);
+          background-color: transparent;
+          box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.1);
+
+          &:hover:not(:disabled) {
+            background-color: var(--green-color);
+            color: var(--white-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(22, 163, 74, 0.2);
+          }
+        }
+
+        &.btn-delete {
+          color: var(--red-color);
+          border: 2px solid var(--red-color);
+          background: transparent;
+          &:hover {
+            background: var(--red-color);
+            color: white;
+          }
+        }
+        &.btn-back {
+          color: var(--primary-color);
+          border: 2px solid var(--secondary-color);
+          background-color: transparent;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+          &:hover {
+            background-color: var(--secondary-color);
+            color: var(--white-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+
+          i {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+          }
+
+          &:hover i {
+            transform: translateX(-3px);
+          }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

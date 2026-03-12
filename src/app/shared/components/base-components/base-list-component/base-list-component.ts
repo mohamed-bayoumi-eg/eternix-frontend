@@ -1,16 +1,18 @@
 import { OnInit, signal, inject, Directive } from '@angular/core';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { GetListQueryBase, MetaData, SortingType, PagedList } from '../../../models/base-requests';
+import { Router } from '@angular/router';
 
 @Directive()
 export abstract class BaseListComponent<
   TResult,
   TQuery extends GetListQueryBase<TResult>,
 > implements OnInit {
+  protected abstract service: any;
+  protected router = inject(Router);
+
   items = signal<TResult[]>([]);
   metaData = signal<MetaData | null>(null);
   isLoading = signal<boolean>(false);
-
   query = signal<TQuery>({
     pageNumber: 1,
     pageSize: 5,
@@ -19,27 +21,65 @@ export abstract class BaseListComponent<
     sortType: SortingType.Ascending,
   } as TQuery);
 
-  private searchSubject = new Subject<string>();
-
-  protected abstract service: any;
-
-  constructor() {
-    this.initSearchDebounce();
-  }
+  protected abstract baseRoute: string;
 
   ngOnInit(): void {
     this.loadData();
   }
 
-  private initSearchDebounce() {
-    this.searchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe((term) => {
-      this.query.update((q) => ({ ...q, searchTerm: term, pageNumber: 1 }));
+  onAdd(): void {
+    this.router.navigate([`${this.baseRoute}/add`]);
+  }
+
+  onEdit(item: any): void {
+    this.router.navigate([`${this.baseRoute}/edit`, item.id]);
+  }
+
+  onFilterChanged(filters: any): void {
+    this.query.update((q) => ({ ...q, ...filters, pageNumber: 1 }));
+    this.loadData();
+  }
+
+  onSearch(term: string): void {
+    this.query.update((q) => ({ ...q, searchTerm: term, pageNumber: 1 }));
+    this.loadData();
+  }
+
+  onPageSizeChanged(newSize: number): void {
+    this.query.update((q) => ({ ...q, pageSize: newSize, pageNumber: 1 }));
+    this.loadData();
+  }
+
+  onPageChanged(delta: number): void {
+    const meta = this.metaData();
+    if (meta) {
+      this.query.update((q) => ({ ...q, pageNumber: meta.currentPage + delta }));
       this.loadData();
+    }
+  }
+
+  onSort(field: string): void {
+    this.query.update((q) => {
+      const isAsc = q.sortField === field && q.sortType === SortingType.Ascending;
+      return {
+        ...q,
+        sortField: field,
+        sortType: isAsc ? SortingType.Descending : SortingType.Ascending,
+        pageNumber: 1,
+      };
     });
+    this.loadData();
+  }
+
+  onDelete(id: string): void {
+    if (confirm('Are you sure?')) {
+      this.service.delete({ id }).subscribe(() => this.loadData());
+    }
   }
 
   loadData(): void {
     this.isLoading.set(true);
+
     this.service.getList(this.query()).subscribe({
       next: (response: any) => {
         const pagedData = response.data as PagedList<TResult>;
@@ -47,64 +87,18 @@ export abstract class BaseListComponent<
         if (pagedData) {
           this.items.set(pagedData.items);
           this.metaData.set(pagedData.metaData);
+        } else {
+          this.items.set(response.items || []);
+          this.metaData.set(response.metaData || null);
         }
-
+      },
+      error: (err: any) => {
+        console.error('Error loading data:', err);
+        this.items.set([]);
+      },
+      complete: () => {
         this.isLoading.set(false);
       },
     });
-  }
-
-  onSearchManual(term: string): void {
-    this.searchSubject.next(term);
-  }
-
-  updateFilter(filterUpdates: Partial<TQuery>): void {
-    this.query.update((q) => ({ ...q, ...filterUpdates, pageNumber: 1 }));
-    this.loadData();
-  }
-
-  onDeleteBase(id: string, deleteParams: any = { deletedBy: 'admin' }): void {
-    if (confirm('Are you sure?')) {
-      this.service.delete({ id, ...deleteParams }).subscribe(() => this.loadData());
-    }
-  }
-  onSearch(event: Event): void {
-    const term = (event.target as HTMLInputElement).value;
-    this.searchSubject.next(term);
-  }
-  onFilterUpdate(event: { field: string; value: any }): void {
-    this.query.update((q) => ({
-      ...q,
-      [event.field]: event.value,
-      pageNumber: 1,
-    }));
-    this.loadData();
-  }
-  changePage(delta: number): void {
-    const meta = this.metaData();
-    if (meta) {
-      const nextPage = meta.currentPage + delta;
-      this.query.update((q) => ({ ...q, pageNumber: nextPage }));
-      this.loadData();
-    }
-  }
-
-  onSort(field: string): void {
-    this.query.update((q) => {
-      const isSameField = q.sortField === field;
-      const isCurrentlyAsc = q.sortType === SortingType.Ascending;
-
-      const newType =
-        isSameField && isCurrentlyAsc ? SortingType.Descending : SortingType.Ascending;
-
-      return {
-        ...q,
-        sortField: field,
-        sortType: newType,
-        pageNumber: 1,
-      };
-    });
-
-    this.loadData();
   }
 }

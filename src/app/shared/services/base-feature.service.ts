@@ -36,7 +36,7 @@ export abstract class BaseFeatureService<
   }
 
   delete(command: TDeleteCommand): Observable<TDeleteResult> {
-    const id = (command as any).id;
-    return this.api.delete<TDeleteResult>(this.endpoint, id);
+    // نقوم بإرسال الـ command كاملاً في الـ body، والـ ApiService سيتعامل مع الـ DELETE request
+    return this.api.delete<TDeleteResult>(this.endpoint, command);
   }
 }

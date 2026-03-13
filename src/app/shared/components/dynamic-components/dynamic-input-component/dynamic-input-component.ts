@@ -128,7 +128,6 @@ export class DynamicInputComponent implements OnInit {
     return allOptions.filter((opt) => opt.value.toLowerCase().includes(term));
   }
 
-
   get control() {
     return this.form.get(this.config.fieldName)!;
   }
@@ -260,5 +259,32 @@ export class DynamicInputComponent implements OnInit {
 
   trackByValue(index: number, item: any) {
     return item.key;
+  }
+
+  get inputWidth(): string {
+    const baseWidth = 500;
+    const calculatedWidth = (this.fieldSpan / 12) * baseWidth;
+    return `${calculatedWidth}px`;
+  }
+
+  get fieldSpan(): number {
+    if (this.config.span) return this.config.span;
+
+    switch (this.config.type) {
+      case InputType.TextArea:
+        return 6;
+      case InputType.Checkbox:
+        return 6;
+      case InputType.Date:
+      case InputType.Select:
+      case InputType.Enum:
+        return 4;
+      default:
+        return 6;
+    }
+  }
+
+  get fieldWidth(): string {
+    return `${(this.fieldSpan / 12) * 100}%`;
   }
 }

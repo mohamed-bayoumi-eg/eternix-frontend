@@ -34,7 +34,6 @@ export class TenantFormComponent extends BaseFormComponent<
       fieldName: 'englishName',
       label: 'englishName',
       validations: [ValidationHelper.EnglishName],
-      span: 6, 
     },
     {
       type: InputType.Text,

@@ -1,20 +1,22 @@
 <div [formGroup]="form" class="dynamic-field-wrapper">
   <div class="field-container">
-    <div class="label-side">
-      <label [for]="config.fieldName" class="field-label mb-0">
-        {{ config.label | translate }}
-        @if (isRequired) {
-          <span
-            class="required-dot"
-            [class.dot-valid]="control.valid && (control.dirty || control.touched)"
-          >
-            *
-          </span>
-        }
-      </label>
-    </div>
+    @if (config.label) {
+      <div class="label-side">
+        <label [for]="config.fieldName" class="field-label mb-0">
+          {{ config.label | translate }}
+          @if (isRequired) {
+            <span
+              class="required-dot"
+              [class.dot-valid]="control.valid && (control.dirty || control.touched) && isRequired"
+            >
+              *
+            </span>
+          }
+        </label>
+      </div>
+    }
 
-    <div class="input-side flex-grow-1">
+    <div class="input-side flex-grow-1" [style.width]="inputWidth" [style.min-width]="inputWidth">
       <div class="input-relative-container">
         @switch (config.type) {
           @case (types.Text) {
@@ -23,8 +25,11 @@
               [formControlName]="config.fieldName"
               class="erp-input"
               [id]="config.fieldName"
-              [placeholder]="config.label | translate"
-              [class.is-invalid]="isInvalid"
+              [placeholder]="config.fieldName | translate"
+              [class.is-invalid-field]="isInvalid && isRequired"
+              [class.is-valid-field]="
+                control.valid && (control.dirty || control.touched) && isRequired
+              "
             />
           }
 
@@ -34,8 +39,11 @@
               [formControlName]="config.fieldName"
               class="erp-input"
               [id]="config.fieldName"
-              [placeholder]="config.label | translate"
-              [class.is-invalid]="isInvalid"
+              [placeholder]="config.fieldName | translate"
+              [class.is-invalid-field]="isInvalid && isRequired"
+              [class.is-valid-field]="
+                control.valid && (control.dirty || control.touched) && isRequired
+              "
             />
           }
 
@@ -45,7 +53,10 @@
               [formControlName]="config.fieldName"
               class="erp-input"
               [id]="config.fieldName"
-              [class.is-invalid]="isInvalid"
+              [class.is-invalid-field]="isInvalid && isRequired"
+              [class.is-valid-field]="
+                control.valid && (control.dirty || control.touched) && isRequired
+              "
             />
           }
 
@@ -53,8 +64,10 @@
             <div class="select-wrapper w-100">
               <div
                 class="custom-select"
-                [class.is-invalid]="isInvalid"
-                [class.is-valid]="control.valid && (control.dirty || control.touched)"
+                [class.is-invalid-field]="isInvalid && isRequired"
+                [class.is-valid-field]="
+                  control.valid && (control.dirty || control.touched) && isRequired
+                "
               >
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
@@ -77,7 +90,11 @@
                     [ngModelOptions]="{ standalone: true }"
                     (ngModelChange)="onSearch($event)"
                     [placeholder]="'search' | translate"
-                    [class.is-invalid]="isInvalid"
+                    [class.is-invalid-field]="isInvalid && isRequired"
+                    [class.is-valid-field]="
+                      control.valid && (control.dirty || control.touched) && isRequired
+                    "
+                  />
                   />
 
                   <ul class="options-list">
@@ -98,8 +115,10 @@
             <div class="select-wrapper w-100">
               <div
                 class="custom-select"
-                [class.is-invalid]="isInvalid"
-                [class.is-valid]="control.valid && (control.dirty || control.touched)"
+                [class.is-invalid-field]="isInvalid && isRequired"
+                [class.is-valid-field]="
+                  control.valid && (control.dirty || control.touched) && isRequired
+                "
               >
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
@@ -142,8 +161,13 @@
               [formControlName]="config.fieldName"
               class="erp-textarea"
               rows="2"
-              [class.is-invalid]="isInvalid"
-            ></textarea>
+              [class.is-invalid-field]="isInvalid && isRequired"
+              [class.is-valid-field]="
+                control.valid && (control.dirty || control.touched) && isRequired
+              "
+            >
+            ></textarea
+            >
           }
         }
 

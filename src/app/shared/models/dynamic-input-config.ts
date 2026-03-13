@@ -24,7 +24,7 @@ export interface ValidationConfig {
 export interface DynamicInputConfig<TQuery = any> {
   type: InputType;
   fieldName: string;
-  label: string;
+  label?: string;
   endpoint?: string;
   queryModel?: new () => TQuery;
   enum?: any;

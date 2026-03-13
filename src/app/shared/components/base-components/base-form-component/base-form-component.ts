@@ -14,10 +14,21 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
   editData = signal<TGetResult | null>(null);
   isLoading = signal(false);
 
+  constructor() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
+
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    if (id) {
-      this.loadData(id);
+    const navigation = this.router.getCurrentNavigation();
+    const copyData = history.state?.copyData;
+
+    if (copyData) {
+      this.editData.set(copyData);
+    } else {
+      const id = this.route.snapshot.params['id'];
+      if (id) {
+        this.loadData(id);
+      }
     }
   }
 
@@ -62,33 +73,53 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     this.isLoading.set(true);
     const data = this.editData();
 
-    if (data) {
+    if (data && (data as any).id) {
       const updateCmd = { id: (data as any).id, ...formData } as TUpdateCmd;
       this.service
         .update(updateCmd)
         .pipe(finalize(() => this.isLoading.set(false)))
-        .subscribe(() => this.navigateToList());
+        .subscribe(() => {
+          //this.navigateToList();
+        });
     } else {
       this.service
         .create(formData as TCreateCmd)
         .pipe(finalize(() => this.isLoading.set(false)))
-        .subscribe(() => this.navigateToList());
+        .subscribe((res: any) => {
+          const newId = res.data?.id || res.data;
+          this.router.navigate([this.listRoute, 'edit', newId]);
+        });
     }
   }
 
-  handleSaveAndAdd(formData: any) {
+  handleSaveAndNew(formData: any) {
     this.isLoading.set(true);
-    this.service
-      .create(formData as TCreateCmd)
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe(() => {
-        this.editData.set(null);
-      });
-  }
+    const data = this.editData();
 
+    const request$ = data
+      ? this.service.update({ id: (data as any).id, ...formData })
+      : this.service.create(formData);
+
+    request$.pipe(finalize(() => this.isLoading.set(false))).subscribe(() => {
+      this.editData.set(null);
+      this.router.navigate([this.listRoute, 'add']);
+    });
+  }
+  handleCopy() {
+    const data = this.editData();
+    if (data) {
+      const copyData = JSON.parse(JSON.stringify(data));
+      delete copyData.id;
+      delete copyData.code;
+
+      this.router.navigate([this.listRoute, 'add'], {
+        state: { copyData: copyData },
+      });
+    }
+  }
   handleDelete() {
     const data = this.editData();
-    if (data && confirm('Are you sure you want to delete?')) {
+    if (data && (data as any).id) {
       this.isLoading.set(true);
       this.service
         .delete({ id: (data as any).id } as any)

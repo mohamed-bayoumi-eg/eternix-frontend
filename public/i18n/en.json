@@ -14,7 +14,6 @@
   "Active": "Active",
   "InActive": "InActive",
   "Undefined": "Undefined",
-  "tenants": "Tenants",
   "addNew": "Add New",
   "inValidEmail": "Invalid email address",
   "inValidField": "Invalid field value",
@@ -28,5 +27,11 @@
   "maxlength": "Maximum length is {{ value }} characters",
   "add": "Add",
   "edit": "Edit",
-  "tenant": "Tenant"
+  "tenants": "Tenants",
+  "tenant": "Tenant",
+  "deleteTitle": "Confirm Delete",
+  "deleteConfirmMessage": "Are you sure you want to delete {{name}}?",
+  "cancel": "Cancel",
+  "confirmDelete": "Confirm Delete",
+  "copy": "Copy"
 }

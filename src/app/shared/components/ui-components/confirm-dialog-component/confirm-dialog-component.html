@@ -1,0 +1,19 @@
+<div class="modal-backdrop">
+  <div class="confirm-modal">
+    <div class="modal-header">
+      <i class="fas fa-exclamation-triangle warning-icon"></i>
+      <h3>{{ title | translate }}</h3>
+    </div>
+    <div class="modal-body">
+      <p>{{ message }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="erp-btn btn-cancel" (click)="onClose(false)">
+        {{ 'cancel' | translate }}
+      </button>
+      <button class="erp-btn btn-delete-confirm" (click)="onClose(true)">
+        {{ 'confirmDelete' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

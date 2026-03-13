@@ -4,10 +4,17 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicInputConfig } from '../../../models/dynamic-input-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
+import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
 
 @Component({
   selector: 'app-dynamic-form-page-component',
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, DynamicInputComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    DynamicInputComponent,
+    ConfirmDialogComponent,
+  ],
   templateUrl: './dynamic-form-page-component.html',
   styleUrl: './dynamic-form-page-component.scss',
 })
@@ -28,12 +35,13 @@ export class DynamicFormPageComponent implements OnInit {
   }
 
   @Output() onSave = new EventEmitter<any>();
-  @Output() onSaveAndAdd = new EventEmitter<any>();
+  @Output() onSaveAndNew = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
+  @Output() onCopy = new EventEmitter<void>();
 
   form: FormGroup = new FormGroup({});
-
+  showConfirmDialog = false;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -43,10 +51,19 @@ export class DynamicFormPageComponent implements OnInit {
     }
   }
   private applyPatch() {
+    if (!this.form) return;
+
     setTimeout(() => {
+      this.form.reset();
+
       this.form.patchValue(this._initialData);
+
+      this.form.markAllAsTouched();
+      this.form.markAsDirty();
+
       this.form.updateValueAndValidity();
-      this.cdr.markForCheck();
+
+      this.cdr.detectChanges();
     }, 0);
   }
   private createForm() {
@@ -57,18 +74,34 @@ export class DynamicFormPageComponent implements OnInit {
     });
     this.cdr.detectChanges();
   }
-  onSubmit() {
+  onClickSave() {
     if (this.form.valid) {
       this.onSave.emit(this.form.value);
     }
   }
 
-  onSaveAndNew() {
+  onClickSaveAndNew() {
     if (this.form.valid) {
-      this.onSaveAndAdd.emit(this.form.value);
+      this.onSaveAndNew.emit(this.form.value);
       this.form.reset();
     }
   }
+  onClickDelete() {
+    this.showConfirmDialog = true;
+  }
+  handleDialogResult(result: boolean) {
+    this.showConfirmDialog = false;
+    if (result) {
+      this.onDelete.emit();
+    }
+  }
+  onClickCopy() {
+    this.onCopy.emit();
+  }
+  onClickCancel() {
+    this.onCancel.emit();
+  }
+
   get initialData() {
     return this._initialData;
   }

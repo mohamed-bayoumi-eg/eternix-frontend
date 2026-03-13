@@ -7,16 +7,37 @@ import { DynamicInputConfig } from '../../../models/dynamic-input-config';
 import { DynamicPageConfig } from '../../../models/dynamic-page-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
 
 @Component({
   selector: 'app-dynamic-list-page-component',
   standalone: true,
-  imports: [CommonModule, TranslateModule, DynamicTableComponent, DynamicInputComponent],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    DynamicTableComponent,
+    DynamicInputComponent,
+    ConfirmDialogComponent,
+  ],
   templateUrl: './dynamic-list-page-component.html',
   styleUrl: './dynamic-list-page-component.scss',
 })
 export class DynamicListPageComponent {
   @Input({ required: true }) columns: TableColumn[] = [];
+  @Input() items: any[] = [];
+  @Input() metaData: MetaData | null = null;
+  @Input() isLoading: boolean = false;
+  @Input() query: any = null;
+  @Input() filterConfigs: DynamicInputConfig[] = [];
+
+  @Output() onPageSizeChange = new EventEmitter<number>();
+  @Output() onFilterChange = new EventEmitter<any>();
+  @Output() onAdd = new EventEmitter<void>();
+  @Output() onEdit = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<string>();
+  @Output() onSearch = new EventEmitter<string>();
+  @Output() onSort = new EventEmitter<string>();
+  @Output() onPageChange = new EventEmitter<number>();
 
   private _config!: DynamicPageConfig;
 
@@ -31,12 +52,9 @@ export class DynamicListPageComponent {
     };
   }
 
-  get config(): DynamicPageConfig {
-    return this._config;
-  }
-  @Input() filterConfigs: DynamicInputConfig[] = [];
   filterForm: FormGroup = new FormGroup({});
-
+  showConfirmDialog = false;
+  selectedIdToDelete: string | null = null;
   ngOnInit() {
     this.initFilterForm();
   }
@@ -52,17 +70,20 @@ export class DynamicListPageComponent {
     }
   }
 
-  @Input() items: any[] = [];
-  @Input() metaData: MetaData | null = null;
-  @Input() isLoading: boolean = false;
-  @Input() query: any = null;
+  handleDeleteClick(id: string) {
+    this.selectedIdToDelete = id;
+    this.showConfirmDialog = true;
+  }
 
-  @Output() onPageSizeChange = new EventEmitter<number>();
-  @Output() onFilterChange = new EventEmitter<any>();
-  @Output() onAdd = new EventEmitter<void>();
-  @Output() onEdit = new EventEmitter<any>();
-  @Output() onDelete = new EventEmitter<string>();
-  @Output() onSearch = new EventEmitter<string>();
-  @Output() onSort = new EventEmitter<string>();
-  @Output() onPageChange = new EventEmitter<number>();
+  handleDialogResult(result: boolean) {
+    this.showConfirmDialog = false;
+    if (result && this.selectedIdToDelete) {
+      this.onDelete.emit(this.selectedIdToDelete);
+    }
+    this.selectedIdToDelete = null;
+  }
+
+  get config(): DynamicPageConfig {
+    return this._config;
+  }
 }

@@ -14,7 +14,6 @@
   "Active": "نشط",
   "InActive": "غير نشط",
   "Undefined": "غير معرف",
-  "tenants": "المستأجرين",
   "addNew": "اضافة جديد",
   "inValidEmail": "البريد الإلكتروني غير صحيح",
   "inValidField": "قيمة الحقل غير صحيحة",
@@ -28,5 +27,11 @@
   "maxlength": "الحد الأقصى لعدد الأحرف هو {{ value }}",
   "add": "اضافة",
   "edit": "تعديل",
-  "tenant": "مستأجر"
+  "tenants": "المستأجرين",
+  "tenant": "مستأجر",
+  "deleteTitle": "تأكيد الحذف",
+  "deleteConfirmMessage": "هل أنت متأكد من حذف {{name}}؟",
+  "cancel": "الغاء",
+  "confirmDelete": "تأكيد الحذف",
+  "copy": "نسخ"
 }

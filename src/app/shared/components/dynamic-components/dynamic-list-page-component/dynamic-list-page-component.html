@@ -50,9 +50,17 @@
       (sortChange)="onSort.emit($event)"
       (pageChange)="onPageChange.emit($event)"
       (editAction)="onEdit.emit($event)"
-      (deleteAction)="onDelete.emit($event)"
+      (deleteAction)="handleDeleteClick($event)"
       (pageSizeChange)="onPageSizeChange.emit($event)"
     >
     </app-dynamic-table-component>
   </div>
 </div>
+@if (showConfirmDialog) {
+  <app-confirm-dialog-component
+    [title]="'deleteTitle'"
+    [message]="'deleteConfirmMessage' | translate: { name: (config.title | translate) }"
+    (result)="handleDialogResult($event)"
+  >
+  </app-confirm-dialog-component>
+}

@@ -27,30 +27,30 @@ export abstract class BaseListComponent<
     this.loadData();
   }
 
-  onAdd(): void {
+  handleAdd(): void {
     this.router.navigate([`${this.baseRoute}/add`]);
   }
 
-  onEdit(item: any): void {
+  handleEdit(item: any): void {
     this.router.navigate([`${this.baseRoute}/edit`, item.id]);
   }
 
-  onFilterChanged(filters: any): void {
+  handleFilterChanged(filters: any): void {
     this.query.update((q) => ({ ...q, ...filters, pageNumber: 1 }));
     this.loadData();
   }
 
-  onSearch(term: string): void {
+  handleSearch(term: string): void {
     this.query.update((q) => ({ ...q, searchTerm: term, pageNumber: 1 }));
     this.loadData();
   }
 
-  onPageSizeChanged(newSize: number): void {
+  handlePageSizeChanged(newSize: number): void {
     this.query.update((q) => ({ ...q, pageSize: newSize, pageNumber: 1 }));
     this.loadData();
   }
 
-  onPageChanged(delta: number): void {
+  handlePageChanged(delta: number): void {
     const meta = this.metaData();
     if (meta) {
       this.query.update((q) => ({ ...q, pageNumber: meta.currentPage + delta }));
@@ -58,7 +58,7 @@ export abstract class BaseListComponent<
     }
   }
 
-  onSort(field: string): void {
+  handleSort(field: string): void {
     this.query.update((q) => {
       const isAsc = q.sortField === field && q.sortType === SortingType.Ascending;
       return {
@@ -71,12 +71,17 @@ export abstract class BaseListComponent<
     this.loadData();
   }
 
-  onDelete(id: string): void {
-    if (confirm('Are you sure?')) {
-      this.service.delete({ id }).subscribe(() => this.loadData());
-    }
+  handleDelete(id: string): void {
+    this.isLoading.set(true);
+    this.service.delete({ id }).subscribe({
+      next: () => {
+        this.loadData();
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
+    });
   }
-
   loadData(): void {
     this.isLoading.set(true);
 

@@ -79,6 +79,14 @@
             transform: translateY(-2px);
           }
         }
+        &.btn-copy {
+          background-color: var(--baby-blue-color);
+
+          &:hover {
+            background-color: var(--dark-baby-blue-color);
+            transform: translateY(-2px);
+          }
+        }
         &.btn-back {
           background-color: var(--gray-color);
 

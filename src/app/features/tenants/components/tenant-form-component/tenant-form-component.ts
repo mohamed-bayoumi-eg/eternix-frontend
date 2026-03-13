@@ -10,6 +10,7 @@ import {
   UpdateTenantCommand,
   GetTenantQueryResult,
 } from '../../models/tenant.contracts';
+import { ValidationHelper } from '../../../../shared/utils/validation-helper';
 
 @Component({
   selector: 'app-tenant-form-component',
@@ -32,20 +33,20 @@ export class TenantFormComponent extends BaseFormComponent<
       type: InputType.Text,
       fieldName: 'englishName',
       label: 'englishName',
-      validations: { required: true },
+      validations: [ValidationHelper.EnglishName],
     },
     {
       type: InputType.Text,
       fieldName: 'arabicName',
       label: 'arabicName',
-      validations: { required: true },
+      validations: [ValidationHelper.ArabicName],
     },
     {
       type: InputType.Enum,
       fieldName: 'isActive',
       label: 'isActive',
-      enumData: IsActive,
-      validations: { required: true },
+      enum: IsActive,
+      validations: [ValidationHelper.Required],
     },
   ];
 }

@@ -24,5 +24,7 @@
   "saveAndAddNew": "اضافة جديد",
   "back": "رجوع",
   "delete": "حذف",
-  "noDataAvailable": "لا يوجد بيانات متوفرة"
+  "noDataAvailable": "لا يوجد بيانات متوفرة",
+  "minlength": "الحد الأدنى لعدد الأحرف هو {{ value }}",
+  "maxlength": "الحد الأقصى لعدد الأحرف هو {{ value }}"
 }

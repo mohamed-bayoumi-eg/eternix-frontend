@@ -16,6 +16,7 @@ export interface ValidationConfig {
   min?: number;
   max?: number;
   minLength?: number;
+  maxLength?: number;
   email?: boolean;
   pattern?: string;
 }
@@ -26,8 +27,8 @@ export interface DynamicInputConfig<TQuery = any> {
   label: string;
   endpoint?: string;
   queryModel?: new () => TQuery;
-  mapFromForm?: (keyof TQuery)[];
-  enumData?: any;
+  enum?: any;
+  showUndefined?: boolean;
   options?: any[];
-  validations?: ValidationConfig;
+  validations?: ValidationConfig[];
 }

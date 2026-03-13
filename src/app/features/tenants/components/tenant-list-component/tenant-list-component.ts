@@ -36,6 +36,6 @@ export class TenantListComponent extends BaseListComponent<
   ];
 
   filterConfigs: DynamicInputConfig<GetTenantsComboQuery>[] = [
-    { type: InputType.Enum, label: 'isActive', fieldName: 'isActive', enumData: IsActive },
+    { type: InputType.Enum, label: 'isActive', fieldName: 'isActive', enum: IsActive },
   ];
 }

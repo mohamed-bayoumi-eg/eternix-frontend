@@ -10,14 +10,23 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, Validators, FormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  Validators,
+  ValidatorFn,
+  FormsModule,
+} from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
+import {
+  DynamicInputConfig,
+  InputType,
+  ValidationConfig,
+} from '../../../models/dynamic-input-config';
 import { ApiService } from '../../../services/api.service';
 import { ComboResultBase } from '../../../models/base-requests';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
 @Component({
   selector: 'app-dynamic-input-component',
   standalone: true,
@@ -72,6 +81,7 @@ export class DynamicInputComponent implements OnInit {
       this.closeDropdown();
     } else {
       this.dropdownOpen = true;
+      this.control.markAsTouched();
     }
   }
 
@@ -133,19 +143,34 @@ export class DynamicInputComponent implements OnInit {
     return this.control.touched && this.control.invalid;
   }
 
-  get isRequired() {
-    return this.config.validations?.required;
+  get isRequired(): boolean {
+    const configs = this.config.validations;
+    if (!configs) return false;
+
+    if (Array.isArray(configs)) {
+      return configs.some((v) => v.required === true);
+    }
+
+    return (configs as ValidationConfig).required === true;
   }
 
   private setupValidations() {
-    const v = this.config.validations;
-    if (!v) return;
+    const configs = this.config.validations;
+    if (!configs) return;
 
-    const validators = [];
-    if (v.required) validators.push(Validators.required);
-    if (v.minLength) validators.push(Validators.minLength(v.minLength));
-    if (v.email) validators.push(Validators.email);
-    if (v.pattern) validators.push(Validators.pattern(v.pattern));
+    const validationArray: ValidationConfig[] = Array.isArray(configs) ? configs : [configs];
+
+    const validators: ValidatorFn[] = [];
+
+    validationArray.forEach((v) => {
+      if (v.required) validators.push(Validators.required);
+      if (v.minLength) validators.push(Validators.minLength(v.minLength));
+      if (v.maxLength) validators.push(Validators.maxLength(v.maxLength));
+      if (v.email) validators.push(Validators.email);
+      if (v.pattern) validators.push(Validators.pattern(v.pattern));
+      if (v.min !== undefined) validators.push(Validators.min(v.min));
+      if (v.max !== undefined) validators.push(Validators.max(v.max));
+    });
 
     this.control.setValidators(validators);
     this.control.updateValueAndValidity({ emitEvent: false });
@@ -170,8 +195,8 @@ export class DynamicInputComponent implements OnInit {
           this.updateLabelFromValue();
         },
       });
-    } else if (this.config.type === InputType.Enum && this.config.enumData) {
-      this.options.set(this.mapEnum(this.config.enumData));
+    } else if (this.config.type === InputType.Enum && this.config.enum) {
+      this.options.set(this.mapEnum(this.config.enum));
     } else if (this.config.options) {
       this.options.set(this.config.options);
     }
@@ -183,14 +208,18 @@ export class DynamicInputComponent implements OnInit {
   }
 
   private mapEnum(enumObj: any): ComboResultBase[] {
-    return Object.entries(enumObj)
+    const entries = Object.entries(enumObj)
       .filter(([key]) => isNaN(Number(key)))
-      .map(([key, value]) => {
-        return {
-          key: key,
-          value: value as string,
-        };
-      });
+      .map(([key, value]) => ({
+        key: key,
+        value: value as string,
+      }));
+      
+    if (this.config.showUndefined) {
+      return entries;
+    }
+
+    return entries.slice(1);
   }
   clearSelection(event: MouseEvent) {
     event.stopPropagation();
@@ -201,9 +230,28 @@ export class DynamicInputComponent implements OnInit {
   getErrorMessage(): string {
     const errors = this.control.errors;
     if (!errors) return '';
+
     if (errors['required']) return 'fieldRequired';
     if (errors['email']) return 'inValidEmail';
+    if (errors['minlength']) return 'minlength';
+    if (errors['maxlength']) return 'maxlength';
+    if (errors['pattern']) return 'inValidFormat';
+
     return 'inValidField';
+  }
+
+  getErrorParams() {
+    const errors = this.control.errors;
+    if (!errors) return {};
+
+    return {
+      value:
+        errors['minlength']?.requiredLength ||
+        errors['maxlength']?.requiredLength ||
+        errors['min']?.min ||
+        errors['max']?.max ||
+        0,
+    };
   }
 
   trackByValue(index: number, item: any) {

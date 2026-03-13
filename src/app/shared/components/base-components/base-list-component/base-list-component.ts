@@ -17,8 +17,8 @@ export abstract class BaseListComponent<
     pageNumber: 1,
     pageSize: 5,
     searchTerm: '',
-    sortField: 'id',
-    sortType: SortingType.Ascending,
+    sortField: 'updatedOn',
+    sortType: SortingType.Descending,
   } as TQuery);
 
   protected abstract baseRoute: string;

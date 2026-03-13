@@ -19,12 +19,14 @@
   "inValidEmail": "Invalid email address",
   "inValidField": "Invalid field value",
   "fieldRequired": "This field is required",
-  "addTenant": "Add Tenant",
   "save": "Save",
   "saveAndAddNew": "Add New",
   "back": "Back",
   "delete": "Delete",
   "noDataAvailable": "No Data Available",
   "minlength": "Minimum length is {{ value }} characters",
-  "maxlength": "Maximum length is {{ value }} characters"
+  "maxlength": "Maximum length is {{ value }} characters",
+  "add": "Add",
+  "edit": "Edit",
+  "tenant": "Tenant"
 }

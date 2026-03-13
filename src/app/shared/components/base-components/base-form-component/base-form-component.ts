@@ -1,18 +1,18 @@
 import { Directive, OnInit, inject, signal, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { DynamicInputConfig } from '../../../models/dynamic-input-config';
+import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
 
 @Directive()
 export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> implements OnInit {
   protected abstract service: any;
+  protected abstract listRoute: string;
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
+  abstract formConfig: DynamicInputConfig[];
 
   editData = signal<TGetResult | null>(null);
   isLoading = signal(false);
-  abstract formConfig: DynamicInputConfig[];
-  protected abstract listRoute: string; 
 
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
@@ -26,9 +26,38 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     this.service
       .getById({ id } as any)
       .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe((res: any) => this.editData.set(res));
+      .subscribe((res: any) => {
+        let data = res.data;
+
+        data = this.mapEnumValues(data);
+
+        this.editData.set(data);
+      });
   }
 
+  private mapEnumValues(data: any): any {
+    if (!data) return data;
+
+    this.formConfig.forEach((config) => {
+      if (config.type === InputType.Enum && config.enum) {
+        const fieldName = config.fieldName;
+        const apiValue = data[fieldName];
+
+        if (apiValue !== undefined && apiValue !== null) {
+          const enumEntries = Object.entries(config.enum);
+          const matchedEntry = enumEntries.find(
+            ([key, val]) => val === apiValue || key === apiValue,
+          );
+
+          if (matchedEntry) {
+            data[fieldName] = matchedEntry[1];
+          }
+        }
+      }
+    });
+
+    return data;
+  }
   handleSave(formData: any) {
     this.isLoading.set(true);
     const data = this.editData();

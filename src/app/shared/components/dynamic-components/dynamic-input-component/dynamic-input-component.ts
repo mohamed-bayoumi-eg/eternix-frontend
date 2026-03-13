@@ -29,10 +29,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-dynamic-input-component',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, FormsModule],
   templateUrl: './dynamic-input-component.html',
   styleUrl: './dynamic-input-component.scss',
+  standalone: true,
 })
 export class DynamicInputComponent implements OnInit {
   @Input({ required: true }) config!: DynamicInputConfig;
@@ -214,7 +214,7 @@ export class DynamicInputComponent implements OnInit {
         key: key,
         value: value as string,
       }));
-      
+
     if (this.config.showUndefined) {
       return entries;
     }

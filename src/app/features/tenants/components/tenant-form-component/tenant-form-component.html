@@ -1,8 +1,8 @@
 <app-dynamic-form-page-component
-  [title]="editData() ? 'editTenant' : 'addTenant'"
+  [title]="'tenant'"
   [controls]="formConfig"
-  [initialData]="editData"
-  [isLoading]="false"
+  [initialData]="editData()"
+  [isLoading]="isLoading()"
   (onSave)="handleSave($event)"
   (onSaveAndAdd)="handleSaveAndAdd($event)"
   (onDelete)="handleDelete()"

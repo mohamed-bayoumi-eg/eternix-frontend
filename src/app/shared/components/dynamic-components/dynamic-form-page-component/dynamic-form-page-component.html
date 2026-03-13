@@ -1,7 +1,7 @@
 <div class="erp-page-wrapper">
   <div class="erp-header-card">
     <div class="right-section">
-      <h2 class="page-title">{{ title | translate }}</h2>
+      <h2 class="page-title">{{ actionKey | translate }} {{ title | translate }}</h2>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
           >
             {{ 'saveAndAddNew' | translate }}
           </button>
-          @if (!initialData) {
+          @if (initialData) {
             <button type="button" class="erp-btn btn-delete" (click)="onDelete.emit()">
               {{ 'delete' | translate }}
             </button>

@@ -19,12 +19,14 @@
   "inValidEmail": "البريد الإلكتروني غير صحيح",
   "inValidField": "قيمة الحقل غير صحيحة",
   "fieldRequired": "هذا الحقل مطلوب",
-  "addTenant": "اضافة مستأجر",
   "save": "حفظ",
   "saveAndAddNew": "اضافة جديد",
   "back": "رجوع",
   "delete": "حذف",
   "noDataAvailable": "لا يوجد بيانات متوفرة",
   "minlength": "الحد الأدنى لعدد الأحرف هو {{ value }}",
-  "maxlength": "الحد الأقصى لعدد الأحرف هو {{ value }}"
+  "maxlength": "الحد الأقصى لعدد الأحرف هو {{ value }}",
+  "add": "اضافة",
+  "edit": "تعديل",
+  "tenant": "مستأجر"
 }

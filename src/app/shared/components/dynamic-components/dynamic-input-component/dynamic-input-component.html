@@ -4,7 +4,12 @@
       <label [for]="config.fieldName" class="field-label mb-0">
         {{ config.label | translate }}
         @if (isRequired) {
-          <span class="required-dot text-danger">*</span>
+          <span
+            class="required-dot"
+            [class.dot-valid]="control.valid && (control.dirty || control.touched)"
+          >
+            *
+          </span>
         }
       </label>
     </div>

@@ -2,6 +2,16 @@
 $transition-speed: 0.2s;
 $radius: 6px;
 
+.is-valid-field {
+  border-color: var(--green-color) !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
+}
+
+.is-invalid-field {
+  border-color: var(--red-color) !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
 .dynamic-field-wrapper {
   width: 100%;
   transition: all 0.3s ease;
@@ -26,6 +36,17 @@ $radius: 6px;
       font-weight: bold;
       opacity: 0.85;
       white-space: nowrap;
+
+      .required-dot {
+        transition: color $transition-speed ease;
+        margin-left: 4px;
+        color: var(--red-color) !important;
+        opacity: 1;
+        &.dot-valid {
+          color: var(--green-color) !important;
+          opacity: 1;
+        }
+      }
     }
   }
 
@@ -58,12 +79,12 @@ $radius: 6px;
     }
 
     // Validation States
-    &.ng-touched.ng-valid,
-    &.is-valid {
+    &.is-valid,
+    &.ng-touched.ng-valid {
       @extend .is-valid-field;
     }
-    &.ng-touched.ng-invalid,
-    &.is-invalid {
+    &.is-invalid,
+    &.ng-touched.ng-invalid {
       @extend .is-invalid-field;
     }
   }
@@ -120,7 +141,7 @@ $radius: 6px;
     overflow: hidden;
 
     .text-truncate {
-      flex: 1; 
+      flex: 1;
       &.is-placeholder {
         opacity: 0.6;
       }
@@ -191,16 +212,6 @@ $radius: 6px;
   }
 }
 
-// --- Shared Helpers ---
-.is-valid-field {
-  border-color: var(--green-color) !important;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
-}
-
-.is-invalid-field {
-  border-color: var(--red-color) !important;
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
-}
 
 @keyframes fadeIn {
   from {

@@ -8,6 +8,7 @@ import {
   DeleteCommandBase,
   GetComboQueryBase,
   ComboResultBase,
+  DeleteRangeCommandBase,
 } from '../../../shared/models/base-requests';
 
 export interface CreateTenantCommand extends CreateCommandBase<CreateTenantCommandResult> {
@@ -28,6 +29,10 @@ export interface UpdateTenantCommandResult extends ResultBase {}
 export interface DeleteTenantCommand extends DeleteCommandBase<DeleteTenantCommandResult> {}
 
 export interface DeleteTenantCommandResult extends ResultBase {}
+
+export interface DeleteTenantsRangeCommand extends DeleteRangeCommandBase<DeleteTenantsRangeCommandResult> {}
+
+export interface DeleteTenantsRangeCommandResult {}
 
 export interface GetTenantQuery extends GetQueryBase<GetTenantQueryResult> {}
 

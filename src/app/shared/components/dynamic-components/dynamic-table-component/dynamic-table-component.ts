@@ -26,6 +26,46 @@ export class DynamicTableComponent {
   @Output() deleteAction = new EventEmitter<string>();
   @Output() customAction = new EventEmitter<{ type: string; item: any }>();
   @Output() pageSizeChange = new EventEmitter<number>();
+  @Output() selectionChange = new EventEmitter<string[]>();
+  @Output() onBulkDelete = new EventEmitter<string[]>();
+
+  selectedIds = new Set<string>();
+  ngOnChanges() {
+    this.selectedIds.clear();
+    this.emitSelection();
+  }
+  bulkDeleteAction() {
+    if (this.selectedIds.size > 0) {
+      this.onBulkDelete.emit(Array.from(this.selectedIds));
+    }
+  }
+  toggleItem(id: string, event: any) {
+    if (event.target.checked) {
+      this.selectedIds.add(id);
+    } else {
+      this.selectedIds.delete(id);
+    }
+    this.emitSelection();
+  }
+
+  toggleAll(event: any) {
+    if (event.target.checked) {
+      this.items.forEach((item) => this.selectedIds.add(item.id));
+    } else {
+      this.selectedIds.clear();
+    }
+    this.emitSelection();
+  }
+  private emitSelection() {
+    this.selectionChange.emit(Array.from(this.selectedIds));
+  }
+  isSelected(id: string): boolean {
+    return this.selectedIds.has(id);
+  }
+
+  isAllSelected(): boolean {
+    return this.items.length > 0 && this.selectedIds.size === this.items.length;
+  }
 
   onPageSizeChange(newSize: any) {
     this.pageSizeChange.emit(Number(newSize));

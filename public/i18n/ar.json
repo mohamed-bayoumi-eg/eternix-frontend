@@ -33,5 +33,7 @@
   "deleteConfirmMessage": "هل أنت متأكد من حذف {{name}}؟",
   "cancel": "الغاء",
   "confirmDelete": "تأكيد الحذف",
-  "copy": "نسخ"
+  "copy": "نسخ",
+  "deleteBulkTitle": "تأكيد الحذف الجماعي",
+  "deleteBulkConfirmMessage": "هل أنت متأكد من حذف {{count}} من العناصر المختارة؟"
 }

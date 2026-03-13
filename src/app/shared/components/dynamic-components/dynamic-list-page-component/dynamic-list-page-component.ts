@@ -8,6 +8,7 @@ import { DynamicPageConfig } from '../../../models/dynamic-page-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-dynamic-list-page-component',
@@ -38,8 +39,10 @@ export class DynamicListPageComponent {
   @Output() onSearch = new EventEmitter<string>();
   @Output() onSort = new EventEmitter<string>();
   @Output() onPageChange = new EventEmitter<number>();
+  @Output() onBulkDelete = new EventEmitter<string[]>();
 
   private _config!: DynamicPageConfig;
+  selectedIds: string[] = [];
 
   @Input({ required: true }) set config(value: DynamicPageConfig) {
     this._config = {
@@ -55,6 +58,7 @@ export class DynamicListPageComponent {
   filterForm: FormGroup = new FormGroup({});
   showConfirmDialog = false;
   selectedIdToDelete: string | null = null;
+  showBulkConfirm = false;
   ngOnInit() {
     this.initFilterForm();
   }
@@ -64,12 +68,32 @@ export class DynamicListPageComponent {
         this.filterForm.addControl(config.fieldName, new FormControl(null));
       });
 
-      this.filterForm.valueChanges.subscribe((values) => {
-        this.onFilterChange.emit(values);
-      });
+      this.filterForm.valueChanges
+        .pipe(
+          debounceTime(300),
+          distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+        )
+        .subscribe((values) => {
+          this.onFilterChange.emit(values);
+        });
     }
   }
+  handleSelectionChange(ids: string[]) {
+    this.selectedIds = ids;
+  }
 
+  handleBulkDeleteFromTable(ids: string[]) {
+    this.selectedIds = ids;
+    this.showBulkConfirm = true;
+  }
+
+  handleBulkDialogResult(result: boolean) {
+    this.showBulkConfirm = false;
+    if (result && this.selectedIds.length > 0) {
+      this.onBulkDelete.emit(this.selectedIds);
+      this.selectedIds = [];
+    }
+  }
   handleDeleteClick(id: string) {
     this.selectedIdToDelete = id;
     this.showConfirmDialog = true;

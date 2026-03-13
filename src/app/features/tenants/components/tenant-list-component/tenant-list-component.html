@@ -1,5 +1,5 @@
 <app-dynamic-list-page-component
-  [config]="{ title: 'tenants'  }"
+  [config]="{ title: 'tenants' }"
   [columns]="columns"
   [items]="items()"
   [metaData]="metaData()"
@@ -14,5 +14,6 @@
   (onEdit)="handleEdit($event)"
   (onDelete)="handleDelete($event)"
   (onFilterChange)="handleFilterChanged($event)"
+  (onBulkDelete)="handleBulkDelete($event)"
 >
 </app-dynamic-list-page-component>

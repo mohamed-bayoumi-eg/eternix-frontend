@@ -33,5 +33,7 @@
   "deleteConfirmMessage": "Are you sure you want to delete {{name}}?",
   "cancel": "Cancel",
   "confirmDelete": "Confirm Delete",
-  "copy": "Copy"
+  "copy": "Copy",
+  "deleteBulkTitle": "Confirm Bulk Delete",
+  "deleteBulkConfirmMessage": "Are you sure you want to delete {{count}} selected items?"
 }

@@ -22,11 +22,30 @@ export abstract class BaseListComponent<
   } as TQuery);
 
   protected abstract baseRoute: string;
+  selectedIds = signal<string[]>([]);
+
+  handleSelectionChange(ids: string[]): void {
+    this.selectedIds.set(ids);
+  }
 
   ngOnInit(): void {
     this.loadData();
   }
+  handleBulkDelete(ids: string[]): void {
+    if (ids.length === 0) return;
 
+    const command = {
+      ids: ids,
+      deletedBy: 1111111111111111,
+    };
+
+    this.service.deleteRange(command).subscribe({
+      next: () => {
+        this.selectedIds.set([]);
+        this.loadData();
+      },
+    });
+  }
   handleAdd(): void {
     this.router.navigate([`${this.baseRoute}/add`]);
   }
@@ -35,10 +54,24 @@ export abstract class BaseListComponent<
     this.router.navigate([`${this.baseRoute}/edit`, item.id]);
   }
 
-  handleFilterChanged(filters: any): void {
-    this.query.update((q) => ({ ...q, ...filters, pageNumber: 1 }));
-    this.loadData();
-  }
+handleFilterChanged(filterData: any): void {
+  this.query.update((q) => {
+    const newQuery = { ...q, pageNumber: 1 };
+
+    if (filterData.field) {
+      delete (newQuery as any)[filterData.field]; 
+      
+      return { 
+        ...newQuery, 
+        [filterData.field]: filterData.value 
+      };
+    }
+
+    return { ...newQuery, ...filterData };
+  });
+
+  this.loadData();
+}
 
   handleSearch(term: string): void {
     this.query.update((q) => ({ ...q, searchTerm: term, pageNumber: 1 }));

@@ -3,6 +3,28 @@
     <table class="modern-table">
       <thead>
         <tr>
+          @if (showDelete) {
+            <th class="selection-cell">
+              <div class="floating-container">
+                <input
+                  type="checkbox"
+                  [checked]="isAllSelected()"
+                  (change)="toggleAll($event)"
+                  class="erp-checkbox"
+                />
+
+                @if (selectedIds.size > 0) {
+                  <button
+                    class="floating-bulk-delete"
+                    (click)="bulkDeleteAction()"
+                    [title]="'deleteSelected' | translate"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                }
+              </div>
+            </th>
+          }
           @for (col of columns; track col.field) {
             <th
               [class.sortable]="col.sortable"
@@ -21,18 +43,19 @@
       </thead>
 
       <tbody>
-        @if (isLoading) {
-          @for (row of [1, 2, 3, 4, 5]; track row) {
-            <tr class="skeleton-row">
-              @for (col of columns; track col) {
-                <td><div class="skeleton-line"></div></td>
-              }
-              <td><div class="skeleton-line"></div></td>
-            </tr>
-          }
-        } @else {
+        @if (!isLoading) {
           @for (item of items; track item.id; let odd = $odd) {
             <tr [class.odd-row]="odd">
+              @if (showDelete) {
+                <td class="selection-cell">
+                  <input
+                    type="checkbox"
+                    [checked]="isSelected(item.id)"
+                    (change)="toggleItem(item.id, $event)"
+                    class="erp-checkbox"
+                  />
+                </td>
+              }
               @for (col of columns; track col.field) {
                 <td>
                   {{ item[col.field] }}
@@ -59,13 +82,6 @@
                     </button>
                   }
                 </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td [attr.colspan]="columns.length + 1" class="empty-state">
-                <i class="fas fa-box-open"></i>
-                <p>{{ 'noDataAvailable' | translate }}</p>
               </td>
             </tr>
           }

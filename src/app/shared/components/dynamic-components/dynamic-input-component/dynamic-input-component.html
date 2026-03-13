@@ -62,10 +62,7 @@
                   </span>
 
                   @if (control.value) {
-                    <i
-                      class="fas fa-times clear-btn"
-                      (click)="control.setValue(null); $event.stopPropagation()"
-                    ></i>
+                    <i class="fas fa-times clear-btn" (click)="clearSelection($event)"></i>
                   }
 
                   <i class="fas fa-chevron-down arrow"></i>
@@ -110,10 +107,7 @@
                   </span>
 
                   @if (control.value) {
-                    <i
-                      class="fas fa-times clear-btn"
-                      (click)="control.setValue(null); $event.stopPropagation()"
-                    ></i>
+                    <i class="fas fa-times clear-btn" (click)="clearSelection($event)"></i>
                   }
 
                   <i class="fas fa-chevron-down arrow"></i>

@@ -11,6 +11,8 @@ import {
   UpdateTenantCommandResult,
   DeleteTenantCommand,
   DeleteTenantCommandResult,
+  DeleteTenantsRangeCommand,
+  DeleteTenantsRangeCommandResult,
 } from '../models/tenant.contracts';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +26,9 @@ export class TenantService extends BaseFeatureService<
   UpdateTenantCommand,
   UpdateTenantCommandResult,
   DeleteTenantCommand,
-  DeleteTenantCommandResult
+  DeleteTenantCommandResult,
+  DeleteTenantsRangeCommand,
+  DeleteTenantsRangeCommandResult
 > {
   protected override endpoint = 'tenants';
 }

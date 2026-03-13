@@ -34,6 +34,10 @@ export interface DeleteCommandBase<TResult> {
   id: string;
   deletedBy: string;
 }
+export interface DeleteRangeCommandBase<TResult> {
+  ids: string;
+  deletedBy: string;
+}
 
 export interface GetQueryBase<TResponse> {
   id: string;

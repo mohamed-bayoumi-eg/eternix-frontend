@@ -59,7 +59,6 @@ export class DynamicInputComponent implements OnInit {
   ngOnInit(): void {
     this.setupValidations();
     this.loadData();
-    this.listenToChanges();
 
     this.control.valueChanges.subscribe(() => {
       this.updateLabelFromValue();
@@ -129,11 +128,6 @@ export class DynamicInputComponent implements OnInit {
     return allOptions.filter((opt) => opt.value.toLowerCase().includes(term));
   }
 
-  private listenToChanges() {
-    this.control.valueChanges.subscribe((val) => {
-      this.valueChange.emit({ field: this.config.fieldName, value: val });
-    });
-  }
 
   get control() {
     return this.form.get(this.config.fieldName)!;
@@ -223,9 +217,19 @@ export class DynamicInputComponent implements OnInit {
   }
   clearSelection(event: MouseEvent) {
     event.stopPropagation();
+
     this.control.setValue(null);
+
+    this.searchTerm = '';
     this.lastSelectedLabel = '';
+
+    if (this.config.endpoint) {
+      this.loadData('');
+    }
+
     this.valueChange.emit({ field: this.config.fieldName, value: null });
+
+    this.closeDropdown();
   }
   getErrorMessage(): string {
     const errors = this.control.errors;

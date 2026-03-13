@@ -52,6 +52,8 @@
       (editAction)="onEdit.emit($event)"
       (deleteAction)="handleDeleteClick($event)"
       (pageSizeChange)="onPageSizeChange.emit($event)"
+      (selectionChange)="handleSelectionChange($event)"
+      (onBulkDelete)="handleBulkDeleteFromTable($event)"
     >
     </app-dynamic-table-component>
   </div>
@@ -61,6 +63,14 @@
     [title]="'deleteTitle'"
     [message]="'deleteConfirmMessage' | translate: { name: (config.title | translate) }"
     (result)="handleDialogResult($event)"
+  >
+  </app-confirm-dialog-component>
+}
+@if (showBulkConfirm) {
+  <app-confirm-dialog-component
+    [title]="'deleteBulkTitle' | translate"
+    [message]="'deleteBulkConfirmMessage' | translate: { count: selectedIds.length }"
+    (result)="handleBulkDialogResult($event)"
   >
   </app-confirm-dialog-component>
 }

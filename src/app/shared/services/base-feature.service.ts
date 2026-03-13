@@ -14,6 +14,8 @@ export abstract class BaseFeatureService<
   TUpdateResult,
   TDeleteCommand,
   TDeleteResult,
+  TDeleteRangeCommand,
+  TDeleteRangeResult,
 > {
   protected abstract endpoint: string;
   protected api = inject(ApiService);
@@ -36,7 +38,13 @@ export abstract class BaseFeatureService<
   }
 
   delete(command: TDeleteCommand): Observable<TDeleteResult> {
-    // نقوم بإرسال الـ command كاملاً في الـ body، والـ ApiService سيتعامل مع الـ DELETE request
     return this.api.delete<TDeleteResult>(this.endpoint, command);
+  }
+  
+  deleteRange(command: TDeleteRangeCommand): Observable<TDeleteRangeResult> {
+    return this.api.post<TDeleteRangeCommand, TDeleteRangeResult>(
+      `${this.endpoint}/delete-range`,
+      command,
+    );
   }
 }

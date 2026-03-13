@@ -92,11 +92,13 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     }
   }
 
-  handleSaveAndNew(formData: any) {
+handleSaveAndNew(formData: any) {
     this.isLoading.set(true);
     const data = this.editData();
 
-    const request$ = data
+    const isUpdate = !!(data && (data as any).id);
+
+    const request$ = isUpdate
       ? this.service.update({ id: (data as any).id, ...formData })
       : this.service.create(formData);
 
@@ -105,6 +107,7 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
       this.router.navigate([this.listRoute, 'add']);
     });
   }
+  
   handleCopy() {
     const data = this.editData();
     if (data) {

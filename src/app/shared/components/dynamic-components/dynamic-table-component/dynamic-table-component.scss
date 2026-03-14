@@ -3,10 +3,17 @@
   border-radius: 12px;
   border: 1px solid var(--light-gray-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+  }
   .modern-table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 1000px;
+    border-spacing: 0;
 
     thead th {
       background: var(--primary-color);
@@ -19,7 +26,7 @@
       letter-spacing: 0.5px;
       border: none;
       transition: all 0.3s ease;
-
+      white-space: nowrap;
       .header-content {
         display: flex;
         align-items: center;
@@ -54,6 +61,7 @@
       border-bottom: 1px solid var(--gray-color);
       font-size: 0.9rem;
       color: var(--black-color);
+      white-space: nowrap; 
     }
 
     tbody tr:last-child td {
@@ -261,7 +269,7 @@ tbody tr.selected-row {
 .floating-bulk-delete {
   position: absolute;
   top: -45px;
-  background: var(--white-color); 
+  background: var(--white-color);
   color: var(--red-color);
   border: none;
   border-radius: 50%;

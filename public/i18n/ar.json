@@ -46,5 +46,10 @@
   "Add": "اضافة",
   "Update": "تعديل",
   "Delete": "حذف",
-  "FullControl": "تحكم كامل"
+  "FullControl": "تحكم كامل",
+  "users": "المستخدمين",
+  "userName": "اسم المستخدم",
+  "email": "البريد الالكتروني",
+  "phoneNumber": "رقم الموبايل",
+  "userType": "نوع المستخدم"
 }

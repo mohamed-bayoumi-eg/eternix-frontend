@@ -2,7 +2,7 @@
   display: flex;
   height: 100vh;
   width: 100vw;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .main {
@@ -14,7 +14,7 @@
 }
 
 .content {
-  flex: 1; 
+  flex: 1;
   padding: 15px;
   overflow-y: auto;
   background: #f5f6fa;
@@ -29,3 +29,39 @@
     border-radius: 10px;
   }
 }
+
+.floating-scroll-buttons {
+  position: fixed;
+  bottom: 110px;
+
+  inset-inline-end: 25px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
+
+  .scroll-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    i {
+      font-size: 16px;
+    }
+  }
+}
+

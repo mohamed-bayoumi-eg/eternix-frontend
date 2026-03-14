@@ -7,9 +7,9 @@
       (langToggle)="handleLangToggle($event)"
       (sidebarToggle)="handleSidebarToggle()"
       (themeToggle)="handleThemeChange($event)"
-    ></app-header-component>
+    ></app-header-component>  
 
-    <div class="content">
+    <div class="content" appScrollButtons>
       <router-outlet></router-outlet>
     </div>
 

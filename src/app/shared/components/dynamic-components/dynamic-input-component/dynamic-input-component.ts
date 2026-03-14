@@ -6,8 +6,10 @@ import {
   Input,
   OnInit,
   Output,
+  effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -49,6 +51,7 @@ export class DynamicInputComponent implements OnInit {
   searchTerm: string = '';
   lastSelectedLabel: string = '';
   private searchSubject = new Subject<string>();
+  private isInitialLoadDone = false;
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -57,22 +60,56 @@ export class DynamicInputComponent implements OnInit {
     }
   }
 
+  constructor() {
+    effect(() => {
+      const val = this.control.value;
+      const opts = this.options();
+
+      untracked(() => {
+        if (
+          val !== null &&
+          val !== undefined &&
+          opts.length === 0 &&
+          this.config.endpoint &&
+          !this.isInitialLoadDone
+        ) {
+          this.loadData();
+        }
+        this.syncLabel();
+      });
+    });
+
+    effect(() => {
+      const opts = this.options();
+      untracked(() => {
+        if (opts.length > 0) {
+          this.syncLabel();
+        }
+      });
+    });
+  }
+
+  private syncLabel() {
+    const val = this.control.value;
+    if (val === null || val === undefined) {
+      this.lastSelectedLabel = '';
+      return;
+    }
+
+    const opt = this.options().find((o) => String(o.key) === String(val));
+    if (opt) {
+      this.lastSelectedLabel = opt.value;
+    }
+  }
   ngOnInit(): void {
     this.setupValidations();
-    this.loadData();
 
-    this.control.valueChanges.subscribe(() => {
-      this.updateLabelFromValue();
-    });
+    if (this.config.type !== InputType.Select) {
+      this.loadData();
+    }
 
-    this.searchSubject.pipe(debounceTime(100), distinctUntilChanged()).subscribe((term) => {
+    this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((term) => {
       this.loadData(term);
-    });
-
-    this.form.valueChanges.pipe(debounceTime(500)).subscribe(() => {
-      if (this.config.type === InputType.Select && this.config.endpoint) {
-        this.loadData(this.searchTerm);
-      }
     });
   }
 
@@ -82,6 +119,10 @@ export class DynamicInputComponent implements OnInit {
     } else {
       this.dropdownOpen = true;
       this.control.markAsTouched();
+
+      if (this.options().length === 0 && this.config.endpoint) {
+        this.loadData();
+      }
     }
   }
 
@@ -95,13 +136,17 @@ export class DynamicInputComponent implements OnInit {
 
   private updateLabelFromValue() {
     const val = this.control.value;
-    if (!val) {
+    if (val === undefined || val === null) {
       this.lastSelectedLabel = '';
       return;
     }
-    const opt = this.options().find((o) => o.key === val);
+
+    const opt = this.options().find((o) => String(o.key) === String(val));
+
     if (opt) {
       this.lastSelectedLabel = opt.value;
+    } else if (this.config.endpoint && val) {
+      this.loadData(this.searchTerm);
     }
   }
 
@@ -172,13 +217,13 @@ export class DynamicInputComponent implements OnInit {
 
   private loadData(search: string = '') {
     if (this.config.type === InputType.Select && this.config.endpoint) {
-      let query: any = this.config.queryModel ? new this.config.queryModel() : {};
+      // نمنع تكرار التحميل لو الداتا موجودة أصلاً والبحث فاضي
+      if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
 
+      let query: any = this.config.queryModel ? new this.config.queryModel() : {};
       Object.keys(query).forEach((key) => {
         const control = this.form.get(key);
-        if (control) {
-          query[key] = control.value ?? '';
-        }
+        if (control) query[key] = control.value ?? '';
       });
 
       query.filter = search;
@@ -186,7 +231,7 @@ export class DynamicInputComponent implements OnInit {
       this.apiService.getCombo(this.config.endpoint, query).subscribe({
         next: (res) => {
           this.options.set(res);
-          this.updateLabelFromValue();
+          this.isInitialLoadDone = true;
         },
       });
     } else if (this.config.type === InputType.Enum && this.config.enum) {
@@ -278,6 +323,7 @@ export class DynamicInputComponent implements OnInit {
         return 6;
       case InputType.Date:
       case InputType.Select:
+        return 6;
       case InputType.Enum:
         return 4;
       default:

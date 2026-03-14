@@ -1,15 +1,6 @@
-import { IsActive } from '../../../shared/enums/common.enums';
-import {
-  CreateCommandBase,
-  ResultBase,
-  UpdateCommandBase,
-  GetQueryBase,
-  GetListQueryBase,
-  DeleteCommandBase,
-  GetComboQueryBase,
-  ComboResultBase,
-  DeleteRangeCommandBase,
-} from '../../../shared/models/base-requests';
+import { IsActive } from "src/app/shared/enums/common.enums";
+import { CreateCommandBase, ResultBase, UpdateCommandBase, DeleteCommandBase, DeleteRangeCommandBase, GetQueryBase, GetListQueryBase, GetComboQueryBase, ComboResultBase } from "src/app/shared/models/base-requests";
+
 
 export interface CreateTenantCommand extends CreateCommandBase<CreateTenantCommandResult> {
   arabicName: string;

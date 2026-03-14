@@ -1,18 +1,9 @@
-import {
-  ComboResultBase,
-  CreateCommandTenantBase,
-  DeleteCommandTenantBase,
-  DeleteRangeCommandTenantBase,
-  GetComboQueryTenantBase,
-  GetListQueryTenantBase,
-  GetQueryTenantBase,
-  ResultBase,
-  UpdateCommandTenantBase,
-} from '../../../shared/models/base-requests';
-import { PermissionType } from '../enums/role.enums';
+import { CreateCommandTenantBase, ResultBase, UpdateCommandTenantBase, DeleteCommandTenantBase, DeleteRangeCommandTenantBase, GetQueryTenantBase, GetListQueryTenantBase, GetComboQueryTenantBase, ComboResultBase } from "src/app/shared/models/base-requests";
+import { PermissionType } from "../enums/role.enums";
+
 
 export interface RolePermissionDto {
-  screenId: number;
+  screenId: string;
   permissionType: PermissionType;
 }
 

@@ -41,5 +41,10 @@
   "permissions": "الصلاحيات",
   "description": "الوصف",
   "role": "صلاحية",
-  "roles": "الصلاحيات"
+  "roles": "الصلاحيات",
+  "Read": "قراءة",
+  "Add": "اضافة",
+  "Update": "تعديل",
+  "Delete": "حذف",
+  "FullControl": "تحكم كامل"
 }

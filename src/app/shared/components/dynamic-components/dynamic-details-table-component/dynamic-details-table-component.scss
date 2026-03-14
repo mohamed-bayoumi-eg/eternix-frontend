@@ -2,23 +2,22 @@
   width: 100%;
   position: relative;
 
-.btn-add-inline {
+  .btn-add-inline {
     position: absolute;
-    top: -30px; 
-        inset-inline-end: 0px; 
-
+    top: -30px;
+    inset-inline-end: 0px;
     background-color: var(--green-color);
     border: 1px solid var(--green-color);
     color: var(--white-color);
     border-bottom: none;
-        border-start-start-radius: 10px;
+    border-start-start-radius: 10px;
     border-start-end-radius: 10px;
     border-end-start-radius: 0;
     border-end-end-radius: 0;
-
     margin-bottom: -1px;
-    padding: 5px 10px;
+    padding: 5px 25px;
     font-size: 0.95rem;
+    transition: all 0.3s;
 
     &:hover {
       background: var(--dark-green-color);
@@ -61,7 +60,9 @@
         }
       }
       .table-row {
+        padding: 10px;
         td {
+          border-bottom: 1px solid var(--accent-color);
           padding: 0;
           vertical-align: middle;
           text-align: center;

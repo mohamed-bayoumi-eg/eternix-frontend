@@ -12,12 +12,7 @@
 >
   @for (tab of tabsConfig; track $index) {
     <div [hidden]="roleForm.activeTab !== $index">
-      <app-dynamic-details-table-component
-        [title]="tab.label"
-        [columns]="tab.columns"
-        [data]="tab.data"
-        (onDataChange)="tab.data.set($event)"
-      >
+      <app-dynamic-details-table-component [config]="tab" (onDataChange)="tab.data.set($event)">
       </app-dynamic-details-table-component>
     </div>
   }

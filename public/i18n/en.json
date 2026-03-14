@@ -41,5 +41,10 @@
   "permissions": "Permissions",
   "description": "Description",
   "role": "Role",
-  "roles": "Roles"
+  "roles": "Roles",
+  "Read": "Read",
+  "Add": "Add",
+  "Update": "Update",
+  "Delete": "Delete",
+  "FullControl": "Full Control"
 }

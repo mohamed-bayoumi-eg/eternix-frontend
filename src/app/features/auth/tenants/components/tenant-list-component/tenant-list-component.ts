@@ -7,12 +7,12 @@ import {
 } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BaseListComponent } from '../../../../shared/components/base-components/base-list-component/base-list-component';
-import { TableColumn } from '../../../../shared/models/base-requests';
-import { DynamicListPageComponent } from '../../../../shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
-import { DynamicInputConfig, InputType } from '../../../../shared/models/dynamic-input-config';
-import { IsActive } from '../../../../shared/enums/common.enums';
-import { Router } from '@angular/router';
+import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
+import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
+import { IsActive } from 'src/app/shared/enums/common.enums';
+import { TableColumn } from 'src/app/shared/models/base-requests';
+import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+
 
 @Component({
   selector: 'app-tenant-list-component',

@@ -131,7 +131,6 @@ handleFilterChanged(filterData: any): void {
         }
       },
       error: (err: any) => {
-        console.error('Error loading data:', err);
         this.items.set([]);
       },
       complete: () => {

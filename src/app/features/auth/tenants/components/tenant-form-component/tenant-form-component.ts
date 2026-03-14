@@ -1,16 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseFormComponent } from '../../../../shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from '../../../../shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
-import { DynamicInputConfig, InputType } from '../../../../shared/models/dynamic-input-config';
-import { IsActive } from '../../../../shared/enums/common.enums';
+import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
+import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
+import { IsActive } from 'src/app/shared/enums/common.enums';
+import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
+import { GetTenantQueryResult, CreateTenantCommand, UpdateTenantCommand } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
-import {
-  CreateTenantCommand,
-  UpdateTenantCommand,
-  GetTenantQueryResult,
-} from '../../models/tenant.contracts';
-import { ValidationHelper } from '../../../../shared/utils/validation-helper';
 
 @Component({
   selector: 'app-tenant-form-component',

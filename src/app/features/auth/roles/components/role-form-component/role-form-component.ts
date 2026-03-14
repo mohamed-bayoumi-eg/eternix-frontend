@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
-import { BaseFormComponent } from '../../../../shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from '../../../../shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
-import { DynamicInputConfig, InputType } from '../../../../shared/models/dynamic-input-config';
-import { ValidationHelper } from '../../../../shared/utils/validation-helper';
+import { Component, effect, inject, signal } from '@angular/core';
+
 import {
   GetRoleQueryResult,
   CreateRoleCommand,
@@ -14,6 +11,11 @@ import { RoleService } from '../../services/role.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicDetailsTableComponent } from 'src/app/shared/components/dynamic-components/dynamic-details-table-component/dynamic-details-table-component';
 import { PermissionType } from '../../enums/role.enums';
+import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
+import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
+import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
+import { DynamicDetailsTableConfig } from 'src/app/shared/models/dynamic-details-table-config';
 
 @Component({
   selector: 'app-role-form-component',
@@ -29,20 +31,30 @@ export class RoleFormComponent extends BaseFormComponent<
 > {
   protected override service = inject(RoleService);
   protected override listRoute = '/roles';
-
+  constructor() {
+    super();
+    effect(() => {
+      const data = this.editData();
+      if (data && data.permissions) {
+        this.selectedPermissions.set([...data.permissions]);
+      } else {
+        this.selectedPermissions.set([]);
+      }
+    });
+  }
   selectedPermissions = signal<RolePermissionDto[]>([]);
   formConfig: DynamicInputConfig[] = [
     {
       type: InputType.Text,
       fieldName: 'arabicName',
       label: 'arabicName',
-      validations: [ValidationHelper.Required],
+      validations: [ValidationHelper.ArabicName],
     },
     {
       type: InputType.Text,
       fieldName: 'englishName',
       label: 'englishName',
-      validations: [ValidationHelper.Required],
+      validations: [ValidationHelper.EnglishName],
     },
     {
       type: InputType.TextArea,
@@ -50,13 +62,14 @@ export class RoleFormComponent extends BaseFormComponent<
       label: 'description',
     },
   ];
-  permissionFormConfig: any[] = [
+  permissionFormConfig: DynamicInputConfig[] = [
     {
+      type: InputType.Select,
       fieldName: 'screenId',
       label: 'screen',
-      type: 'select',
       endpoint: 'screens',
       validations: [ValidationHelper.Required],
+      span: 6,
     },
     {
       type: InputType.Enum,
@@ -67,17 +80,24 @@ export class RoleFormComponent extends BaseFormComponent<
     },
   ];
 
-  tabsConfig = [
-    { label: 'permissions', columns: this.permissionFormConfig, data: this.selectedPermissions },
+  tabsConfig: DynamicDetailsTableConfig[] = [
+    {
+      title: 'permissions',
+      columns: this.permissionFormConfig,
+      data: this.selectedPermissions,
+      required: true,
+      showAddBtn: true,
+      showDeleteBtn: true,
+    },
   ];
 
   get tabLabels() {
-    return this.tabsConfig.map((t) => t.label);
+    return this.tabsConfig.map((t) => t.title);
   }
 
   addPermission() {
     const newPermission: RolePermissionDto = {
-      screenId: 0,
+      screenId: '0',
       permissionType: PermissionType.Undefined,
     };
     this.selectedPermissions.update((prev) => [...prev, newPermission]);

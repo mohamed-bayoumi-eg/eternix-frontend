@@ -13,7 +13,6 @@ import {
 import { UserType } from '../enums/user.enums';
 
 export interface UserRoleDto {
-  userId: string;
   roleId: string;
 }
 

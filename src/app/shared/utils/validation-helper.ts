@@ -22,6 +22,22 @@ export class ValidationHelper {
   }
 
   static get Email(): ValidationConfig {
-    return { email: true };
+    return { required: true, email: true };
+  }
+  static get PhoneNumber(): ValidationConfig {
+    return {
+      required: true,
+      pattern: '^[0-9]{11}$',
+      minLength: 11,
+      maxLength: 11,
+    };
+  }
+  static get Password(): ValidationConfig {
+    return {
+      required: true,
+      minLength: 8,
+      maxLength: 50,
+      pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
+    };
   }
 }

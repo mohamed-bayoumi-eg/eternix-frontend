@@ -1,1 +1,24 @@
-<p>user-form-component works!</p>
+<app-dynamic-form-page-component
+  [config]="{ title: 'user', showSaveAndNewBtn: false, showCopyBtn: false }"
+  [controls]="formConfig"
+  [initialData]="editData()"
+  [isLoading]="isLoading()"
+  (onSave)="handleSave($event)"
+  (onSaveAndNew)="handleSaveAndNew($event)"
+  (onDelete)="handleDelete()"
+  (onCancel)="handleCancel()"
+  [tabs]="tabLabels"
+  [isExtraDataValid]="isTableValid()"
+  #userForm
+>
+  @for (tab of tabsConfig; track $index) {
+    <div [hidden]="userForm.activeTab !== $index">
+      <app-dynamic-details-table-component
+        [config]="tab"
+        (onDataChange)="tab.data.set($event)"
+        (statusChange)="isTableValid.set($event)"
+      >
+      </app-dynamic-details-table-component>
+    </div>
+  }
+</app-dynamic-form-page-component>

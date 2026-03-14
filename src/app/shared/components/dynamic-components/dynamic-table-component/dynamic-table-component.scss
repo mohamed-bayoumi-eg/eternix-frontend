@@ -6,8 +6,9 @@
   .table-responsive {
     width: 100%;
     overflow-x: auto;
+    padding-top: 45px;
+    margin-top: -45px;
     -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
   }
   .modern-table {
     width: 100%;
@@ -61,7 +62,7 @@
       border-bottom: 1px solid var(--gray-color);
       font-size: 0.9rem;
       color: var(--black-color);
-      white-space: nowrap; 
+      white-space: nowrap;
     }
 
     tbody tr:last-child td {
@@ -253,7 +254,9 @@ tbody tr.selected-row {
 }
 .selection-cell {
   position: relative;
-  width: 50px;
+
+  width: 50px !important;
+  min-width: 50px !important;
   padding: 0 !important;
   vertical-align: middle;
 }

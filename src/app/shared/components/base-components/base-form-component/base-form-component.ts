@@ -79,17 +79,19 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         .update(updateCmd)
         .pipe(finalize(() => this.isLoading.set(false)))
         .subscribe(() => {
-          //this.navigateToList();
+          this.navigateToList();
         });
     } else {
       this.service
         .create(formData as TCreateCmd)
         .pipe(finalize(() => this.isLoading.set(false)))
         .subscribe((res: any) => {
-          const newId = res.data?.id || res.data;
-          const currentData = { ...formData, id: newId };
-          this.editData.set(currentData);
-          this.router.navigate([this.listRoute, 'edit', newId]);
+          // const newId = res.data?.id || res.data;
+          // const currentData = { ...formData, id: newId };
+          // this.editData.set(currentData);
+          // this.router.navigate([this.listRoute, 'edit', newId]);
+          this.navigateToList();
+
         });
     }
   }

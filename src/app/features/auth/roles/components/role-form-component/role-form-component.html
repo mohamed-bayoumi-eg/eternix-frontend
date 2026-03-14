@@ -1,5 +1,5 @@
 <app-dynamic-form-page-component
-  [title]="'role'"
+  [config]="{ title: 'role', showSaveAndNewBtn: false, showCopyBtn: false }"
   [controls]="formConfig"
   [initialData]="editData()"
   [isLoading]="isLoading()"
@@ -8,11 +8,16 @@
   (onDelete)="handleDelete()"
   (onCancel)="handleCancel()"
   [tabs]="['permissions']"
+  [isExtraDataValid]="isTableValid()"
   #roleForm
 >
   @for (tab of tabsConfig; track $index) {
     <div [hidden]="roleForm.activeTab !== $index">
-      <app-dynamic-details-table-component [config]="tab" (onDataChange)="tab.data.set($event)">
+      <app-dynamic-details-table-component
+        [config]="tab"
+        (onDataChange)="tab.data.set($event)"
+        (statusChange)="isTableValid.set($event)"
+      >
       </app-dynamic-details-table-component>
     </div>
   }

@@ -87,12 +87,14 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         .pipe(finalize(() => this.isLoading.set(false)))
         .subscribe((res: any) => {
           const newId = res.data?.id || res.data;
+          const currentData = { ...formData, id: newId };
+          this.editData.set(currentData);
           this.router.navigate([this.listRoute, 'edit', newId]);
         });
     }
   }
 
-handleSaveAndNew(formData: any) {
+  handleSaveAndNew(formData: any) {
     this.isLoading.set(true);
     const data = this.editData();
 
@@ -107,7 +109,7 @@ handleSaveAndNew(formData: any) {
       this.router.navigate([this.listRoute, 'add']);
     });
   }
-  
+
   handleCopy() {
     const data = this.editData();
     if (data) {

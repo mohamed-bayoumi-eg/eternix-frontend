@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TableColumn, MetaData } from '../../../models/base-requests';
 import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
 import { DynamicInputConfig } from '../../../models/dynamic-input-config';
-import { DynamicPageConfig } from '../../../models/dynamic-page-config';
+import { DynamicListPageConfig } from '../../../models/dynamic-page-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
@@ -41,10 +41,10 @@ export class DynamicListPageComponent {
   @Output() onPageChange = new EventEmitter<number>();
   @Output() onBulkDelete = new EventEmitter<string[]>();
 
-  private _config!: DynamicPageConfig;
   selectedIds: string[] = [];
 
-  @Input({ required: true }) set config(value: DynamicPageConfig) {
+  private _config!: DynamicListPageConfig;
+  @Input({ required: true }) set config(value: DynamicListPageConfig) {
     this._config = {
       showSearch: true,
       showAddBtn: true,
@@ -107,7 +107,7 @@ export class DynamicListPageComponent {
     this.selectedIdToDelete = null;
   }
 
-  get config(): DynamicPageConfig {
+  get config(): DynamicListPageConfig {
     return this._config;
   }
 }

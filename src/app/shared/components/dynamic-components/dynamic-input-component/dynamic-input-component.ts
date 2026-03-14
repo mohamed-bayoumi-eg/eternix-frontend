@@ -217,7 +217,6 @@ export class DynamicInputComponent implements OnInit {
 
   private loadData(search: string = '') {
     if (this.config.type === InputType.Select && this.config.endpoint) {
-      // نمنع تكرار التحميل لو الداتا موجودة أصلاً والبحث فاضي
       if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
 
       let query: any = this.config.queryModel ? new this.config.queryModel() : {};

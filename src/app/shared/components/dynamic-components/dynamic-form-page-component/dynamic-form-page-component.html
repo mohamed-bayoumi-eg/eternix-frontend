@@ -1,7 +1,7 @@
 <div class="erp-page-wrapper">
   <div class="erp-header-card">
     <div class="right-section">
-      <h2 class="page-title">{{ actionKey | translate }} {{ title | translate }}</h2>
+      <h2 class="page-title">{{ actionKey | translate }} {{ config.title | translate }}</h2>
     </div>
   </div>
 
@@ -43,26 +43,36 @@
 
       <div class="form-footer-actions">
         <div class="action-buttons-group">
-          <button type="submit" class="erp-btn btn-save" [disabled]="form.invalid || isLoading">
-            {{ 'save' | translate }}
-          </button>
-
-          <button
-            type="button"
-            class="erp-btn btn-save-new"
-            (click)="onClickSaveAndNew()"
-            [disabled]="form.invalid || isLoading"
-          >
-            {{ 'saveAndAddNew' | translate }}
-          </button>
+          @if (config.showSaveBtn) {
+            <button
+              type="submit"
+              class="erp-btn btn-save"
+              [disabled]="form.invalid || !isExtraDataValid || isLoading"
+            >
+              {{ 'save' | translate }}
+            </button>
+          }
+          @if (config.showSaveAndNewBtn) {
+            <button
+              type="button"
+              class="erp-btn btn-save-new"
+              (click)="onClickSaveAndNew()"
+              [disabled]="form.invalid || !isExtraDataValid || isLoading"
+            >
+              {{ 'saveAndAddNew' | translate }}
+            </button>
+          }
           @if (isEdit) {
-            <button type="button" class="erp-btn btn-delete" (click)="onClickDelete()">
-              {{ 'delete' | translate }}
-            </button>
-
-            <button type="button" class="erp-btn btn-copy" (click)="onClickCopy()">
-              {{ 'copy' | translate }}
-            </button>
+            @if (config.showDeleteBtn) {
+              <button type="button" class="erp-btn btn-delete" (click)="onClickDelete()">
+                {{ 'delete' | translate }}
+              </button>
+            }
+            @if (config.showCopyBtn) {
+              <button type="button" class="erp-btn btn-copy" (click)="onClickCopy()">
+                {{ 'copy' | translate }}
+              </button>
+            }
           }
           <button type="button" class="erp-btn btn-back" (click)="onClickCancel()">
             <i class="fas fa-arrow-left me-2"></i> {{ 'back' | translate }}
@@ -76,7 +86,7 @@
 @if (showConfirmDialog) {
   <app-confirm-dialog-component
     [title]="'deleteTitle'"
-    [message]="'deleteConfirmMessage' | translate: { name: (title | translate) }"
+    [message]="'deleteConfirmMessage' | translate: { name: (config.title | translate) }"
     (result)="handleDialogResult($event)"
   >
   </app-confirm-dialog-component>

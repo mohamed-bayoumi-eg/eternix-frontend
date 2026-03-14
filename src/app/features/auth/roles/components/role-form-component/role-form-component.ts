@@ -42,6 +42,8 @@ export class RoleFormComponent extends BaseFormComponent<
       }
     });
   }
+  isTableValid = signal(false);
+  
   selectedPermissions = signal<RolePermissionDto[]>([]);
   formConfig: DynamicInputConfig[] = [
     {

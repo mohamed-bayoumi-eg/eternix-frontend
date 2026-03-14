@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DynamicInputConfig } from '../../../models/dynamic-input-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
+import { DynamicFormPageConfig } from 'src/app/shared/models/dynamic-page-config';
 @Component({
   selector: 'app-dynamic-form-page-component',
   imports: [
@@ -19,7 +20,6 @@ import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-compo
   standalone: true,
 })
 export class DynamicFormPageComponent implements OnInit {
-  @Input({ required: true }) title: string = '';
   @Input({ required: true }) controls: DynamicInputConfig[] = [];
   @Input() isLoading: boolean = false;
   @Input() tabs: string[] = [];
@@ -35,7 +35,20 @@ export class DynamicFormPageComponent implements OnInit {
       this.applyPatch();
     }
   }
+  private _config!: DynamicFormPageConfig;
 
+  @Input({ required: true }) set config(value: DynamicFormPageConfig) {
+    this._config = {
+      showSaveBtn: true,
+      showSaveAndNewBtn: true,
+      showDeleteBtn: true,
+      showCopyBtn: true,
+      showCustomActions: true,
+      ...value,
+    };
+  }
+  @Input() isExtraDataValid: boolean = true;
+  
   @Output() onSave = new EventEmitter<any>();
   @Output() onSaveAndNew = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<void>();
@@ -122,5 +135,8 @@ export class DynamicFormPageComponent implements OnInit {
 
   get actionKey(): string {
     return this.isEdit ? 'edit' : 'add';
+  }
+  get config(): DynamicFormPageConfig {
+    return this._config;
   }
 }

@@ -25,22 +25,21 @@ export class SidebarComponent {
       key: 'management1',
       children: [
         { key: 'tenants', route: '/tenants' },
-        { key: 'users', route: '/users' },
         { key: 'roles', route: '/roles' },
+        { key: 'users', route: '/users' },
       ],
     },
     {
       key: 'management2',
       children: [
         { key: 'tenants', route: '/tenants' },
-        { key: 'users', route: '/users' },
+        { key: 'roles', route: '/roles' },
       ],
     },
     {
       key: 'management3',
       children: [
         { key: 'tenants', route: '/tenants' },
-        { key: 'users', route: '/users' },
         { key: 'roles', route: '/roles' },
       ],
     },

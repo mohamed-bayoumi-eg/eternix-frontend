@@ -5,7 +5,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DynamicInputConfig } from '../../../models/dynamic-input-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
-
 @Component({
   selector: 'app-dynamic-form-page-component',
   imports: [
@@ -17,11 +16,14 @@ import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-compo
   ],
   templateUrl: './dynamic-form-page-component.html',
   styleUrl: './dynamic-form-page-component.scss',
+  standalone: true,
 })
 export class DynamicFormPageComponent implements OnInit {
   @Input({ required: true }) title: string = '';
   @Input({ required: true }) controls: DynamicInputConfig[] = [];
   @Input() isLoading: boolean = false;
+  @Input() tabs: string[] = [];
+  activeTab: number = 0;
 
   private _initialData: any = null;
   @Input() set initialData(value: any) {
@@ -42,6 +44,7 @@ export class DynamicFormPageComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
   showConfirmDialog = false;
+
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -100,6 +103,14 @@ export class DynamicFormPageComponent implements OnInit {
   }
   onClickCancel() {
     this.onCancel.emit();
+  }
+  selectTab(index: number) {
+    this.activeTab = index;
+    this.cdr.detectChanges();
+  }
+
+  get hasTabs(): boolean {
+    return this.tabs && this.tabs.length > 0;
   }
 
   get initialData() {

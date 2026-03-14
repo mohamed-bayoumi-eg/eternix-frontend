@@ -35,5 +35,11 @@
   "confirmDelete": "تأكيد الحذف",
   "copy": "نسخ",
   "deleteBulkTitle": "تأكيد الحذف الجماعي",
-  "deleteBulkConfirmMessage": "هل أنت متأكد من حذف {{count}} من العناصر المختارة؟"
+  "deleteBulkConfirmMessage": "هل أنت متأكد من حذف {{count}} من العناصر المختارة؟",
+  "permissionType": "نوع الصلاحية",
+  "screen": "الشاشة",
+  "permissions": "الصلاحيات",
+  "description": "الوصف",
+  "role": "صلاحية",
+  "roles": "الصلاحيات"
 }

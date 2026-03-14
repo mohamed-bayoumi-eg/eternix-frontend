@@ -30,8 +30,8 @@ export class TenantListComponent extends BaseListComponent<
 
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },
-    { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'arabicName', header: 'arabicName', sortable: true },
+    { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'isActive', header: 'isActive', sortable: true },
   ];
 

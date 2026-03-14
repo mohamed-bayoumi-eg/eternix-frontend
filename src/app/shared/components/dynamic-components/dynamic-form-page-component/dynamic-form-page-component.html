@@ -18,6 +18,29 @@
         </div>
       </div>
 
+      @if (hasTabs) {
+        <div class="custom-tabs-wrapper">
+          <ul class="nav nav-tabs border-bottom px-4">
+            @for (tabName of tabs; track $index) {
+              <li class="nav-item">
+                <button
+                  type="button"
+                  class="nav-link custom-tab-btn"
+                  [class.active]="activeTab === $index"
+                  (click)="selectTab($index)"
+                >
+                  {{ tabName | translate }}
+                </button>
+              </li>
+            }
+          </ul>
+
+          <div class="tab-content-area p-4">
+            <ng-content></ng-content>
+          </div>
+        </div>
+      }
+
       <div class="form-footer-actions p-4">
         <div class="action-buttons-group">
           <button type="submit" class="erp-btn btn-save" [disabled]="form.invalid || isLoading">

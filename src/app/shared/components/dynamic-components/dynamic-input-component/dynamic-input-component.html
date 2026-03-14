@@ -1,6 +1,6 @@
 <div [formGroup]="form" class="dynamic-field-wrapper">
   <div class="field-container">
-    @if (config.label) {
+    @if (showLabel) {
       <div class="label-side">
         <label [for]="config.fieldName" class="field-label mb-0">
           {{ config.label | translate }}
@@ -95,7 +95,7 @@
                       control.valid && (control.dirty || control.touched) && isRequired
                     "
                   />
-                  />
+                  
 
                   <ul class="options-list">
                     <li

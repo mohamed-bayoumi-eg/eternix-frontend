@@ -37,6 +37,7 @@ import { Subject } from 'rxjs';
 export class DynamicInputComponent implements OnInit {
   @Input({ required: true }) config!: DynamicInputConfig;
   @Input({ required: true }) form!: FormGroup;
+  @Input() showLabel = true;
 
   @Output() valueChange = new EventEmitter<{ field: string; value: any }>();
 

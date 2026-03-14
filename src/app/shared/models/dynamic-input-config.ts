@@ -1,5 +1,3 @@
-import { FormGroup } from '@angular/forms';
-
 export enum InputType {
   Text = 'text',
   Number = 'number',

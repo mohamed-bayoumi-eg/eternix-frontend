@@ -31,15 +31,15 @@ export class TenantFormComponent extends BaseFormComponent<
   formConfig: DynamicInputConfig[] = [
     {
       type: InputType.Text,
-      fieldName: 'englishName',
-      label: 'englishName',
-      validations: [ValidationHelper.EnglishName],
-    },
-    {
-      type: InputType.Text,
       fieldName: 'arabicName',
       label: 'arabicName',
       validations: [ValidationHelper.ArabicName],
+    },
+    {
+      type: InputType.Text,
+      fieldName: 'englishName',
+      label: 'englishName',
+      validations: [ValidationHelper.EnglishName],
     },
     {
       type: InputType.Enum,

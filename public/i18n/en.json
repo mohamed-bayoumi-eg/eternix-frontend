@@ -35,5 +35,11 @@
   "confirmDelete": "Confirm Delete",
   "copy": "Copy",
   "deleteBulkTitle": "Confirm Bulk Delete",
-  "deleteBulkConfirmMessage": "Are you sure you want to delete {{count}} selected items?"
+  "deleteBulkConfirmMessage": "Are you sure you want to delete {{count}} selected items?",
+  "permissionType": "Permission Type",
+  "screen": "Screen",
+  "permissions": "Permissions",
+  "description": "Description",
+  "role": "Role",
+  "roles": "Roles"
 }

@@ -1,0 +1,46 @@
+<div class="details-table-wrapper">
+  <div class="table-scroll-container">
+    <button type="button" class="btn-add-inline" (click)="addRow()">
+      {{ 'add' | translate }}
+    </button>
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          @for (col of columns; track col.fieldName) {
+            <th class="dynamic-column-header">
+              {{ col.label | translate }}
+            </th>
+          }
+          <th class="text-center action-header">
+            <div class="header-action-container">
+              <span>{{ 'actions' | translate }}</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of data(); track $index; let i = $index) {
+          <tr class="table-row">
+            @for (col of columns; track col.fieldName) {
+              <td>
+                <div class="cell-content-wrapper">
+                  <app-dynamic-input-component
+                    [config]="col"
+                    [form]="getRowForm(i, row)"
+                    [showLabel]="false"
+                    class="w-100"
+                  ></app-dynamic-input-component>
+                </div>
+              </td>
+            }
+            <td class="text-center">
+              <button type="button" class="btn-delete-row" (click)="removeRow(i)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

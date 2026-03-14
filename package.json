@@ -37,8 +37,6 @@
     "@ngx-translate/http-loader": "^17.0.0",
     "express": "^5.1.0",
     "ngx-toastr": "^20.0.5",
-    "primeicons": "^7.0.0",
-    "primeng": "^21.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

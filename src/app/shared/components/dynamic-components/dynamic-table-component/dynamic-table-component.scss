@@ -196,25 +196,6 @@
   }
 }
 
-.status-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-
-  &.active {
-    background: rgba(34, 197, 94, 0.1);
-    color: var(--green-color);
-  }
-  &.inactive {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--red-color);
-  }
-}
-
 .action-btns {
   display: flex;
   gap: 8px;

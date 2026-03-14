@@ -8,7 +8,6 @@
   .erp-header-card {
     display: flex;
     justify-content: end;
-    padding: 20px;
     background-color: transparent;
 
     .page-title {
@@ -115,5 +114,52 @@
         }
       }
     }
+
+    .d-none {
+      display: none !important;
+    }
+  }
+}
+
+.custom-tabs-wrapper {
+  border-bottom: none;
+  gap: 2px;
+  .nav-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 0 0 5px;
+    gap: 5px;
+
+    .nav-item {
+      flex: 0 0 auto;
+
+      .custom-tab-btn {
+        border: 1px solid var(--accent-color);
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+        margin-bottom: -1px;
+        padding: 5px 10px;
+        font-size: 0.95rem;
+
+        &:hover {
+          background: var(--primary-color);
+          color: var(--white-color);
+        }
+
+        &.active {
+          color: var(--white-color);
+          background: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .tab-content-area {
+    padding: 0 !important;
+    background: transparent;
+    min-height: 150px;
   }
 }

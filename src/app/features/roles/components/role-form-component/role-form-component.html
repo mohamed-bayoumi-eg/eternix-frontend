@@ -1,0 +1,24 @@
+<app-dynamic-form-page-component
+  [title]="'role'"
+  [controls]="formConfig"
+  [initialData]="editData()"
+  [isLoading]="isLoading()"
+  (onSave)="handleSave($event)"
+  (onSaveAndNew)="handleSaveAndNew($event)"
+  (onDelete)="handleDelete()"
+  (onCancel)="handleCancel()"
+  [tabs]="['permissions']"
+  #roleForm
+>
+  @for (tab of tabsConfig; track $index) {
+    <div [hidden]="roleForm.activeTab !== $index">
+      <app-dynamic-details-table-component
+        [title]="tab.label"
+        [columns]="tab.columns"
+        [data]="tab.data"
+        (onDataChange)="tab.data.set($event)"
+      >
+      </app-dynamic-details-table-component>
+    </div>
+  }
+</app-dynamic-form-page-component>

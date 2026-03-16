@@ -53,6 +53,6 @@ export interface GetRoleQueryResult extends ResultBase {
 }
 
 export class GetRolesComboQuery implements GetComboQueryTenantBase<ComboResultBase[]> {
-  filter?: string;
+  searchTerm?: string;
   tenantId!: string;
 }

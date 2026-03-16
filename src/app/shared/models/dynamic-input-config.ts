@@ -30,4 +30,5 @@ export interface DynamicInputConfig<TQuery = any> {
   options?: any[];
   validations?: ValidationConfig[];
   span?: number;
+  showErrorMessage?: boolean;
 }

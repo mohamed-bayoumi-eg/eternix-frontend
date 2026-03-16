@@ -69,7 +69,7 @@ export class RoleFormComponent extends BaseFormComponent<
       type: InputType.Select,
       fieldName: 'screenId',
       label: 'screen',
-      endpoint: 'screens',
+      endpoint: 'users',
       validations: [ValidationHelper.Required],
       span: 6,
     },
@@ -80,6 +80,7 @@ export class RoleFormComponent extends BaseFormComponent<
       enum: PermissionType,
       validations: [ValidationHelper.Required],
     },
+    
   ];
 
   tabsConfig: DynamicDetailsTableConfig[] = [
@@ -91,6 +92,7 @@ export class RoleFormComponent extends BaseFormComponent<
       showAddBtn: true,
       showDeleteBtn: true,
     },
+    
   ];
 
   get tabLabels() {

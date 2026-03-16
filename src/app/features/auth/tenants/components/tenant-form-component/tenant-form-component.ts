@@ -32,17 +32,17 @@ export class TenantFormComponent extends BaseFormComponent<
       validations: [ValidationHelper.ArabicName],
     },
     {
-      type: InputType.Text,
-      fieldName: 'englishName',
-      label: 'englishName',
-      validations: [ValidationHelper.EnglishName],
-    },
-    {
       type: InputType.Enum,
       fieldName: 'isActive',
       label: 'isActive',
       enum: IsActive,
       validations: [ValidationHelper.Required],
+    },
+    {
+      type: InputType.Text,
+      fieldName: 'englishName',
+      label: 'englishName',
+      validations: [ValidationHelper.EnglishName],
     },
   ];
 }

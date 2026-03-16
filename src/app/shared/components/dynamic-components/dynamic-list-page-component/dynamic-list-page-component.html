@@ -3,17 +3,12 @@
     <div class="right-section">
       <div class="search-filters-column">
         @if (config.showSearch) {
-          <div class="filter-row">
-            <label class="field-label mb-0">
-              {{ 'search' | translate }}
-            </label>
-            <div class="erp-search-wrapper">
-              <input
-                type="text"
-                [placeholder]="'typeHere' | translate"
-                (input)="onSearch.emit($any($event.target).value)"
-              />
-            </div>
+          <div class="filter-row search-filter-field">
+            <app-dynamic-input-component
+              [config]="searchConfig"
+              [form]="filterForm"
+              [showLabel]="true"
+            ></app-dynamic-input-component>
           </div>
         }
 
@@ -29,7 +24,6 @@
       </div>
     </div>
     <div class="left-actions">
-      <h2 class="page-title">{{ config.title | translate }}</h2>
       @if (config.showAddBtn) {
         <button class="erp-btn btn-add" (click)="onAdd.emit()">
           <span>{{ 'addNew' | translate }}</span>

@@ -93,10 +93,10 @@ export interface GetListQueryTenantBase<TResponse> {
   tenantId: string;
 }
 export interface GetComboQueryBase<TResponse> {
-  filter?: string;
+  searchTerm?: string;
 }
 export interface GetComboQueryTenantBase<TResponse> {
-  filter?: string;
+  searchTerm?: string;
   tenantId: string;
 }
 

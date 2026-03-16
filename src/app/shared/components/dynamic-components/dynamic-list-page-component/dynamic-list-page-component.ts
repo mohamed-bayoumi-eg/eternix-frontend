@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TableColumn, MetaData } from '../../../models/base-requests';
 import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
-import { DynamicInputConfig } from '../../../models/dynamic-input-config';
+import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
 import { DynamicListPageConfig } from '../../../models/dynamic-page-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -59,25 +59,40 @@ export class DynamicListPageComponent {
   showConfirmDialog = false;
   selectedIdToDelete: string | null = null;
   showBulkConfirm = false;
+
+  searchConfig: DynamicInputConfig = {
+    type: InputType.Text,
+    fieldName: 'searchTerm',
+    label: 'search',
+    showErrorMessage: false,
+  };
+
   ngOnInit() {
     this.initFilterForm();
   }
+
   private initFilterForm() {
-    if (this.filterConfigs.length > 0) {
+    this.filterForm.addControl(this.searchConfig.fieldName, new FormControl(null));
+
+    if (this.filterConfigs && this.filterConfigs.length > 0) {
       this.filterConfigs.forEach((config) => {
         this.filterForm.addControl(config.fieldName, new FormControl(null));
       });
-
-      this.filterForm.valueChanges
-        .pipe(
-          debounceTime(300),
-          distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
-        )
-        .subscribe((values) => {
-          this.onFilterChange.emit(values);
-        });
     }
+
+    this.filterForm.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+      )
+      .subscribe((values) => {
+        if (values.filter !== undefined) {
+          this.onSearch.emit(values.filter);
+        }
+        this.onFilterChange.emit(values);
+      });
   }
+
   handleSelectionChange(ids: string[]) {
     this.selectedIds = ids;
   }

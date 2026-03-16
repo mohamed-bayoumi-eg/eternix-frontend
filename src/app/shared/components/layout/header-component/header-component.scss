@@ -24,18 +24,17 @@
     }
 
     .toggle-sidebar {
-      font-size: 24px;
+      font-size: 22px;
       background: transparent;
       border: none;
       cursor: pointer;
-      color: var(--accent-color);
+      color: var(--white-color);
       transition:
         transform 0.2s,
         color 0.2s;
 
       &:hover {
         transform: rotate(90deg);
-        color: var(--secondary-color);
       }
     }
   }

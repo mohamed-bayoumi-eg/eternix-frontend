@@ -46,5 +46,5 @@ export interface GetTenantQueryResult extends ResultBase {
 }
 
 export class GetTenantsComboQuery implements GetComboQueryBase<ComboResultBase[]> {
-  filter?: string;
+  searchTerm?: string;
 }

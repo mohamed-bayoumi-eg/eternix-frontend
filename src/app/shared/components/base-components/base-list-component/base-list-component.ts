@@ -36,7 +36,7 @@ export abstract class BaseListComponent<
 
     const command = {
       ids: ids,
-      deletedBy: 1111111111111111,
+      deletedBy: 0,
     };
 
     this.service.deleteRange(command).subscribe({

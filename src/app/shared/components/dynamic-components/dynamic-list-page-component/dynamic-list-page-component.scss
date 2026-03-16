@@ -9,9 +9,7 @@
   .erp-header-card {
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
-    padding: 20px;
-
+    align-items: flex-end;
     .right-section {
       display: flex;
       flex-direction: column;
@@ -26,42 +24,23 @@
     .left-actions {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      align-items: flex-end;
+      justify-content: end;
+      align-items: flex-start;
       height: auto;
       gap: 20px;
-      .page-title {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: var(--primary-color);
-        margin: 0;
-        position: relative;
-        padding-bottom: 5px;
-        width: 100%;
-        text-align: center;
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background-color: var(--primary-color);
-          border-radius: 2px;
-        }
-      }
 
       .btn-add {
-        color: var(--white-color);
-        background-color: var(--green-color);
-
         padding: 10px 20px;
-        border-radius: 8px;
         font-weight: bold;
-        gap: 8px;
         transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
         box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
         width: 140px;
+        color: var(--white-color);
+        background-color: var(--green-color);
 
         &:hover {
           background-color: var(--dark-green-color);
@@ -72,7 +51,7 @@
     .search-filters-column {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 25px;
 
       .filter-row {
         display: flex;
@@ -85,7 +64,8 @@
           gap: 4px;
         }
         .field-label {
-          font-size: 0.85rem;
+          font-size: 14px;
+
           color: var(--primary-color);
           font-weight: bold;
           opacity: 0.85;
@@ -104,7 +84,8 @@
         border: 2px solid var(--secondary-color);
         border-radius: 6px;
         color: var(--primary-color);
-        font-size: 0.9rem;
+        font-size: 14px;
+
         transition: all 0.2s ease;
         outline: none;
 

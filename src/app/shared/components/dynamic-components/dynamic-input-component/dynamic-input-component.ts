@@ -62,7 +62,10 @@ export class DynamicInputComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const val = this.control.value;
+      const ctrl = this.control;
+      if (!ctrl) return; 
+
+      const val = ctrl.value;
       const opts = this.options();
 
       untracked(() => {
@@ -81,6 +84,7 @@ export class DynamicInputComponent implements OnInit {
 
     effect(() => {
       const opts = this.options();
+      if (!this.control) return;
       untracked(() => {
         if (opts.length > 0) {
           this.syncLabel();
@@ -88,7 +92,6 @@ export class DynamicInputComponent implements OnInit {
       });
     });
   }
-
   private syncLabel() {
     const val = this.control.value;
     if (val === null || val === undefined) {
@@ -179,9 +182,11 @@ export class DynamicInputComponent implements OnInit {
   }
 
   get isInvalid() {
-    return this.control.touched && this.control.invalid;
+    return this.control?.touched && this.control?.invalid;
   }
-
+  get isControlValid(): boolean {
+    return !!(this.control?.valid && (this.control?.dirty || this.control?.touched));
+  }
   get isRequired(): boolean {
     const configs = this.config.validations;
     if (!configs) return false;
@@ -332,5 +337,8 @@ export class DynamicInputComponent implements OnInit {
 
   get fieldWidth(): string {
     return `${(this.fieldSpan / 12) * 100}%`;
+  }
+  get shouldShowError(): boolean {
+    return this.config.showErrorMessage !== false;
   }
 }

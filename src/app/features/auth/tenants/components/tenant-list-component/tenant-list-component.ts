@@ -13,7 +13,6 @@ import { IsActive } from 'src/app/shared/enums/common.enums';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 
-
 @Component({
   selector: 'app-tenant-list-component',
   standalone: true,
@@ -36,6 +35,12 @@ export class TenantListComponent extends BaseListComponent<
   ];
 
   filterConfigs: DynamicInputConfig<GetTenantsComboQuery>[] = [
-    { type: InputType.Enum, label: 'isActive', fieldName: 'isActive', enum: IsActive },
+    {
+      type: InputType.Enum,
+      label: 'isActive',
+      fieldName: 'isActive',
+      enum: IsActive,
+      showErrorMessage: false,
+    },
   ];
 }

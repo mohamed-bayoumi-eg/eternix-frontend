@@ -3,7 +3,9 @@
     @if (showLabel) {
       <div class="label-side">
         <label [for]="config.fieldName" class="field-label mb-0">
-          {{ config.label | translate }}
+          <span class="label">
+            {{ config.label | translate }}
+          </span>
           @if (isRequired) {
             <span
               class="required-dot"
@@ -27,9 +29,7 @@
               [id]="config.fieldName"
               [placeholder]="config.fieldName | translate"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="
-                control.valid && (control.dirty || control.touched) && isRequired
-              "
+              [class.is-valid-field]="isControlValid && isRequired"
             />
           }
 
@@ -95,7 +95,6 @@
                       control.valid && (control.dirty || control.touched) && isRequired
                     "
                   />
-                  
 
                   <ul class="options-list">
                     <li
@@ -171,12 +170,14 @@
           }
         }
 
-        <div class="error-container" [style.visibility]="isInvalid ? 'visible' : 'hidden'">
-          <small class="error-text">
-            <i class="bi bi-exclamation-circle me-1"></i>
-            {{ getErrorMessage() | translate: getErrorParams() }}
-          </small>
-        </div>
+        @if (shouldShowError) {
+          <div class="error-container" [style.visibility]="isInvalid ? 'visible' : 'hidden'">
+            <small class="error-text">
+              <i class="bi bi-exclamation-circle me-1"></i>
+              {{ getErrorMessage() | translate: getErrorParams() }}
+            </small>
+          </div>
+        }
       </div>
     </div>
   </div>

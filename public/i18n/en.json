@@ -46,5 +46,17 @@
   "Add": "Add",
   "Update": "Update",
   "Delete": "Delete",
-  "FullControl": "Full Control"
+  "FullControl": "Full Control",
+  "users": "Users",
+  "userName": "UserName",
+  "email": "Email",
+  "phoneNumber": "Phone Number",
+  "userType": "User Type",
+  "Admin": "Admin",
+  "TenantAdmin": "TenantAdmin",
+  "User": "User",
+  "userRoles": "User Roles",
+  "password": "Password",
+  "user": "User",
+  "searchTerm": "Search"
 }

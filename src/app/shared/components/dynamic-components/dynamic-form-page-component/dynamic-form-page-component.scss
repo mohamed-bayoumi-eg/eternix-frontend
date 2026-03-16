@@ -5,32 +5,6 @@
   gap: 15px;
   box-sizing: border-box;
 
-  .erp-header-card {
-    display: flex;
-    justify-content: end;
-    background-color: transparent;
-
-    .page-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--primary-color);
-      margin: 0;
-      position: relative;
-      padding-bottom: 5px;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background-color: var(--primary-color);
-        border-radius: 2px;
-      }
-    }
-  }
-
   .erp-content-card {
     .form-body {
       .filter-row {
@@ -50,7 +24,6 @@
 
       .erp-btn {
         padding: 10px 20px;
-        border-radius: 8px;
         font-weight: bold;
         transition: all 0.3s ease;
         display: flex;
@@ -60,6 +33,7 @@
         box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
         width: 140px;
         color: var(--white-color);
+        font-size: 14px;
 
         &.btn-save,
         &.btn-save-new {
@@ -99,7 +73,8 @@
           }
 
           i {
-            font-size: 0.9rem;
+            font-size: 14px;
+
             transition: transform 0.3s ease;
           }
 
@@ -139,10 +114,9 @@
       .custom-tab-btn {
         border: 1px solid var(--accent-color);
         border-bottom: none;
-        border-radius: 10px 10px 0 0;
         margin-bottom: -1px;
         padding: 5px 10px;
-        font-size: 0.95rem;
+        font-size: 14px;
 
         &:hover {
           background: var(--primary-color);

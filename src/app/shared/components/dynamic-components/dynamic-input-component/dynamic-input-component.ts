@@ -19,7 +19,7 @@ import {
   ValidatorFn,
   FormsModule,
 } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   DynamicInputConfig,
   InputType,
@@ -27,11 +27,9 @@ import {
 } from '../../../models/dynamic-input-config';
 import { ApiService } from '../../../services/api.service';
 import { ComboResultBase } from '../../../models/base-requests';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin, timer } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
 
-import { forkJoin, timer } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-dynamic-input-component',
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, FormsModule],
@@ -43,20 +41,18 @@ export class DynamicInputComponent implements OnInit {
   @Input({ required: true }) config!: DynamicInputConfig;
   @Input({ required: true }) form!: FormGroup;
   @Input() showLabel = true;
-
   @Output() valueChange = new EventEmitter<{ field: string; value: any }>();
 
   private apiService = inject(ApiService);
   private elementRef = inject(ElementRef);
+
   types = InputType;
   options = signal<ComboResultBase[]>([]);
+  isLoadingOptions = signal<boolean>(false);
   dropdownOpen = false;
   searchTerm: string = '';
-  lastSelectedLabel: string = '';
   private searchSubject = new Subject<string>();
   private isInitialLoadDone = false;
-
-  isLoadingOptions = signal<boolean>(false);
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -67,10 +63,7 @@ export class DynamicInputComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const ctrl = this.control;
-      if (!ctrl) return;
-
-      const val = ctrl.value;
+      const val = this.control?.value;
       const opts = this.options();
 
       untracked(() => {
@@ -83,36 +76,10 @@ export class DynamicInputComponent implements OnInit {
         ) {
           this.loadData();
         }
-        this.syncLabel();
-      });
-    });
-
-    effect(() => {
-      const opts = this.options();
-      if (!this.control) return;
-      untracked(() => {
-        if (opts.length > 0) {
-          this.syncLabel();
-        }
       });
     });
   }
-  private syncLabel() {
-    const val = this.control?.value;
-    if (val === null || val === undefined || val === '') {
-      this.lastSelectedLabel = '';
-      return;
-    }
 
-    const opts = this.options();
-    if (opts.length === 0) return;
-
-    const opt = opts.find((o) => String(o.key) === String(val));
-
-    if (opt) {
-      this.lastSelectedLabel = opt.value;
-    }
-  }
   ngOnInit(): void {
     this.setupValidations();
 
@@ -125,17 +92,59 @@ export class DynamicInputComponent implements OnInit {
     });
   }
 
-  toggleDropdown() {
-    if (this.dropdownOpen) {
-      this.closeDropdown();
-    } else {
-      this.dropdownOpen = true;
-      this.control.markAsTouched();
+  private loadData(search: string = '') {
+    if (this.config.type === InputType.Select && this.config.endpoint) {
+      if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
 
-      if (this.options().length === 0 && this.config.endpoint) {
-        this.loadData();
-      }
+      this.isLoadingOptions.set(true);
+      let query: any = this.config.queryModel ? new this.config.queryModel() : {};
+
+      Object.keys(query).forEach((key) => {
+        const ctrl = this.form.get(key);
+        if (ctrl) query[key] = ctrl.value ?? '';
+      });
+      query.filter = search;
+
+      forkJoin({
+        data: this.apiService.getCombo(this.config.endpoint, query),
+        delay: timer(200),
+      })
+        .pipe(finalize(() => this.isLoadingOptions.set(false)))
+        .subscribe({
+          next: (res) => {
+            this.options.set(res.data);
+            this.isInitialLoadDone = true;
+          },
+          error: () => this.isLoadingOptions.set(false),
+        });
+    } else if (this.config.type === InputType.Enum && this.config.enum) {
+      this.options.set(this.mapEnum(this.config.enum));
+    } else if (this.config.options) {
+      this.options.set(this.config.options);
     }
+  }
+
+  getSelectedLabel(): string {
+    const val = this.control?.value;
+    const opts = this.options();
+    if (val === null || val === undefined || opts.length === 0) return '';
+
+    const opt = opts.find((o) => String(o.key) === String(val));
+    return opt ? opt.value : '';
+  }
+
+  selectOption(opt: ComboResultBase) {
+    this.control.setValue(opt.key);
+    this.control.markAsDirty();
+    this.valueChange.emit({ field: this.config.fieldName, value: opt.key });
+    this.closeDropdown();
+  }
+
+  toggleDropdown() {
+    if (this.dropdownOpen) return this.closeDropdown();
+    this.dropdownOpen = true;
+    this.control.markAsTouched();
+    if (this.options().length === 0 && this.config.endpoint) this.loadData();
   }
 
   closeDropdown() {
@@ -146,73 +155,23 @@ export class DynamicInputComponent implements OnInit {
     }
   }
 
-  private updateLabelFromValue() {
-    const val = this.control.value;
-    if (val === undefined || val === null) {
-      this.lastSelectedLabel = '';
-      return;
-    }
-
-    const opt = this.options().find((o) => String(o.key) === String(val));
-
-    if (opt) {
-      this.lastSelectedLabel = opt.value;
-    } else if (this.config.endpoint && val) {
-      this.loadData(this.searchTerm);
-    }
+  onSearch(value: string) {
+    this.searchTerm = value;
+    this.searchSubject.next(value);
   }
 
-  getSelectedLabel(): string {
-    const selectedKey = this.control.value;
-    if (!selectedKey) return '';
-
-    const opt = this.options()?.find((o) => o.key === selectedKey);
-    return opt ? opt.value : '';
-  }
-  selectOption(opt: ComboResultBase) {
-    this.lastSelectedLabel = opt.value;
-    this.control.setValue(opt.key);
+  clearSelection(event: MouseEvent) {
+    event.stopPropagation();
+    this.control.setValue(null);
+    this.control.markAsDirty();
+    this.valueChange.emit({ field: this.config.fieldName, value: null });
     this.closeDropdown();
-  }
-
-  filteredOptions(): ComboResultBase[] {
-    const allOptions = this.options() || [];
-    const term = this.searchTerm?.toLowerCase().trim() || '';
-
-    if (this.config.endpoint) {
-      return allOptions;
-    }
-
-    return allOptions.filter((opt) => opt.value.toLowerCase().includes(term));
-  }
-
-  get control() {
-    return this.form.get(this.config.fieldName)!;
-  }
-
-  get isInvalid() {
-    return this.control?.touched && this.control?.invalid;
-  }
-  get isControlValid(): boolean {
-    return !!(this.control?.valid && (this.control?.dirty || this.control?.touched));
-  }
-  get isRequired(): boolean {
-    const configs = this.config.validations;
-    if (!configs) return false;
-
-    if (Array.isArray(configs)) {
-      return configs.some((v) => v.required === true);
-    }
-
-    return (configs as ValidationConfig).required === true;
   }
 
   private setupValidations() {
     const configs = this.config.validations;
     if (!configs) return;
-
-    const validationArray: ValidationConfig[] = Array.isArray(configs) ? configs : [configs];
-
+    const validationArray = Array.isArray(configs) ? configs : [configs];
     const validators: ValidatorFn[] = [];
 
     validationArray.forEach((v) => {
@@ -229,141 +188,79 @@ export class DynamicInputComponent implements OnInit {
     this.control.updateValueAndValidity({ emitEvent: false });
   }
 
-  private loadData(search: string = '') {
-    if (this.config.type === InputType.Select && this.config.endpoint) {
-      if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
-
-      this.isLoadingOptions.set(true);
-
-      let query: any = this.config.queryModel ? new this.config.queryModel() : {};
-      Object.keys(query).forEach((key) => {
-        const control = this.form.get(key);
-        if (control) query[key] = control.value ?? '';
-      });
-      query.filter = search;
-
-      // هنا السحر: بنعمل forkJoin بين طلب الداتا و تايمر 500 ملي ثانية
-      forkJoin({
-        data: this.apiService.getCombo(this.config.endpoint, query),
-        delay: timer(500), // هيستنى نص ثانية على الأقل
-      })
-        .pipe(
-          finalize(() => {
-            // الـ Loader هيقفل بعد ما الاتنين يخلصوا (الداتا والوقت)
-            this.isLoadingOptions.set(false);
-          }),
-        )
-        .subscribe({
-          next: (result) => {
-            this.options.set(result.data);
-            this.isInitialLoadDone = true;
-            this.syncLabel();
-          },
-          error: () => {
-            this.isLoadingOptions.set(false);
-          },
-        });
-    } else if (this.config.type === InputType.Enum && this.config.enum) {
-      this.options.set(this.mapEnum(this.config.enum));
-    } else if (this.config.options) {
-      this.options.set(this.config.options);
-    }
-  }
-
-  onSearch(value: string) {
-    this.searchSubject.next(value);
-    this.searchTerm = value;
-  }
-
   private mapEnum(enumObj: any): ComboResultBase[] {
     const entries = Object.entries(enumObj)
       .filter(([key]) => isNaN(Number(key)))
-      .map(([key, value]) => ({
-        key: key,
-        value: value as string,
-      }));
+      .map(([key, value]) => ({ key: enumObj[key], value: key }));
+    return this.config.showUndefined ? entries : entries.slice(1);
+  }
 
-    if (this.config.showUndefined) {
-      return entries;
+  get control() {
+    return this.form.get(this.config.fieldName)!;
+  }
+  get isInvalid() {
+    return this.control?.touched && this.control?.invalid;
+  }
+  get isControlValid() {
+    return !!(this.control?.valid && (this.control?.dirty || this.control?.touched));
+  }
+  get isRequired(): boolean {
+    const v = this.config.validations;
+    if (!v) return false;
+
+    if (Array.isArray(v)) {
+      return (v as ValidationConfig[]).some((i) => i.required === true);
     }
 
-    return entries.slice(1);
+    return (v as ValidationConfig).required === true;
   }
-  clearSelection(event: MouseEvent) {
-    event.stopPropagation();
-
-    this.control.setValue(null);
-
-    this.searchTerm = '';
-    this.lastSelectedLabel = '';
-
-    if (this.config.endpoint) {
-      this.loadData('');
-    }
-
-    this.valueChange.emit({ field: this.config.fieldName, value: null });
-
-    this.closeDropdown();
+  get fieldWidth() {
+    return `${(this.fieldSpan / 12) * 100}%`;
   }
-  getErrorMessage(): string {
-    const errors = this.control.errors;
-    if (!errors) return '';
-
-    if (errors['required']) return 'fieldRequired';
-    if (errors['email']) return 'inValidEmail';
-    if (errors['minlength']) return 'minlength';
-    if (errors['maxlength']) return 'maxlength';
-    if (errors['pattern']) return 'inValidFormat';
-
-    return 'inValidField';
+  get inputWidth() {
+    return `${(this.fieldSpan / 12) * 500}px`;
   }
-
-  getErrorParams() {
-    const errors = this.control.errors;
-    if (!errors) return {};
-
-    return {
-      value:
-        errors['minlength']?.requiredLength ||
-        errors['maxlength']?.requiredLength ||
-        errors['min']?.min ||
-        errors['max']?.max ||
-        0,
-    };
-  }
-
-  trackByValue(index: number, item: any) {
-    return item.key;
-  }
-
-  get inputWidth(): string {
-    const baseWidth = 500;
-    const calculatedWidth = (this.fieldSpan / 12) * baseWidth;
-    return `${calculatedWidth}px`;
+  get shouldShowError() {
+    return this.config.showErrorMessage !== false;
   }
 
   get fieldSpan(): number {
     if (this.config.span) return this.config.span;
-
-    switch (this.config.type) {
-      case InputType.TextArea:
-        return 6;
-      case InputType.Checkbox:
-        return 6;
-      case InputType.Date:
-      case InputType.Select:
-        return 6;
-      case InputType.Enum:
-        return 4;
-      default:
-        return 6;
-    }
+    const spans: any = {
+      [InputType.TextArea]: 6,
+      [InputType.Checkbox]: 6,
+      [InputType.Date]: 6,
+      [InputType.Select]: 6,
+      [InputType.Enum]: 4,
+    };
+    return spans[this.config.type] || 6;
   }
 
-  get fieldWidth(): string {
-    return `${(this.fieldSpan / 12) * 100}%`;
+  getErrorMessage(): string {
+    const errs = this.control.errors;
+    if (!errs) return '';
+    const map: any = {
+      required: 'fieldRequired',
+      email: 'inValidEmail',
+      minlength: 'minlength',
+      maxlength: 'maxlength',
+      pattern: 'inValidFormat',
+    };
+    const key = Object.keys(map).find((k) => errs[k]);
+    return key ? map[key] : 'inValidField';
   }
-  get shouldShowError(): boolean {
-    return this.config.showErrorMessage !== false;
+
+  getErrorParams() {
+    const e = this.control.errors;
+    return e
+      ? {
+          value:
+            e['minlength']?.requiredLength ||
+            e['maxlength']?.requiredLength ||
+            e['min']?.min ||
+            e['max']?.max ||
+            0,
+        }
+      : {};
   }
 }

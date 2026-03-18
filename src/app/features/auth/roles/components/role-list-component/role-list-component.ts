@@ -7,6 +7,7 @@ import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetRoleListQueryResult, GetRolesListQuery } from '../../models/role.contracts';
 import { RoleService } from '../../services/role.service';
 
+
 @Component({
   selector: 'app-role-list-component',
   imports: [CommonModule, TranslateModule, DynamicListPageComponent],
@@ -25,6 +26,7 @@ export class RoleListComponent extends BaseListComponent<
     { field: 'code', header: 'code', sortable: true },
     { field: 'arabicName', header: 'arabicName', sortable: true },
     { field: 'englishName', header: 'englishName', sortable: true },
+    { field: 'description', header: 'description', sortable: true },
     { field: 'description', header: 'description', sortable: true },
   ];
 

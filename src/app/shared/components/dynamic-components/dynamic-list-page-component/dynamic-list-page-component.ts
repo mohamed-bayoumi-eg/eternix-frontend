@@ -1,14 +1,16 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+
 import { TableColumn, MetaData } from '../../../models/base-requests';
-import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
 import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
 import { DynamicListPageConfig } from '../../../models/dynamic-page-config';
+
+import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-dynamic-list-page-component',
@@ -16,6 +18,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   imports: [
     CommonModule,
     TranslateModule,
+    ReactiveFormsModule,
     DynamicTableComponent,
     DynamicInputComponent,
     ConfirmDialogComponent,
@@ -23,25 +26,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   templateUrl: './dynamic-list-page-component.html',
   styleUrl: './dynamic-list-page-component.scss',
 })
-export class DynamicListPageComponent {
+export class DynamicListPageComponent implements OnInit {
   @Input({ required: true }) columns: TableColumn[] = [];
   @Input() items: any[] = [];
   @Input() metaData: MetaData | null = null;
-  @Input() isLoading: boolean = false;
+  @Input() isLoading = false;
   @Input() query: any = null;
   @Input() filterConfigs: DynamicInputConfig[] = [];
-
-  @Output() onPageSizeChange = new EventEmitter<number>();
-  @Output() onFilterChange = new EventEmitter<any>();
-  @Output() onAdd = new EventEmitter<void>();
-  @Output() onEdit = new EventEmitter<any>();
-  @Output() onDelete = new EventEmitter<string>();
-  @Output() onSearch = new EventEmitter<string>();
-  @Output() onSort = new EventEmitter<string>();
-  @Output() onPageChange = new EventEmitter<number>();
-  @Output() onBulkDelete = new EventEmitter<string[]>();
-
-  selectedIds: string[] = [];
 
   private _config!: DynamicListPageConfig;
   @Input({ required: true }) set config(value: DynamicListPageConfig) {
@@ -50,14 +41,25 @@ export class DynamicListPageComponent {
       showAddBtn: true,
       showEditBtn: true,
       showDeleteBtn: true,
-      showCustomActions: true,
       ...value,
     };
   }
+  get config() { return this._config; }
 
-  filterForm: FormGroup = new FormGroup({});
-  showConfirmDialog = false;
+  @Output() onFilterChange = new EventEmitter<any>();
+  @Output() onAdd = new EventEmitter<void>();
+  @Output() onEdit = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<string>();
+  @Output() onSearch = new EventEmitter<string>();
+  @Output() onSort = new EventEmitter<string>();
+  @Output() onPageChange = new EventEmitter<number>();
+  @Output() onPageSizeChange = new EventEmitter<number>();
+  @Output() onBulkDelete = new EventEmitter<string[]>();
+
+  filterForm = new FormGroup({});
+  selectedIds: string[] = [];
   selectedIdToDelete: string | null = null;
+  showConfirmDialog = false;
   showBulkConfirm = false;
 
   searchConfig: DynamicInputConfig = {
@@ -74,55 +76,39 @@ export class DynamicListPageComponent {
   private initFilterForm() {
     this.filterForm.addControl(this.searchConfig.fieldName, new FormControl(null));
 
-    if (this.filterConfigs && this.filterConfigs.length > 0) {
-      this.filterConfigs.forEach((config) => {
-        this.filterForm.addControl(config.fieldName, new FormControl(null));
-      });
-    }
+    this.filterConfigs?.forEach(cfg => {
+      this.filterForm.addControl(cfg.fieldName, new FormControl(null));
+    });
 
-    this.filterForm.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
-      )
-      .subscribe((values) => {
-        if (values.filter !== undefined) {
-          this.onSearch.emit(values.filter);
-        }
-        this.onFilterChange.emit(values);
-      });
+    this.filterForm.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged((p, c) => JSON.stringify(p) === JSON.stringify(c))
+    ).subscribe(values => this.onFilterChange.emit(values));
   }
 
-  handleSelectionChange(ids: string[]) {
-    this.selectedIds = ids;
-  }
-
-  handleBulkDeleteFromTable(ids: string[]) {
-    this.selectedIds = ids;
-    this.showBulkConfirm = true;
-  }
-
-  handleBulkDialogResult(result: boolean) {
-    this.showBulkConfirm = false;
-    if (result && this.selectedIds.length > 0) {
-      this.onBulkDelete.emit(this.selectedIds);
-      this.selectedIds = [];
-    }
-  }
   handleDeleteClick(id: string) {
     this.selectedIdToDelete = id;
     this.showConfirmDialog = true;
   }
 
   handleDialogResult(result: boolean) {
-    this.showConfirmDialog = false;
     if (result && this.selectedIdToDelete) {
       this.onDelete.emit(this.selectedIdToDelete);
     }
+    this.showConfirmDialog = false;
     this.selectedIdToDelete = null;
   }
 
-  get config(): DynamicListPageConfig {
-    return this._config;
+  handleBulkDelete(ids: string[]) {
+    this.selectedIds = ids;
+    this.showBulkConfirm = true;
+  }
+
+  handleBulkResult(result: boolean) {
+    if (result && this.selectedIds.length) {
+      this.onBulkDelete.emit(this.selectedIds);
+    }
+    this.showBulkConfirm = false;
+    this.selectedIds = [];
   }
 }

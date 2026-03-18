@@ -8,29 +8,30 @@
               [config]="searchConfig"
               [form]="filterForm"
               [showLabel]="true"
-            ></app-dynamic-input-component>
+            >
+            </app-dynamic-input-component>
           </div>
         }
 
         @for (fConfig of filterConfigs; track fConfig.fieldName) {
           <div class="filter-row">
-            <app-dynamic-input-component
-              [config]="fConfig"
-              [form]="filterForm"
-              (valueChange)="onFilterChange.emit($event)"
-            ></app-dynamic-input-component>
+            <app-dynamic-input-component [config]="fConfig" [form]="filterForm">
+            </app-dynamic-input-component>
           </div>
         }
       </div>
     </div>
+
     <div class="left-actions">
       @if (config.showAddBtn) {
         <button class="erp-btn btn-add" (click)="onAdd.emit()">
+          <i class="fas fa-plus mr-2"></i>
           <span>{{ 'addNew' | translate }}</span>
         </button>
       }
     </div>
   </div>
+
   <div class="erp-content-card">
     <app-dynamic-table-component
       [columns]="columns"
@@ -39,19 +40,20 @@
       [isLoading]="isLoading"
       [sortField]="query?.sortField"
       [sortType]="query?.sortType"
-      [showEdit]="config.showEditBtn ?? true"
-      [showDelete]="config.showDeleteBtn ?? true"
+      [showEdit]="!!config.showEditBtn"
+      [showDelete]="!!config.showDeleteBtn"
       (sortChange)="onSort.emit($event)"
       (pageChange)="onPageChange.emit($event)"
       (editAction)="onEdit.emit($event)"
       (deleteAction)="handleDeleteClick($event)"
       (pageSizeChange)="onPageSizeChange.emit($event)"
-      (selectionChange)="handleSelectionChange($event)"
-      (onBulkDelete)="handleBulkDeleteFromTable($event)"
+      (selectionChange)="selectedIds = $event"
+      (onBulkDelete)="handleBulkDelete($event)"
     >
     </app-dynamic-table-component>
   </div>
 </div>
+
 @if (showConfirmDialog) {
   <app-confirm-dialog-component
     [title]="'deleteTitle'"
@@ -60,11 +62,12 @@
   >
   </app-confirm-dialog-component>
 }
+
 @if (showBulkConfirm) {
   <app-confirm-dialog-component
     [title]="'deleteBulkTitle' | translate"
     [message]="'deleteBulkConfirmMessage' | translate: { count: selectedIds.length }"
-    (result)="handleBulkDialogResult($event)"
+    (result)="handleBulkResult($event)"
   >
   </app-confirm-dialog-component>
 }

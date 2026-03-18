@@ -10,102 +10,61 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    padding-bottom: 5px;
+
     .right-section {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
       gap: 10px;
 
-      .page-title {
-        margin-bottom: 5px;
-        text-align: right;
+      .search-filters-column {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        .filter-row {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
       }
     }
+
     .left-actions {
       display: flex;
-      flex-direction: column;
-      justify-content: end;
-      align-items: flex-start;
-      height: auto;
-      gap: 20px;
+      align-items: flex-end;
+      padding-left: 20px;
 
       .btn-add {
+        width: 140px;
         padding: 10px 20px;
         font-weight: bold;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        justify-content: center;
-        box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
-        width: 140px;
         color: var(--white-color);
         background-color: var(--green-color);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
+        cursor: pointer;
 
         &:hover {
           background-color: var(--dark-green-color);
           transform: translateY(-2px);
         }
-      }
-    }
-    .search-filters-column {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
 
-      .filter-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .field-label {
-          flex: 0 0 120px;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-        }
-        .field-label {
+        i {
           font-size: 14px;
-
-          color: var(--primary-color);
-          font-weight: bold;
-          opacity: 0.85;
-          margin-bottom: 0 !important;
-          white-space: nowrap;
-        }
-      }
-    }
-
-    .erp-search-wrapper {
-      input {
-        width: 250px !important;
-        height: 40px;
-        padding: 0.55rem 0.75rem;
-        background-color: var(--white-color);
-        border: 2px solid var(--secondary-color);
-        border-radius: 6px;
-        color: var(--primary-color);
-        font-size: 14px;
-
-        transition: all 0.2s ease;
-        outline: none;
-
-        &::placeholder {
-          color: var(--dark-gray-color);
-          opacity: 0.6;
-        }
-
-        &:hover {
-          border-color: var(--green-color);
-        }
-
-        &:focus {
-          border-color: var(--green-color);
         }
       }
     }
   }
 
   .erp-content-card {
-    border-radius: 12px;
+    flex: 1;
+    overflow: hidden;
   }
 }

@@ -1,109 +1,72 @@
 <div [formGroup]="form" class="dynamic-field-wrapper">
   <div class="field-container">
+    
     @if (showLabel) {
       <div class="label-side">
         <label [for]="config.fieldName" class="field-label mb-0">
-          <span class="label">
-            {{ config.label | translate }}
-          </span>
+          <span class="label">{{ config.label | translate }}</span>
           @if (isRequired) {
-            <span
-              class="required-dot"
-              [class.dot-valid]="control.valid && (control.dirty || control.touched) && isRequired"
-            >
-              *
-            </span>
+            <span class="required-dot" [class.dot-valid]="isControlValid && isRequired">*</span>
           }
         </label>
       </div>
     }
 
-    <div class="input-side flex-grow-1" [style.width]="inputWidth" [style.min-width]="inputWidth">
+    <div class="input-side flex-grow-1" [style.min-width]="inputWidth">
       <div class="input-relative-container" [class.skeleton-loader]="isLoadingOptions()">
+        
         @switch (config.type) {
+          
           @case (types.Text) {
-            <input
-              type="text"
-              [formControlName]="config.fieldName"
-              class="erp-input"
-              [id]="config.fieldName"
-              [placeholder]="config.fieldName | translate"
+            <input type="text" [formControlName]="config.fieldName" class="erp-input"
+              [id]="config.fieldName" [placeholder]="config.fieldName | translate"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="isControlValid && isRequired"
-            />
+              [class.is-valid-field]="isControlValid && isRequired" />
           }
 
           @case (types.Number) {
-            <input
-              type="number"
-              [formControlName]="config.fieldName"
-              class="erp-input"
-              [id]="config.fieldName"
-              [placeholder]="config.fieldName | translate"
+            <input type="number" [formControlName]="config.fieldName" class="erp-input"
+              [id]="config.fieldName" [placeholder]="config.fieldName | translate"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="
-                control.valid && (control.dirty || control.touched) && isRequired
-              "
-            />
+              [class.is-valid-field]="isControlValid && isRequired" />
           }
 
           @case (types.Date) {
-            <input
-              type="date"
-              [formControlName]="config.fieldName"
-              class="erp-input"
+            <input type="date" [formControlName]="config.fieldName" class="erp-input"
               [id]="config.fieldName"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="
-                control.valid && (control.dirty || control.touched) && isRequired
-              "
-            />
+              [class.is-valid-field]="isControlValid && isRequired" />
           }
 
           @case (types.Select) {
             <div class="select-wrapper w-100">
-              <div
-                class="custom-select"
+              <div class="custom-select" 
                 [class.is-invalid-field]="isInvalid && isRequired"
-                [class.is-valid-field]="
-                  control.valid && (control.dirty || control.touched) && isRequired
-                "
-              >
+                [class.is-valid-field]="isControlValid && isRequired">
+                
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ getSelectedLabel() || ('choose' | translate) }}
                   </span>
-
                   @if (control.value) {
                     <i class="fas fa-times clear-btn" (click)="clearSelection($event)"></i>
                   }
-
                   <i class="fas fa-chevron-down arrow"></i>
                 </div>
 
                 <div class="select-dropdown" [class.open]="dropdownOpen">
-                  <input
-                    type="text"
-                    class="erp-select-search"
-                    (click)="$event.stopPropagation()"
-                    [ngModel]="searchTerm"
-                    [ngModelOptions]="{ standalone: true }"
-                    (ngModelChange)="onSearch($event)"
-                    [placeholder]="'search' | translate"
-                    [class.is-invalid-field]="isInvalid && isRequired"
-                    [class.is-valid-field]="
-                      control.valid && (control.dirty || control.touched) && isRequired
-                    "
-                  />
+                  <input type="text" class="erp-select-search" (click)="$event.stopPropagation()"
+                    [ngModel]="searchTerm" [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onSearch($event)" [placeholder]="'search' | translate" />
 
                   <ul class="options-list">
-                    <li
-                      *ngFor="let opt of options(); trackBy: trackByValue"
-                      (click)="selectOption(opt)"
-                      [class.selected]="opt.key === control.value"
-                    >
-                      {{ opt.value }}
-                    </li>
+                    @for (opt of options(); track opt.key) {
+                      <li (click)="selectOption(opt)" [class.selected]="opt.key === control.value">
+                        {{ opt.value }}
+                      </li>
+                    } @empty {
+                      <li class="no-options">{{ 'noData' | translate }}</li>
+                    }
                   </ul>
                 </div>
               </div>
@@ -112,22 +75,17 @@
 
           @case (types.Enum) {
             <div class="select-wrapper w-100">
-              <div
-                class="custom-select"
+              <div class="custom-select"
                 [class.is-invalid-field]="isInvalid && isRequired"
-                [class.is-valid-field]="
-                  control.valid && (control.dirty || control.touched) && isRequired
-                "
-              >
+                [class.is-valid-field]="isControlValid && isRequired">
+                
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ (getSelectedLabel() | translate) || ('choose' | translate) }}
                   </span>
-
                   @if (control.value) {
                     <i class="fas fa-times clear-btn" (click)="clearSelection($event)"></i>
                   }
-
                   <i class="fas fa-chevron-down arrow"></i>
                 </div>
 
@@ -146,27 +104,15 @@
 
           @case (types.Checkbox) {
             <div class="form-check form-switch pt-1">
-              <input
-                type="checkbox"
-                [formControlName]="config.fieldName"
-                class="form-check-input"
-                [id]="config.fieldName"
-              />
+              <input type="checkbox" [formControlName]="config.fieldName" class="form-check-input" [id]="config.fieldName" />
             </div>
           }
 
           @case (types.TextArea) {
-            <textarea
-              [formControlName]="config.fieldName"
-              class="erp-textarea"
-              rows="2"
+            <textarea [formControlName]="config.fieldName" class="erp-textarea" rows="2"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="
-                control.valid && (control.dirty || control.touched) && isRequired
-              "
-            >
-            ></textarea
-            >
+              [class.is-valid-field]="isControlValid && isRequired">
+            </textarea>
           }
         }
 

@@ -34,7 +34,6 @@ export class ValidationHelper {
   }
   static get Password(): ValidationConfig {
     return {
-      required: true,
       minLength: 8,
       maxLength: 50,
       pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',

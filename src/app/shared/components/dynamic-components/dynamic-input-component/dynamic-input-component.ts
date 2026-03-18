@@ -327,7 +327,7 @@ export class DynamicInputComponent implements OnInit {
       pattern: 'inValidFormat',
     };
     const key = Object.keys(map).find((k) => errs[k]);
-    return key ? map[key] : 'inValidField';
+    return key ? map[key] : 'inValidFormat';
   }
 
   getErrorParams() {

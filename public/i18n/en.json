@@ -16,7 +16,6 @@
   "Undefined": "Undefined",
   "addNew": "Add New",
   "inValidEmail": "Invalid email address",
-  "inValidField": "Invalid field value",
   "fieldRequired": "This field is required",
   "save": "Save",
   "saveAndAddNew": "Add New",
@@ -58,5 +57,6 @@
   "userRoles": "User Roles",
   "password": "Password",
   "user": "User",
-  "searchTerm": "Search"
+  "searchTerm": "Search",
+  "inValidFormat": " In Valid Format"
 }

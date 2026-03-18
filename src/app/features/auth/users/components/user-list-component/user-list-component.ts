@@ -24,7 +24,6 @@ export class UserListComponent extends BaseListComponent<
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },
     { field: 'userName', header: 'userName', sortable: true },
-    { field: 'email', header: 'email', sortable: true },
     { field: 'arabicName', header: 'arabicName', sortable: true },
     { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'phoneNumber', header: 'phoneNumber', sortable: true },

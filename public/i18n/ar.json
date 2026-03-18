@@ -16,7 +16,6 @@
   "Undefined": "غير معرف",
   "addNew": "اضافة جديد",
   "inValidEmail": "البريد الإلكتروني غير صحيح",
-  "inValidField": "قيمة الحقل غير صحيحة",
   "fieldRequired": "هذا الحقل مطلوب",
   "save": "حفظ",
   "saveAndAddNew": "اضافة جديد",
@@ -58,5 +57,6 @@
   "userRoles": "صلاحيات المستخدمين",
   "password": "كلمة المرور",
   "user": "مستخدم",
-  "searchTerm": "ابحث"
+  "searchTerm": "ابحث",
+  "inValidFormat": "قيمة الحقل غير صحيحة"
 }

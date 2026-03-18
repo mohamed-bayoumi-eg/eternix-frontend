@@ -74,7 +74,9 @@ export class UserFormComponent extends BaseFormComponent<
         type: InputType.Text,
         fieldName: 'password',
         label: 'password',
-        validations: this.editData()?.id ? [] : [ValidationHelper.Password],
+        validations: this.editData()?.id
+          ? [ValidationHelper.Password]
+          : [ValidationHelper.Password],
       },
       {
         type: InputType.Enum,

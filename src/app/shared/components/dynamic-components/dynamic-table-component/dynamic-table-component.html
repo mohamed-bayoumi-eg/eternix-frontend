@@ -17,7 +17,7 @@
                   <button
                     class="floating-bulk-delete"
                     (click)="bulkDeleteAction()"
-                    [title]="'deleteSelected' | translate"
+                    title="Delete Selected"
                   >
                     <i class="fas fa-trash-alt"></i>
                   </button>
@@ -25,6 +25,7 @@
               </div>
             </th>
           }
+
           @for (col of columns; track col.field) {
             <th
               [class.sortable]="col.sortable"
@@ -44,8 +45,8 @@
 
       <tbody>
         @if (!isLoading) {
-          @for (item of items; track item.id; let odd = $odd) {
-            <tr [class.odd-row]="odd">
+          @for (item of items; track item.id) {
+            <tr>
               @if (showDelete) {
                 <td class="selection-cell">
                   <input
@@ -56,28 +57,20 @@
                   />
                 </td>
               }
+
               @for (col of columns; track col.field) {
-                <td>
-                  {{ item[col.field] }}
-                </td>
+                <td>{{ item[col.field] }}</td>
               }
+
               <td class="actions-cell">
                 <div class="action-btns">
                   @if (showEdit) {
-                    <button
-                      class="btn-table edit"
-                      (click)="editAction.emit(item)"
-                      [title]="'edit' | translate"
-                    >
+                    <button class="btn-table edit" (click)="editAction.emit(item)">
                       <i class="fas fa-edit"></i>
                     </button>
                   }
                   @if (showDelete) {
-                    <button
-                      class="btn-table delete"
-                      (click)="deleteAction.emit(item.id)"
-                      [title]="'delete' | translate"
-                    >
+                    <button class="btn-table delete" (click)="deleteAction.emit(item.id)">
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   }
@@ -89,7 +82,6 @@
       </tbody>
     </table>
   </div>
-
   @if (metaData && !isLoading && items.length > 0) {
     <div class="pagination-footer">
       <div class="footer-left">

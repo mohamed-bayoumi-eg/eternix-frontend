@@ -3,10 +3,16 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TableColumn, MetaData, SortingType } from '../../../models/base-requests';
 import { FormsModule } from '@angular/forms';
+import {
+  Overlay,
+  OverlayModule,
+  ScrollStrategy,
+  ScrollStrategyOptions,
+} from '@angular/cdk/overlay';
 @Component({
   selector: 'app-dynamic-table-component',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule],
+  imports: [CommonModule, TranslateModule, FormsModule, OverlayModule],
   templateUrl: './dynamic-table-component.html',
   styleUrl: './dynamic-table-component.scss',
 })
@@ -30,6 +36,12 @@ export class DynamicTableComponent {
   @Output() onBulkDelete = new EventEmitter<string[]>();
 
   selectedIds = new Set<string>();
+  scrollStrategy: ScrollStrategy;
+
+  constructor(private readonly sso: ScrollStrategyOptions) {
+    this.scrollStrategy = this.sso.reposition();
+  }
+
   ngOnChanges() {
     this.selectedIds.clear();
     this.emitSelection();

@@ -7,7 +7,6 @@ import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetRoleListQueryResult, GetRolesListQuery } from '../../models/role.contracts';
 import { RoleService } from '../../services/role.service';
 
-
 @Component({
   selector: 'app-role-list-component',
   imports: [CommonModule, TranslateModule, DynamicListPageComponent],

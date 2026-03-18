@@ -1,81 +1,144 @@
 .table-container {
-  background: var(--white-color);
   border-radius: 12px;
-  border: 1px solid var(--light-gray-color);
+  border-bottom: 1px solid var(--light-gray-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
   .table-responsive {
     width: 100%;
+    position: relative;
     overflow-x: auto;
+    overflow-y: visible;
+    padding-top: 40px;
     -webkit-overflow-scrolling: touch;
   }
-  .modern-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 1000px;
-    border-spacing: 0;
+}
 
-    thead th {
-      color: var(--white-color);
-      background-color: var(--primary-color);
-      font-weight: 600;
-      border: none;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      height: 30px;
-      font-size: 14px;
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
 
-      padding-left: 10px;
-      padding-right: 10px;
-      .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
+  thead th {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-weight: 600;
+    font-size: 14px;
+    height: 40px;
+    padding: 0 10px;
+    white-space: nowrap;
+    text-align: center;
 
-        i {
-          font-size: 14px;
+    &.sortable {
+      cursor: pointer;
+      &:hover {
+        background: var(--secondary-color);
+      }
+    }
+  }
 
-          opacity: 0.7;
-          &.active {
-            opacity: 1;
-            color: var(--white-color);
-          }
-        }
+  tbody {
+    tr {
+      border: 1px solid var(--light-gray-color);
+      transition: 0.2s ease;
+      &:nth-child(odd) {
+        background-color: var(--white-color);
       }
 
-      &.sortable {
-        cursor: pointer;
-        position: relative;
-
-        &:hover {
-          background: var(--secondary-color);
-          color: var(--white-color);
-          box-shadow: inset 0 -3px 0 0 var(--accent-color);
-        }
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--primary-color),
+          var(--white-color) 85%
+        ) !important;
       }
     }
 
-    tbody td {
-      padding: 8px;
+    td {
+      padding:  8px;
       text-align: center;
-      border-bottom: 1px solid var(--gray-color);
       font-size: 14px;
-
       color: var(--black-color);
-      white-space: nowrap;
+    }
+  }
+}
+
+.selection-cell {
+  position: relative;
+  width: 60px;
+  min-width: 60px;
+}
+
+.floating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-bulk-delete {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  background: var(--red-color);
+  color: var(--white-color);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.2s ease-out;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: var(--dark-red-color);
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+.erp-checkbox {
+  cursor: pointer;
+  accent-color: var(--accent-color);
+  width: 14px;
+  height: 14px;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+.action-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+
+  .btn-table {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    transition: transform 0.2s;
+
+    &.edit {
+      color: var(--accent-color);
+    }
+    &.delete {
+      color: var(--red-color);
     }
 
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: color-mix(in srgb, var(--primary-color), white 70%);
-      filter: contrast(0.98);
-    }
-
-    .odd-row {
-      background: color-mix(in srgb, var(--primary-color), white 90%);
+    &:hover {
+      transform: translateY(-2px);
     }
   }
 }
@@ -151,8 +214,8 @@
       transition: 0.2s;
 
       &:hover:not(:disabled) {
-        background: var(--light-gray-color);
-        border-color: var(--primary-color);
+        background: var(--primary-color);
+        color: var(--white-color);
       }
       &:disabled {
         opacity: 0.3;
@@ -181,8 +244,8 @@
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         &:hover:not(.active) {
-          border-color: var(--primary-color);
-          color: var(--primary-color);
+          background: var(--primary-color);
+          color: var(--white-color);
         }
       }
     }
@@ -203,109 +266,5 @@
         font-size: 14px;
       }
     }
-  }
-}
-
-.action-btns {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-
-  .btn-table {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 4px;
-    transition: transform 0.2s;
-
-    &.edit {
-      color: var(--accent-color);
-    }
-    &.delete {
-      color: var(--red-color);
-    }
-
-    &:hover {
-      transform: translateY(-2px);
-    }
-  }
-}
-.erp-checkbox {
-  cursor: pointer;
-  accent-color: var(--accent-color);
-
-  thead & {
-    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
-    border: 1px solid rgba(255, 255, 255, 0.4);
-  }
-
-  &:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
-  }
-}
-
-tbody tr.selected-row {
-  background-color: rgba(135, 206, 235, 0.15) !important;
-
-  &:hover {
-    background-color: rgba(135, 206, 235, 0.25) !important;
-  }
-}
-.selection-cell {
-  position: relative;
-
-  width: 50px !important;
-  min-width: 50px !important;
-  padding: 0 !important;
-  vertical-align: middle;
-}
-
-.floating-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.floating-bulk-delete {
-  position: absolute;
-  top: -45px;
-  background: var(--white-color);
-  color: var(--red-color);
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-
-  animation: floatUp 0.2s ease-out;
-
-  i {
-    font-size: 14px;
-  }
-
-  &:hover {
-    transform: scale(1.15);
-    background: var(--red-color);
-    color: var(--white-color);
-  }
-}
-
-@keyframes floatUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }

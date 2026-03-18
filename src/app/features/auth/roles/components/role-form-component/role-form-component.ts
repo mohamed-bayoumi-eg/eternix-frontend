@@ -69,7 +69,7 @@ export class RoleFormComponent extends BaseFormComponent<
       type: InputType.Select,
       fieldName: 'screenId',
       label: 'screen',
-      endpoint: 'users',
+      endpoint: 'screens',
       validations: [ValidationHelper.Required],
       span: 6,
     },

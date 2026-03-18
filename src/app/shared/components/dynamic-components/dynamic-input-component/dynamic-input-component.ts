@@ -29,6 +29,9 @@ import { ApiService } from '../../../services/api.service';
 import { ComboResultBase } from '../../../models/base-requests';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+
+import { forkJoin, timer } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-dynamic-input-component',
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, FormsModule],
@@ -53,6 +56,8 @@ export class DynamicInputComponent implements OnInit {
   private searchSubject = new Subject<string>();
   private isInitialLoadDone = false;
 
+  isLoadingOptions = signal<boolean>(false);
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.elementRef.nativeElement.contains(event.target) && this.dropdownOpen) {
@@ -63,7 +68,7 @@ export class DynamicInputComponent implements OnInit {
   constructor() {
     effect(() => {
       const ctrl = this.control;
-      if (!ctrl) return; 
+      if (!ctrl) return;
 
       const val = ctrl.value;
       const opts = this.options();
@@ -93,13 +98,17 @@ export class DynamicInputComponent implements OnInit {
     });
   }
   private syncLabel() {
-    const val = this.control.value;
-    if (val === null || val === undefined) {
+    const val = this.control?.value;
+    if (val === null || val === undefined || val === '') {
       this.lastSelectedLabel = '';
       return;
     }
 
-    const opt = this.options().find((o) => String(o.key) === String(val));
+    const opts = this.options();
+    if (opts.length === 0) return;
+
+    const opt = opts.find((o) => String(o.key) === String(val));
+
     if (opt) {
       this.lastSelectedLabel = opt.value;
     }
@@ -224,20 +233,36 @@ export class DynamicInputComponent implements OnInit {
     if (this.config.type === InputType.Select && this.config.endpoint) {
       if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
 
+      this.isLoadingOptions.set(true);
+
       let query: any = this.config.queryModel ? new this.config.queryModel() : {};
       Object.keys(query).forEach((key) => {
         const control = this.form.get(key);
         if (control) query[key] = control.value ?? '';
       });
-
       query.filter = search;
 
-      this.apiService.getCombo(this.config.endpoint, query).subscribe({
-        next: (res) => {
-          this.options.set(res);
-          this.isInitialLoadDone = true;
-        },
-      });
+      // هنا السحر: بنعمل forkJoin بين طلب الداتا و تايمر 500 ملي ثانية
+      forkJoin({
+        data: this.apiService.getCombo(this.config.endpoint, query),
+        delay: timer(500), // هيستنى نص ثانية على الأقل
+      })
+        .pipe(
+          finalize(() => {
+            // الـ Loader هيقفل بعد ما الاتنين يخلصوا (الداتا والوقت)
+            this.isLoadingOptions.set(false);
+          }),
+        )
+        .subscribe({
+          next: (result) => {
+            this.options.set(result.data);
+            this.isInitialLoadDone = true;
+            this.syncLabel();
+          },
+          error: () => {
+            this.isLoadingOptions.set(false);
+          },
+        });
     } else if (this.config.type === InputType.Enum && this.config.enum) {
       this.options.set(this.mapEnum(this.config.enum));
     } else if (this.config.options) {

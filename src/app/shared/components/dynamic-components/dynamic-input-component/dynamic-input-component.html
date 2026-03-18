@@ -19,7 +19,7 @@
     }
 
     <div class="input-side flex-grow-1" [style.width]="inputWidth" [style.min-width]="inputWidth">
-      <div class="input-relative-container">
+      <div class="input-relative-container" [class.skeleton-loader]="isLoadingOptions()">
         @switch (config.type) {
           @case (types.Text) {
             <input

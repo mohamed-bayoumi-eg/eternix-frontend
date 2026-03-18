@@ -62,6 +62,7 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
       this.cdr.detectChanges();
     });
   }
+
   getRowForm(index: number, row: any): FormGroup {
     if (this.rowForms[index]) {
       const group = this.rowForms[index];
@@ -69,6 +70,15 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
         const control = group.get(col.fieldName);
         if (control && control.value !== row[col.fieldName]) {
           control.setValue(row[col.fieldName], { emitEvent: false });
+
+          if (
+            row[col.fieldName] !== undefined &&
+            row[col.fieldName] !== null &&
+            row[col.fieldName] !== ''
+          ) {
+            control.markAsTouched();
+            control.updateValueAndValidity({ emitEvent: false });
+          }
         }
       });
       return group;
@@ -90,7 +100,7 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
       ) {
         setTimeout(() => {
           control.markAsTouched();
-          control.markAsDirty(); 
+          control.markAsDirty();
           control.updateValueAndValidity({ emitEvent: true });
         });
       }
@@ -98,7 +108,6 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
 
     group.statusChanges.subscribe(() => this.checkValidity());
     this.rowForms[index] = group;
-
     setTimeout(() => this.checkValidity());
 
     return group;

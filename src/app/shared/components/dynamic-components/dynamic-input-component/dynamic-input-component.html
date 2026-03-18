@@ -60,7 +60,7 @@
                     (ngModelChange)="onSearch($event)" [placeholder]="'search' | translate" />
 
                   <ul class="options-list">
-                    @for (opt of options(); track opt.key) {
+                    @for (opt of options(); track $index) {
                       <li (click)="selectOption(opt)" [class.selected]="opt.key === control.value">
                         {{ opt.value }}
                       </li>
@@ -91,7 +91,7 @@
 
                 <div class="select-dropdown" [class.open]="dropdownOpen">
                   <ul class="options-list">
-                    @for (opt of options(); track opt.key) {
+                    @for (opt of options(); track $index) {
                       <li (click)="selectOption(opt)" [class.selected]="opt.key === control.value">
                         {{ opt.value | translate }}
                       </li>

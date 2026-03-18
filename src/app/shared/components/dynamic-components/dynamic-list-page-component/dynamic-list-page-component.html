@@ -13,7 +13,7 @@
           </div>
         }
 
-        @for (fConfig of filterConfigs; track fConfig.fieldName) {
+        @for (fConfig of filterConfigs; track $index) {
           <div class="filter-row">
             <app-dynamic-input-component [config]="fConfig" [form]="filterForm">
             </app-dynamic-input-component>

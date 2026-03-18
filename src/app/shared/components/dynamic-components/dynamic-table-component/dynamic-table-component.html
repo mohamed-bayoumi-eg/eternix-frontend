@@ -26,7 +26,7 @@
             </th>
           }
 
-          @for (col of columns; track col.field) {
+          @for (col of columns; track $index) {
             <th
               [class.sortable]="col.sortable"
               (click)="col.sortable ? sortChange.emit(col.field) : null"
@@ -45,7 +45,7 @@
 
       <tbody>
         @if (!isLoading) {
-          @for (item of items; track item.id) {
+          @for (item of items; track $index) {
             <tr [class.row-selected]="isSelected(item.id)">
               @if (showDelete) {
                 <td class="selection-cell">
@@ -58,7 +58,7 @@
                 </td>
               }
 
-              @for (col of columns; track col.field) {
+              @for (col of columns; track $index) {
                 <td>{{ item[col.field] }}</td>
               }
 
@@ -95,7 +95,7 @@
         <label>{{ 'pageSize' | translate }}</label>
         <div class="custom-select-wrapper">
           <select [ngModel]="metaData.pageSize" (ngModelChange)="pageSizeChange.emit(+$event)">
-            @for (size of [5, 10, 20, 50, 100]; track size) {
+            @for (size of [5, 10, 20, 50, 100]; track $index) {
               <option [value]="size">{{ size }}</option>
             }
           </select>
@@ -112,7 +112,7 @@
         </button>
 
         <div class="page-numbers">
-          @for (page of getPageNumbers(); track page) {
+          @for (page of getPageNumbers(); track $index) {
             <button
               class="page-num-btn"
               [class.active]="page === metaData.currentPage"

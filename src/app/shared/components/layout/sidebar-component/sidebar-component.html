@@ -6,7 +6,7 @@
   </div>
 
   <ul class="menu">
-    @for (menu of menus; track menu.key) {
+    @for (menu of menus; track $index) {
       <li>
         @if (!menu.children) {
           <a [routerLink]="menu.route" class="menu-link">
@@ -18,7 +18,7 @@
           </div>
 
           <ul class="submenu" [class.open]="isOpen(menu.key)">
-            @for (child of menu.children; track child.key) {
+            @for (child of menu.children; track $index) {
               <li>
                 <a [routerLink]="child.route" routerLinkActive="active" class="menu-link sub-link">
                   <span class="text">{{ child.key | translate }}</span>

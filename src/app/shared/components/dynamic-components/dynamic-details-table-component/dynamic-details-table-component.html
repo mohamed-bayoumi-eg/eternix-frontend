@@ -8,7 +8,7 @@
     <table class="table align-middle mb-0">
       <thead>
         <tr>
-          @for (col of config.columns; track col.fieldName) {
+          @for (col of config.columns; track $index) {
             <th class="dynamic-column-header">{{ col.label | translate }}</th>
           }
           <th class="text-center action-header">
@@ -19,7 +19,7 @@
       <tbody>
         @for (row of config.data(); track row; let i = $index) {
           <tr class="table-row">
-            @for (col of config.columns; track col.fieldName) {
+            @for (col of config.columns; track $index) {
               <td>
                <div class="cell-content-wrapper">
                   <app-dynamic-input-component

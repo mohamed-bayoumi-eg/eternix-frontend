@@ -3,7 +3,7 @@
       <form [formGroup]="form" (ngSubmit)="handleSave()">
         <div class="form-body p-4">
           <div class="row g-4">
-            @for (ctrl of controls; track ctrl.fieldName) {
+            @for (ctrl of controls; track $index) {
               <div class="filter-row">
                 <app-dynamic-input-component [config]="ctrl" [form]="form">
                 </app-dynamic-input-component>

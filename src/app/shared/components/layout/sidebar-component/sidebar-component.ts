@@ -30,17 +30,11 @@ export class SidebarComponent {
       ],
     },
     {
-      key: 'management2',
+      key: 'configuration',
       children: [
-        { key: 'tenants', route: '/tenants' },
-        { key: 'roles', route: '/roles' },
-      ],
-    },
-    {
-      key: 'management3',
-      children: [
-        { key: 'tenants', route: '/tenants' },
-        { key: 'roles', route: '/roles' },
+        { key: 'countries', route: '/countries' },
+        { key: 'cities', route: '/cities' },
+        { key: 'areas', route: '/areas' },
       ],
     },
   ];

@@ -4,29 +4,26 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
 import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
-import { GetRoleListQueryResult, GetRolesListQuery } from '../../models/role.contracts';
-import { RoleService } from '../../services/role.service';
-
+import { GetCountryListQueryResult, GetCountrysListQuery } from '../../models/country.contracts';
+import { CountryService } from '../../services/country.service';
 
 @Component({
-  selector: 'app-role-list-component',
+  selector: 'app-country-list-component',
   imports: [CommonModule, TranslateModule, DynamicListPageComponent],
-  templateUrl: './role-list-component.html',
-  styleUrl: './role-list-component.scss',
-  standalone: true,
+  templateUrl: './country-list-component.html',
+  styleUrl: './country-list-component.scss',
 })
-export class RoleListComponent extends BaseListComponent<
-  GetRoleListQueryResult,
-  GetRolesListQuery
+export class CountryListComponent extends BaseListComponent<
+  GetCountryListQueryResult,
+  GetCountrysListQuery
 > {
-  protected override service = inject(RoleService);
-  protected override baseRoute = '/roles';
+  protected override service = inject(CountryService);
+  protected override baseRoute = '/countries';
 
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },
     { field: 'arabicName', header: 'arabicName', sortable: true },
     { field: 'englishName', header: 'englishName', sortable: true },
-    { field: 'description', header: 'description', sortable: true },
   ];
 
   filterConfigs = [];

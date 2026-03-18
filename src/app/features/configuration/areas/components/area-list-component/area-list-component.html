@@ -1,0 +1,19 @@
+<app-dynamic-list-page-component
+  [config]="{ title: 'areas' }"
+  [columns]="columns"
+  [items]="items()"
+  [metaData]="metaData()"
+  [isLoading]="isLoading()"
+  [query]="query()"
+  [filterConfigs]="filterConfigs"
+  (onPageSizeChange)="handlePageSizeChanged($event)"
+  (onPageChange)="handlePageChanged($event)"
+  (onSearch)="handleSearch($event)"
+  (onSort)="handleSort($event)"
+  (onAdd)="handleAdd()"
+  (onEdit)="handleEdit($event)"
+  (onDelete)="handleDelete($event)"
+  (onFilterChange)="handleFilterChanged($event)"
+  (onBulkDelete)="handleBulkDelete($event)"
+>
+</app-dynamic-list-page-component>

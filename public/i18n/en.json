@@ -58,5 +58,7 @@
   "password": "Password",
   "user": "User",
   "searchTerm": "Search",
-  "inValidFormat": " In Valid Format"
+  "inValidFormat": " In Valid Format",
+  "country": "Country",
+  "city": "City"
 }

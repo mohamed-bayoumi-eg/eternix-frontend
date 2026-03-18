@@ -1,0 +1,13 @@
+<app-dynamic-form-page-component
+  [config]="{ title: 'area' }"
+  [controls]="formConfig"
+  [initialData]="editData()"
+  [isLoading]="isLoading()"
+  (onSave)="handleSave($event)"
+  (onSaveAndNew)="handleSaveAndNew($event)"
+  (onDelete)="handleDelete()"
+  (onCancel)="handleCancel()"
+  (onCopy)="handleCopy()"
+  (onCancel)="handleCancel()"
+>
+</app-dynamic-form-page-component>

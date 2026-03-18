@@ -1,5 +1,5 @@
 <app-dynamic-form-page-component
-  [config]="{ title: 'role', showSaveAndNewBtn: false, showCopyBtn: false }"
+  [config]="{ title: 'role' }"
   [controls]="formConfig"
   [initialData]="editData()"
   [isLoading]="isLoading()"
@@ -7,6 +7,8 @@
   (onSaveAndNew)="handleSaveAndNew($event)"
   (onDelete)="handleDelete()"
   (onCancel)="handleCancel()"
+  (onSaveAndNew)="handleSaveAndNew($event)"
+  (onCopy)="handleCopy()"
   [tabs]="tabLabels"
   [isExtraDataValid]="isTableValid()"
   #roleForm

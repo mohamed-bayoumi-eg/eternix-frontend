@@ -58,5 +58,7 @@
   "password": "كلمة المرور",
   "user": "مستخدم",
   "searchTerm": "ابحث",
-  "inValidFormat": "قيمة الحقل غير صحيحة"
+  "inValidFormat": "قيمة الحقل غير صحيحة",
+  "country": "الدولة",
+  "city": "المدينة"
 }

@@ -42,11 +42,9 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['config'] &&
-      changes['config'].currentValue.columns !== changes['config'].previousValue?.columns
-    ) {
+    if (changes['config']) {
       this.rowForms = [];
+      this.cdr.detectChanges();
     }
   }
   private checkValidity() {
@@ -60,23 +58,19 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
       this.cdr.detectChanges();
     }, 0);
   }
+
   getRowForm(index: number, row: any): FormGroup {
     if (!this.rowForms[index]) {
       const group = new FormGroup({});
-
       this.config.columns.forEach((col) => {
-        const control = new FormControl();
+        const control = new FormControl(row[col.fieldName]);
+console.log(col)
         group.addControl(col.fieldName, control);
 
-        control.setValue(row[col.fieldName], { emitEvent: false });
         control.valueChanges.subscribe((value) => {
           this.updateValue(index, col.fieldName, value);
         });
-        group.statusChanges.subscribe(() => {
-          this.checkValidity();
-        });
-
-        if (row[col.fieldName] !== undefined && row[col.fieldName] !== null) {
+         if (row[col.fieldName] !== undefined && row[col.fieldName] !== null) {
           setTimeout(() => {
             control.markAsTouched();
             control.updateValueAndValidity();
@@ -84,7 +78,16 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
         }
       });
 
+      group.statusChanges.subscribe(() => this.checkValidity());
       this.rowForms[index] = group;
+    } else {
+      const group = this.rowForms[index];
+      this.config.columns.forEach((col) => {
+        if (group.get(col.fieldName)?.value !== row[col.fieldName]) {
+          group.get(col.fieldName)?.setValue(row[col.fieldName], { emitEvent: false });
+        }
+      });
+      
     }
     return this.rowForms[index];
   }

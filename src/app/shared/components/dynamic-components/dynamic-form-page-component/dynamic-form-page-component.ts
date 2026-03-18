@@ -8,7 +8,7 @@ import { DynamicFormPageConfig } from 'src/app/shared/models/dynamic-page-config
 
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
-
+import { AbstractControl } from '@angular/forms';
 @Component({
   selector: 'app-dynamic-form-page-component',
   standalone: true,
@@ -55,25 +55,43 @@ export class DynamicFormPageComponent implements OnInit {
   form = new FormGroup({});
   activeTab = 0;
   showConfirmDialog = false;
+  private formCreated = false;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.createForm();
+    if (this.controls && this.controls.length > 0) {
+      this.createForm();
+    }
   }
 
   private createForm() {
-    this.controls.forEach((ctrl) => {
+    if (this.formCreated) return;
+
+    const uniqueControls = this.controls.filter(
+      (v, i, a) => a.findIndex((t) => t.fieldName === v.fieldName) === i,
+    );
+
+    uniqueControls.forEach((ctrl) => {
       if (!this.form.contains(ctrl.fieldName)) {
         this.form.addControl(ctrl.fieldName, new FormControl(null));
       }
     });
+
+    this.formCreated = true;
     this.applyPatch();
   }
 
   private applyPatch() {
-    if (this._initialData && Object.keys(this.form.controls).length > 0) {
+    const controls = Object.values(this.form.controls);
+
+    if (this._initialData && controls.length > 0) {
       this.form.patchValue(this._initialData);
+
+      (controls as AbstractControl[]).forEach((control) => {
+        control.updateValueAndValidity({ emitEvent: false });
+      });
+
       this.form.markAllAsTouched();
       this.cdr.detectChanges();
     }
@@ -95,7 +113,13 @@ export class DynamicFormPageComponent implements OnInit {
     if (result) this.onDelete.emit();
   }
 
-  get config() { return this._config; }
-  get hasTabs() { return this.tabs?.length > 0; }
-  get isEdit() { return !!(this._initialData?.id || this._initialData?.code); }
+  get config() {
+    return this._config;
+  }
+  get hasTabs() {
+    return this.tabs?.length > 0;
+  }
+  get isEdit() {
+    return !!(this._initialData?.id || this._initialData?.code);
+  }
 }

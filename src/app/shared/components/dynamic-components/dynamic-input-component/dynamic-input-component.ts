@@ -38,7 +38,14 @@ import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
   standalone: true,
 })
 export class DynamicInputComponent implements OnInit {
-  @Input({ required: true }) config!: DynamicInputConfig;
+  private _config!: DynamicInputConfig;
+
+  @Input({ required: true }) set config(value: DynamicInputConfig) {
+    this._config = value;
+    if (this.isInitialLoadDone || this.form) {
+      this.setupValidations();
+    }
+  }
   @Input({ required: true }) form!: FormGroup;
   @Input() showLabel = true;
   @Output() valueChange = new EventEmitter<{ field: string; value: any }>();
@@ -262,5 +269,8 @@ export class DynamicInputComponent implements OnInit {
             0,
         }
       : {};
+  }
+  get config(): DynamicInputConfig {
+    return this._config;
   }
 }

@@ -45,7 +45,7 @@ export class RoleFormComponent extends BaseFormComponent<
   isTableValid = signal(false);
 
   selectedPermissions = signal<RolePermissionDto[]>([]);
-  formConfig: DynamicInputConfig[] = [
+  readonly formConfig: DynamicInputConfig[] = [
     {
       type: InputType.Text,
       fieldName: 'arabicName',
@@ -64,7 +64,7 @@ export class RoleFormComponent extends BaseFormComponent<
       label: 'description',
     },
   ];
-  permissionFormConfig: DynamicInputConfig[] = [
+  readonly permissionFormConfig: DynamicInputConfig[] = [
     {
       type: InputType.Select,
       fieldName: 'screenId',
@@ -80,7 +80,6 @@ export class RoleFormComponent extends BaseFormComponent<
       enum: PermissionType,
       validations: [ValidationHelper.Required],
     },
-    
   ];
 
   tabsConfig: DynamicDetailsTableConfig[] = [
@@ -92,7 +91,6 @@ export class RoleFormComponent extends BaseFormComponent<
       showAddBtn: true,
       showDeleteBtn: true,
     },
-    
   ];
 
   get tabLabels() {
@@ -123,5 +121,12 @@ export class RoleFormComponent extends BaseFormComponent<
       permissions: this.selectedPermissions(),
     };
     super.handleSave(payload);
+  }
+  protected override afterDataLoaded(data: GetRoleQueryResult): void {
+    if (data && data.permissions) {
+      this.selectedPermissions.set([...data.permissions]);
+    } else {
+      this.selectedPermissions.set([]);
+    }
   }
 }

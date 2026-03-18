@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (row of config.data(); track $index; let i = $index) {
+        @for (row of config.data(); track row; let i = $index) {
           <tr class="table-row">
             @for (col of config.columns; track col.fieldName) {
               <td>

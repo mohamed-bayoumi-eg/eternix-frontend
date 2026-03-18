@@ -46,7 +46,9 @@ export class UserFormComponent extends BaseFormComponent<
 
   selectedUserRoles = signal<UserRoleDto[]>([]);
 
-  formConfig: DynamicInputConfig[] = [
+
+get formConfig(): DynamicInputConfig[] {
+  return [
     {
       type: InputType.Text,
       fieldName: 'arabicName',
@@ -98,6 +100,7 @@ export class UserFormComponent extends BaseFormComponent<
       validations: [ValidationHelper.Required],
     },
   ];
+}
   userRoleFormConfig: DynamicInputConfig[] = [
     {
       type: InputType.Select,
@@ -114,7 +117,6 @@ export class UserFormComponent extends BaseFormComponent<
       title: 'userRoles',
       columns: this.userRoleFormConfig,
       data: this.selectedUserRoles,
-      required: true,
       showAddBtn: true,
       showDeleteBtn: true,
     },
@@ -148,4 +150,5 @@ export class UserFormComponent extends BaseFormComponent<
     };
     super.handleSave(payload);
   }
+
 }

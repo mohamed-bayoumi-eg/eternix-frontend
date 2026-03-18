@@ -41,11 +41,12 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         let data = res.data;
 
         data = this.mapEnumValues(data);
-
+        this.afterDataLoaded(data);
         this.editData.set(data);
       });
   }
-
+  protected afterDataLoaded(data: TGetResult): void {
+  }
   private mapEnumValues(data: any): any {
     if (!data) return data;
 
@@ -91,7 +92,6 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
           // this.editData.set(currentData);
           // this.router.navigate([this.listRoute, 'edit', newId]);
           this.navigateToList();
-
         });
     }
   }

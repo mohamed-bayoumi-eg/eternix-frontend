@@ -1,13 +1,13 @@
 .details-table-wrapper {
   width: 100%;
   position: relative;
-
   .table-scroll-container {
-    border: 1px solid var(--accent-color) !important;
-    background: var(--white-color);
+    border: 1px solid var(--light-gray-color) !important;
     overflow-x: auto;
     width: 100%;
     display: block;
+    padding-bottom: 140px;
+
     .btn-add-inline {
       position: absolute;
       top: -30px;
@@ -45,8 +45,19 @@
       }
       .table-row {
         overflow-x: auto;
+        background-color: var(--white-color);
+        &:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+        &:hover {
+          background-color: color-mix(
+            in srgb,
+            var(--primary-color),
+            var(--white-color) 92%
+          ) !important;
+        }
         td {
-          border-bottom: 1px solid var(--accent-color);
+          border-bottom: 1px solid var(--light-gray-color);
           vertical-align: middle;
           text-align: center;
           position: relative;

@@ -38,7 +38,7 @@
 
   tbody {
     tr {
-      border: 1px solid var(--light-gray-color);
+      border-bottom: 1px solid var(--light-gray-color);
       transition: 0.2s ease;
       &:nth-child(odd) {
         background-color: var(--white-color);
@@ -54,7 +54,7 @@
     }
 
     td {
-      padding:  8px;
+      padding: 8px;
       text-align: center;
       font-size: 14px;
       color: var(--black-color);

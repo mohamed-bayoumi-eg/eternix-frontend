@@ -3,6 +3,7 @@ export enum InputType {
   Number = 'number',
   TextArea = 'textarea',
   Select = 'select',
+  MultiSelect = 'multiSelect',
   Enum = 'enum',
   Checkbox = 'checkbox',
   Date = 'date',

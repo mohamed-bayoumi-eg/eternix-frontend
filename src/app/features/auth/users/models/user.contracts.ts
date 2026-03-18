@@ -12,10 +12,6 @@ import {
 } from 'src/app/shared/models/base-requests';
 import { UserType } from '../enums/user.enums';
 
-export interface UserRoleDto {
-  roleId: string;
-}
-
 export interface CreateUserCommand extends CreateCommandTenantBase<CreateUserCommandResult> {
   userName: string;
   email: string;
@@ -25,7 +21,7 @@ export interface CreateUserCommand extends CreateCommandTenantBase<CreateUserCom
   password: string;
   isActive: IsActive;
   userType: UserType;
-  userRoles: UserRoleDto[];
+  roleIds: string[];
 }
 
 export interface CreateUserCommandResult extends ResultBase {}
@@ -39,7 +35,7 @@ export interface UpdateUserCommand extends UpdateCommandTenantBase<UpdateUserCom
   password: string;
   isActive: IsActive;
   userType: UserType;
-  userRoles: UserRoleDto[];
+  roleIds: string[];
 }
 export interface UpdateUserCommandResult extends ResultBase {}
 
@@ -80,7 +76,7 @@ export interface GetUserQueryResult extends ResultBase {
   password: string;
   isActive: IsActive;
   userType: UserType;
-  userRoles: UserRoleDto[];
+  roleIds: string[];
 }
 
 export class GetUsersComboQuery implements GetComboQueryTenantBase<ComboResultBase[]> {

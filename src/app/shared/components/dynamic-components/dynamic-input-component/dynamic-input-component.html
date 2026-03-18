@@ -1,6 +1,5 @@
 <div [formGroup]="form" class="dynamic-field-wrapper">
   <div class="field-container">
-    
     @if (showLabel) {
       <div class="label-side">
         <label [for]="config.fieldName" class="field-label mb-0">
@@ -14,36 +13,49 @@
 
     <div class="input-side flex-grow-1" [style.min-width]="inputWidth">
       <div class="input-relative-container" [class.skeleton-loader]="isLoadingOptions()">
-        
         @switch (config.type) {
-          
           @case (types.Text) {
-            <input type="text" [formControlName]="config.fieldName" class="erp-input"
-              [id]="config.fieldName" [placeholder]="config.fieldName | translate"
+            <input
+              type="text"
+              [formControlName]="config.fieldName"
+              class="erp-input"
+              [id]="config.fieldName"
+              [placeholder]="config.fieldName | translate"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="isControlValid && isRequired" />
+              [class.is-valid-field]="isControlValid && isRequired"
+            />
           }
 
           @case (types.Number) {
-            <input type="number" [formControlName]="config.fieldName" class="erp-input"
-              [id]="config.fieldName" [placeholder]="config.fieldName | translate"
+            <input
+              type="number"
+              [formControlName]="config.fieldName"
+              class="erp-input"
+              [id]="config.fieldName"
+              [placeholder]="config.fieldName | translate"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="isControlValid && isRequired" />
+              [class.is-valid-field]="isControlValid && isRequired"
+            />
           }
 
           @case (types.Date) {
-            <input type="date" [formControlName]="config.fieldName" class="erp-input"
+            <input
+              type="date"
+              [formControlName]="config.fieldName"
+              class="erp-input"
               [id]="config.fieldName"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="isControlValid && isRequired" />
+              [class.is-valid-field]="isControlValid && isRequired"
+            />
           }
 
           @case (types.Select) {
             <div class="select-wrapper w-100">
-              <div class="custom-select" 
+              <div
+                class="custom-select"
                 [class.is-invalid-field]="isInvalid && isRequired"
-                [class.is-valid-field]="isControlValid && isRequired">
-                
+                [class.is-valid-field]="isControlValid && isRequired"
+              >
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ getSelectedLabel() || ('choose' | translate) }}
@@ -55,9 +67,15 @@
                 </div>
 
                 <div class="select-dropdown" [class.open]="dropdownOpen">
-                  <input type="text" class="erp-select-search" (click)="$event.stopPropagation()"
-                    [ngModel]="searchTerm" [ngModelOptions]="{ standalone: true }"
-                    (ngModelChange)="onSearch($event)" [placeholder]="'search' | translate" />
+                  <input
+                    type="text"
+                    class="erp-select-search"
+                    (click)="$event.stopPropagation()"
+                    [ngModel]="searchTerm"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onSearch($event)"
+                    [placeholder]="'search' | translate"
+                  />
 
                   <ul class="options-list">
                     @for (opt of options(); track $index) {
@@ -72,13 +90,57 @@
               </div>
             </div>
           }
+          @case (types.MultiSelect) {
+            <div class="select-wrapper w-100">
+              <div
+                class="custom-select"
+                [class.is-invalid-field]="isInvalid && isRequired"
+                [class.is-valid-field]="isControlValid && isRequired"
+              >
+                <div class="select-display" (click)="toggleDropdown()">
+                  <span class="text-truncate" [class.is-placeholder]="!control.value?.length">
+                    {{ selectedLabelsSignal() || ('choose' | translate) }}
+                  </span>
+                  <i class="fas fa-chevron-down arrow"></i>
+                </div>
 
+                <div class="select-dropdown" [class.open]="dropdownOpen">
+                  <input
+                    type="text"
+                    class="erp-select-search"
+                    (click)="$event.stopPropagation()"
+                    [ngModel]="searchTerm"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="onSearch($event)"
+                    [placeholder]="'search' | translate"
+                  />
+
+                  <ul class="options-list">
+                    @for (opt of options(); track $index) {
+                      <li
+                        (click)="$event.stopPropagation(); toggleOption(opt)"
+                        [class.selected]="isSelected(opt.key)"
+                      >
+                        <div class="checkbox-box me-2">
+                          <i class="fas fa-check" *ngIf="isSelected(opt.key)"></i>
+                        </div>
+                        {{ opt.value }}
+                      </li>
+                    } @empty {
+                      <li class="no-options">{{ 'noData' | translate }}</li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
           @case (types.Enum) {
             <div class="select-wrapper w-100">
-              <div class="custom-select"
+              <div
+                class="custom-select"
                 [class.is-invalid-field]="isInvalid && isRequired"
-                [class.is-valid-field]="isControlValid && isRequired">
-                
+                [class.is-valid-field]="isControlValid && isRequired"
+              >
                 <div class="select-display" (click)="toggleDropdown()">
                   <span class="text-truncate" [class.is-placeholder]="!control.value">
                     {{ (getSelectedLabel() | translate) || ('choose' | translate) }}
@@ -104,14 +166,23 @@
 
           @case (types.Checkbox) {
             <div class="form-check form-switch pt-1">
-              <input type="checkbox" [formControlName]="config.fieldName" class="form-check-input" [id]="config.fieldName" />
+              <input
+                type="checkbox"
+                [formControlName]="config.fieldName"
+                class="form-check-input"
+                [id]="config.fieldName"
+              />
             </div>
           }
 
           @case (types.TextArea) {
-            <textarea [formControlName]="config.fieldName" class="erp-textarea" rows="2"
+            <textarea
+              [formControlName]="config.fieldName"
+              class="erp-textarea"
+              rows="2"
               [class.is-invalid-field]="isInvalid && isRequired"
-              [class.is-valid-field]="isControlValid && isRequired">
+              [class.is-valid-field]="isControlValid && isRequired"
+            >
             </textarea>
           }
         }

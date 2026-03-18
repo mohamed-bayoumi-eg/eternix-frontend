@@ -29,7 +29,7 @@ import { ApiService } from '../../../services/api.service';
 import { ComboResultBase } from '../../../models/base-requests';
 import { Subject, forkJoin, timer } from 'rxjs';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
-
+import { computed } from '@angular/core';
 @Component({
   selector: 'app-dynamic-input-component',
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, FormsModule],
@@ -60,7 +60,7 @@ export class DynamicInputComponent implements OnInit {
   searchTerm: string = '';
   private searchSubject = new Subject<string>();
   private isInitialLoadDone = false;
-
+  currentValue = signal<any>(null);
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.elementRef.nativeElement.contains(event.target) && this.dropdownOpen) {
@@ -70,13 +70,12 @@ export class DynamicInputComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const val = this.control?.value;
+      const val = this.currentValue();
       const opts = this.options();
 
       untracked(() => {
         if (
-          val !== null &&
-          val !== undefined &&
+          this.hasValue(val) &&
           opts.length === 0 &&
           this.config.endpoint &&
           !this.isInitialLoadDone
@@ -86,11 +85,21 @@ export class DynamicInputComponent implements OnInit {
       });
     });
   }
-
   ngOnInit(): void {
     this.setupValidations();
 
-    if (this.config.type !== InputType.Select) {
+    const initialValue = this.control?.value;
+    this.currentValue.set(initialValue);
+
+    this.control?.valueChanges.subscribe((val) => {
+      this.currentValue.set(val);
+    });
+
+    if (this.hasValue(initialValue) && this.config.endpoint) {
+      this.loadData();
+    }
+
+    if (this.config.type !== InputType.Select && this.config.type !== InputType.MultiSelect) {
       this.loadData();
     }
 
@@ -100,7 +109,10 @@ export class DynamicInputComponent implements OnInit {
   }
 
   private loadData(search: string = '') {
-    if (this.config.type === InputType.Select && this.config.endpoint) {
+    if (
+      (this.config.type === InputType.Select || this.config.type === InputType.MultiSelect) &&
+      this.config.endpoint
+    ) {
       if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
 
       this.isLoadingOptions.set(true);
@@ -129,6 +141,67 @@ export class DynamicInputComponent implements OnInit {
     } else if (this.config.options) {
       this.options.set(this.config.options);
     }
+  }
+  private hasValue(val: any): boolean {
+    if (Array.isArray(val)) return val.length > 0;
+    return val !== null && val !== undefined && val !== '';
+  }
+  selectedLabelsSignal = computed(() => {
+    const values = this.currentValue();
+    const opts = this.options();
+
+    if (!Array.isArray(values) || values.length === 0 || opts.length === 0) {
+      return '';
+    }
+
+    const selectedKeys = values.map((v: any) => String(v).trim());
+
+    return opts
+      .filter((o) => selectedKeys.includes(String(o.key).trim()))
+      .map((o) => o.value)
+      .join(', ');
+  });
+
+  toggleOption(opt: ComboResultBase) {
+    let currentValues = this.control.value;
+
+    if (!Array.isArray(currentValues)) {
+      currentValues = currentValues ? [currentValues] : [];
+    }
+
+    const index = currentValues.findIndex((v: any) => String(v) === String(opt.key));
+
+    if (index > -1) {
+      currentValues.splice(index, 1);
+    } else {
+      currentValues.push(opt.key);
+    }
+
+    this.control.setValue([...currentValues]);
+    this.control.markAsDirty();
+    this.valueChange.emit({ field: this.config.fieldName, value: currentValues });
+  }
+
+  getSelectedLabels(): string {
+    const values = this.control?.value;
+    if (!Array.isArray(values) || values.length === 0) return '';
+
+    const opts = this.options();
+    if (opts.length === 0) return '';
+
+    const selectedStringValues = values.map((v: any) => String(v).trim());
+
+    return opts
+      .filter((o) => selectedStringValues.includes(String(o.key).trim()))
+      .map((o) => o.value)
+      .join(', ');
+  }
+  isSelected(key: any): boolean {
+    const values = this.control?.value;
+    if (!Array.isArray(values)) {
+      return String(values) === String(key);
+    }
+    return values.some((v: any) => String(v).trim() === String(key).trim());
   }
 
   getSelectedLabel(): string {

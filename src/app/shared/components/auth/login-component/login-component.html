@@ -5,8 +5,7 @@
   <div class="login-card">
     <div class="login-header">
       <div class="logo-area">
-        <i class="pi pi-shield"></i>
-      </div>
+        <i class="fas fa-shield-alt"></i> </div>
       <h2>{{ 'welcome_back' | translate }}</h2>
       <p>{{ 'subtitle' | translate }}</p>
     </div>
@@ -15,14 +14,11 @@
       <div class="form-field">
         <label>{{ 'userName' | translate }}</label>
         <div class="input-group">
-          <i class="pi pi-user"></i>
-          <input
+          <i class="fas fa-user"></i> <input
             type="text"
             formControlName="userName"
             [placeholder]="'userNamePlaceholder' | translate"
-            [class.invalid]="
-              loginForm.get('userName')?.touched && loginForm.get('userName')?.invalid
-            "
+            [class.invalid]="loginForm.get('userName')?.touched && loginForm.get('userName')?.invalid"
           />
         </div>
       </div>
@@ -30,24 +26,26 @@
       <div class="form-field">
         <label>{{ 'password' | translate }}</label>
         <div class="input-group">
-          <i class="pi pi-lock"></i>
-          <input
-            type="password"
+          <i class="fas fa-lock"></i> <input
+            [type]="isPasswordVisible ? 'text' : 'password'"
             formControlName="password"
             [placeholder]="'passwordPlaceholder' | translate"
-            [class.invalid]="
-              loginForm.get('password')?.touched && loginForm.get('password')?.invalid
-            "
+            [class.invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
           />
+          <i
+            class="fas toggle-password"
+            [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="togglePasswordVisibility()"
+          ></i>
         </div>
       </div>
 
       <button type="submit" class="submit-btn" [disabled]="isLoading || loginForm.invalid">
+        <span>{{ 'submit' | translate }}</span>
         @if (isLoading) {
-          <i class="pi pi-spin pi-spinner"></i>
+          <i class="fas fa-circle-notch fa-spin"></i>
         } @else {
-          <span>{{ 'submit' | translate }}</span>
-          <i class="pi pi-sign-in"></i>
+          <i class="fas fa-sign-in-alt"></i>
         }
       </button>
     </form>

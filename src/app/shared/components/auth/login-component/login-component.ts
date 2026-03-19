@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
+
 @Component({
   selector: 'app-login-component',
+  standalone: true,
   imports: [CommonModule, RouterModule, TranslateModule, ReactiveFormsModule],
-
   templateUrl: './login-component.html',
   styleUrl: './login-component.scss',
 })
@@ -23,25 +24,29 @@ export class LoginComponent {
   });
 
   isLoading = false;
+  isPasswordVisible = false;
 
-onLogin(): void {
-  if (this.loginForm.invalid) return;
-  
-  this.isLoading = true;
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
 
-  this.authService.login(this.loginForm.value).subscribe({
-    next: (res) => {
-      setTimeout(() => {
-        this.isLoading = false;
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(returnUrl);
-      }, 0);
-    },
-    error: () => {
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 0);
-    },
-  });
-}
+  onLogin(): void {
+    if (this.loginForm.invalid) return;
+    this.isLoading = true;
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (res) => {
+        setTimeout(() => {
+          this.isLoading = false;
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigateByUrl(returnUrl);
+        }, 0);
+      },
+      error: () => {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 0);
+      },
+    });
+  }
 }

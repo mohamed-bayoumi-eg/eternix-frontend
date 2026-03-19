@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { UserType } from 'src/app/features/auth/users/enums/user.enums';
 import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -9,9 +10,10 @@ export class AuthService {
   private router = inject(Router);
 
   token = signal<string | null>(localStorage.getItem('token'));
-  userName = signal<string | null>(localStorage.getItem('userName'));
+  isSuperAdmin = signal<boolean>(localStorage.getItem('isSuperAdmin') === 'true');
+  userType = signal<string>(localStorage.getItem('userType') || UserType.User);
   userModules = signal<any[]>(JSON.parse(localStorage.getItem('modules') || '[]'));
-  permissions = signal<string[]>(JSON.parse(localStorage.getItem('permissions') || '[]'));
+  userName = signal<string | null>(localStorage.getItem('userName'));
 
   login(command: any) {
     return this.api.post<any, any>('admin/auth/login', command).pipe(
@@ -20,28 +22,26 @@ export class AuthService {
           const data = res.data;
 
           localStorage.setItem('token', data.token);
-          localStorage.setItem('userName', data.userName);
+          localStorage.setItem('isSuperAdmin', String(data.isSuperAdmin));
+          localStorage.setItem('userType', data.userType);
           localStorage.setItem('modules', JSON.stringify(data.modules));
-          localStorage.setItem('permissions', JSON.stringify(data.permissions));
+          localStorage.setItem('userName', data.userName);
 
           this.token.set(data.token);
-          this.userName.set(data.userName);
+          this.isSuperAdmin.set(data.isSuperAdmin);
+          this.userType.set(data.userType);
           this.userModules.set(data.modules);
-          this.permissions.set(data.permissions);
+          this.userName.set(data.userName);
         }
       }),
     );
   }
-  logout() {
-    localStorage.clear();
-    this.token.set(null);
-    this.userName.set(null);
-    this.userModules.set([]);
-    this.permissions.set([]);
-    this.router.navigate(['/login']);
-  }
 
   hasPermission(screenKey: string, action: string): boolean {
+    if (this.isSuperAdmin() || this.userType() === 'Admin' || this.userType() === 'TenantAdmin') {
+      return true;
+    }
+
     const screen = this.userModules()
       .flatMap((m) => m.screens)
       .find((s: any) => s.key === screenKey);
@@ -49,5 +49,14 @@ export class AuthService {
     if (!screen) return false;
 
     return screen.actions.includes('FullControl') || screen.actions.includes(action);
+  }
+
+  logout() {
+    localStorage.clear();
+    this.userType.set(UserType.User);
+    this.token.set(null);
+    this.isSuperAdmin.set(false);
+    this.userModules.set([]);
+    this.router.navigate(['/login']);
   }
 }

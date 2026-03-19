@@ -129,4 +129,8 @@ export class RoleFormComponent extends BaseFormComponent<
       this.selectedPermissions.set([]);
     }
   }
+  protected override onClearForm(): void {
+    this.selectedPermissions.set([]);
+    this.isTableValid.set(false);
+  }
 }

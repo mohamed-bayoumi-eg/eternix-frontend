@@ -14,25 +14,22 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
 
   editData = signal<TGetResult | null>(null);
   isLoading = signal(false);
-
+  private isSubmitting = false;
   constructor() {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
-  // داخل BaseFormComponent
   ngOnInit(): void {
     const copyData = history.state?.copyData;
 
     if (copyData) {
       this.editData.set(copyData);
-      // إجبار الأب على قراءة الـ Getter وتحديث الـ Child فوراً عند الـ Copy
       this.cdr.detectChanges();
     } else {
       const id = this.route.snapshot.params['id'];
       if (id) {
         this.loadData(id);
       } else {
-        // في حالة الإضافة الجديدة (Empty Form)
         this.cdr.detectChanges();
       }
     }
@@ -82,6 +79,8 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
   }
 
   handleSave(formData: any) {
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
     const oldData = this.editData();
     const id = (oldData as any)?.id;
 
@@ -113,7 +112,11 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
   }
 
   handleSaveAndNew(formData: any) {
+    if (this.isSubmitting) return;
+
+    this.isSubmitting = true;
     this.isLoading.set(true);
+
     const data = this.editData();
     const isUpdate = !!(data && (data as any).id);
 
@@ -121,24 +124,35 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
       ? this.service.update({ id: (data as any).id, ...formData })
       : this.service.create(formData);
 
-    request$.pipe(finalize(() => this.isLoading.set(false))).subscribe(() => {
-      // مسح التاريخ تماماً
-      history.replaceState(null, '');
+    request$
+      .pipe(
+        finalize(() => {
+          this.isLoading.set(false);
+          this.isSubmitting = false;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          history.replaceState(null, '');
+          this.onClearForm();
+          this.editData.set({} as any);
 
-      // إجبار الـ Signal على التغيير:
-      // إذا كانت القيمة null فعلياً، نمرر object فارغ ثم null لإجبار الـ setter على العمل
-      this.editData.set({} as any);
+          setTimeout(() => {
+            this.editData.set(null);
+            this.router.navigate([], { state: { copyData: null }, replaceUrl: true });
 
-      setTimeout(() => {
-        this.editData.set(null);
-
-        if (!this.router.url.includes('/add')) {
-          this.router.navigate([this.listRoute, 'add']);
-        }
+            if (!this.router.url.includes('/add')) {
+              this.router.navigate([this.listRoute, 'add']);
+            }
+            this.cdr.detectChanges();
+          });
+        },
+        error: () => {
+          this.isSubmitting = false;
+        },
       });
-    });
   }
-
+  protected onClearForm(): void {}
   handleCopy() {
     const data = this.editData();
     if (data) {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { UserType } from 'src/app/features/auth/users/enums/user.enums';
 import { ApiService } from './api.service';
+import { PermissionType } from 'src/app/features/auth/roles/enums/role.enums';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -44,11 +45,12 @@ export class AuthService {
 
     const screen = this.userModules()
       .flatMap((m) => m.screens)
-      .find((s: any) => s.key === screenKey);
-
+      .find((s: any) => s.key.toLowerCase() === screenKey.toLowerCase());
     if (!screen) return false;
 
-    return screen.actions.includes('FullControl') || screen.actions.includes(action);
+    return screen.actions.some(
+      (a: string) => a.toLowerCase() === PermissionType.FullControl.toLowerCase() || a.toLowerCase() === action.toLowerCase(),
+    );
   }
 
   logout() {

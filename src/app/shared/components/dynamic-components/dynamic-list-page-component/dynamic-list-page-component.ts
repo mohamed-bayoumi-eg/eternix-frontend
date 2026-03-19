@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { DynamicListPageConfig } from '../../../models/dynamic-page-config';
 import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-dynamic-list-page-component',
@@ -27,6 +28,7 @@ import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-compo
   styleUrl: './dynamic-list-page-component.scss',
 })
 export class DynamicListPageComponent implements OnInit {
+  private authService = inject(AuthService);
   @Input({ required: true }) columns: TableColumn[] = [];
   @Input() items: any[] = [];
   @Input() metaData: MetaData | null = null;
@@ -38,13 +40,15 @@ export class DynamicListPageComponent implements OnInit {
   @Input({ required: true }) set config(value: DynamicListPageConfig) {
     this._config = {
       showSearch: true,
-      showAddBtn: true,
-      showEditBtn: true,
-      showDeleteBtn: true,
+      showAddBtn: this.authService.hasPermission(value.title, 'Create'),
+      showEditBtn: this.authService.hasPermission(value.title, 'Update'),
+      showDeleteBtn: this.authService.hasPermission(value.title, 'Delete'),
       ...value,
     };
   }
-  get config() { return this._config; }
+  get config() {
+    return this._config;
+  }
 
   @Output() onFilterChange = new EventEmitter<any>();
   @Output() onAdd = new EventEmitter<void>();
@@ -76,14 +80,16 @@ export class DynamicListPageComponent implements OnInit {
   private initFilterForm() {
     this.filterForm.addControl(this.searchConfig.fieldName, new FormControl(null));
 
-    this.filterConfigs?.forEach(cfg => {
+    this.filterConfigs?.forEach((cfg) => {
       this.filterForm.addControl(cfg.fieldName, new FormControl(null));
     });
 
-    this.filterForm.valueChanges.pipe(
-      debounceTime(400),
-      distinctUntilChanged((p, c) => JSON.stringify(p) === JSON.stringify(c))
-    ).subscribe(values => this.onFilterChange.emit(values));
+    this.filterForm.valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged((p, c) => JSON.stringify(p) === JSON.stringify(c)),
+      )
+      .subscribe((values) => this.onFilterChange.emit(values));
   }
 
   handleDeleteClick(id: string) {

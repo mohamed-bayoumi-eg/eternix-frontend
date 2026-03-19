@@ -1,4 +1,12 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +16,8 @@ import { DynamicFormPageConfig } from 'src/app/shared/models/dynamic-page-config
 
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { PermissionType } from 'src/app/features/auth/roles/enums/role.enums';
 
 @Component({
   selector: 'app-dynamic-form-page-component',
@@ -23,10 +33,12 @@ import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-compo
   styleUrl: './dynamic-form-page-component.scss',
 })
 export class DynamicFormPageComponent implements OnInit {
+  private authService = inject(AuthService);
+
   @Input() isLoading = false;
-  
   @Input() tabs: string[] = [];
   @Input() isExtraDataValid = true;
+  formPatched = false;
 
   private _controls: DynamicInputConfig[] = [];
 
@@ -46,16 +58,30 @@ export class DynamicFormPageComponent implements OnInit {
     if (!value || typeof value === 'function') return;
     this._initialData = value;
     this.applyPatch();
+    this.updatePermissions();
   }
 
   private _config!: DynamicFormPageConfig;
+
   @Input({ required: true }) set config(value: DynamicFormPageConfig) {
+    this._config = { ...value };
+    this.updatePermissions();
+  }
+
+  private updatePermissions() {
+    if (!this._config) return;
+
+    const title = this._config.title;
+console.log( this.authService.hasPermission(title, PermissionType.Create))
     this._config = {
-      showSaveBtn: true,
-      showSaveAndNewBtn: true,
-      showDeleteBtn: true,
-      showCopyBtn: true,
-      ...value,
+      ...this._config,
+      showSaveBtn: this.isEdit
+        ? this.authService.hasPermission(title, PermissionType.Update)
+        : this.authService.hasPermission(title, PermissionType.Create),
+      showSaveAndNewBtn:
+        !this.isEdit && this.authService.hasPermission(title, PermissionType.Create),
+      showDeleteBtn: this.authService.hasPermission(title, PermissionType.Delete),
+      showCopyBtn: this.authService.hasPermission(title, PermissionType.Create),
     };
   }
 
@@ -107,6 +133,8 @@ export class DynamicFormPageComponent implements OnInit {
       setTimeout(() => {
         this.form.patchValue(this._initialData);
 
+        this.formPatched = true;
+
         const controlsMap = this.form.controls as { [key: string]: AbstractControl };
 
         Object.values(controlsMap).forEach((control) => {
@@ -119,15 +147,18 @@ export class DynamicFormPageComponent implements OnInit {
     }
   }
 
-handleSave(isSaveAndNew = false) {
-  if (this.form.invalid || !this.isExtraDataValid) return;
+  handleSave(isSaveAndNew = false) {
+    if (this.form.invalid || !this.isExtraDataValid) return;
 
-  if (isSaveAndNew) {
-    this.onSaveAndNew.emit(this.form.value);
-  } else {
-    this.onSave.emit(this.form.value);
+    this._initialData = { ...this._initialData, ...this.form.getRawValue() };
+    console.log(this._initialData);
+    this.formPatched = false;
+    if (isSaveAndNew) {
+      this.onSaveAndNew.emit(this.form.value);
+    } else {
+      this.onSave.emit(this.form.value);
+    }
   }
-}
 
   handleDialogResult(result: boolean) {
     this.showConfirmDialog = false;

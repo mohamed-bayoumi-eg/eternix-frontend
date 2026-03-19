@@ -69,12 +69,22 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
 
     return data;
   }
-  handleSave(formData: any) {
-    this.isLoading.set(true);
-    const data = this.editData();
 
-    if (data && (data as any).id) {
-      const updateCmd = { id: (data as any).id, ...formData } as TUpdateCmd;
+  handleSave(formData: any) {
+    const oldData = this.editData();
+    const id = (oldData as any)?.id;
+
+    const updatedData = { ...formData, id: id };
+
+    const currentState = history.state || {};
+    history.replaceState({ ...currentState, copyData: updatedData }, '');
+
+    this.editData.set(updatedData);
+
+    this.isLoading.set(true);
+
+    if (id) {
+      const updateCmd = { id: id, ...formData } as TUpdateCmd;
       this.service
         .update(updateCmd)
         .pipe(finalize(() => this.isLoading.set(false)))
@@ -86,15 +96,10 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         .create(formData as TCreateCmd)
         .pipe(finalize(() => this.isLoading.set(false)))
         .subscribe((res: any) => {
-          // const newId = res.data?.id || res.data;
-          // const currentData = { ...formData, id: newId };
-          // this.editData.set(currentData);
-          // this.router.navigate([this.listRoute, 'edit', newId]);
           this.navigateToList();
         });
     }
   }
-
   handleSaveAndNew(formData: any) {
     this.isLoading.set(true);
     const data = this.editData();

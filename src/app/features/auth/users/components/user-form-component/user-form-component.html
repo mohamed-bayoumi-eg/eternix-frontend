@@ -1,5 +1,5 @@
 <app-dynamic-form-page-component
-  [config]="{ title: 'user', showSaveAndNewBtn: false, showCopyBtn: false }"
+  [config]="{ title: 'user' }"
   [controls]="formConfig"
   [initialData]="editData()"
   [isLoading]="isLoading()"
@@ -7,5 +7,7 @@
   (onSaveAndNew)="handleSaveAndNew($event)"
   (onDelete)="handleDelete()"
   (onCancel)="handleCancel()"
+  (onSaveAndNew)="handleSaveAndNew($event)"
+  (onCopy)="handleCopy()"
 >
 </app-dynamic-form-page-component>

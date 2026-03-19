@@ -1,27 +1,25 @@
 <div class="sidebar" [class.collapsed]="collapsed">
   <div class="logo">
-    <span>
-      {{ 'screensMenu' | translate }}
-    </span>
+    <span>{{ 'screensMenu' | translate }}</span>
   </div>
 
   <ul class="menu">
-    @for (menu of menus; track $index) {
+    @for (module of menus(); track module.key) {
       <li>
-        @if (!menu.children) {
-          <a [routerLink]="menu.route" class="menu-link">
-            <span class="text">{{ menu.key | translate }}</span>
-          </a>
-        } @else {
-          <div (click)="toggleMenu(menu.key)" class="menu-item menu-link">
-            <span class="text">{{ menu.key | translate }}</span>
+        @if (module.screens) {
+          
+          <div (click)="toggleMenu(module.key)" class="menu-item menu-link" [class.active]="isOpen(module.key)">
+            <span class="text">{{ getName(module)}}</span>
+            <i class="arrow-icon" [class.rotated]="isOpen(module.key)"></i>
           </div>
 
-          <ul class="submenu" [class.open]="isOpen(menu.key)">
-            @for (child of menu.children; track $index) {
+          <ul class="submenu" [class.open]="isOpen(module.key)">
+            @for (screen of module.screens; track screen.key) {
               <li>
-                <a [routerLink]="child.route" routerLinkActive="active" class="menu-link sub-link">
-                  <span class="text">{{ child.key | translate }}</span>
+                <a [routerLink]="screen.route" 
+                   routerLinkActive="active" 
+                   class="menu-link sub-link">
+                  <span class="text">{{getName(screen) }}</span>
                 </a>
               </li>
             }

@@ -47,7 +47,7 @@
   "Delete": "Delete",
   "FullControl": "Full Control",
   "users": "Users",
-  "userName": "UserName",
+  "userName": "Username",
   "email": "Email",
   "phoneNumber": "Phone Number",
   "userType": "User Type",
@@ -60,5 +60,14 @@
   "searchTerm": "Search",
   "inValidFormat": " In Valid Format",
   "country": "Country",
-  "city": "City"
+  "city": "City",
+  "welcome_back": "Welcome Back",
+  "subtitle": "Please login to continue to Eternix ERP",
+  "userNamePlaceholder": "Enter your username",
+  "passwordPlaceholder": "Enter your password",
+  "submit": "Login to System",
+  "profile": "Profile",
+  "settings": "Settings",
+  "logout": "Logout",
+  "Create": "Create"
 }

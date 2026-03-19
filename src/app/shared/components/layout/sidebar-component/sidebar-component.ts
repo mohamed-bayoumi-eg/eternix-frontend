@@ -1,13 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
-interface MenuItem {
+interface ScreenMenuDto {
   key: string;
-  route?: string;
-  icon?: string;
-  children?: MenuItem[];
+  route: string;
+  arabicName: string;
+  englishName: string;
+  actions: string[];
+}
+
+interface ModuleMenuDto {
+  key: string;
+  arabicName: string;
+  englishName: string;
+  screens: ScreenMenuDto[];
 }
 
 @Component({
@@ -19,38 +28,19 @@ interface MenuItem {
 })
 export class SidebarComponent {
   @Input() collapsed = false;
+  private authService = inject(AuthService);
+  private translate = inject(TranslateService);
 
-  menus: MenuItem[] = [
-    {
-      key: 'management1',
-      children: [
-        { key: 'tenants', route: '/tenants' },
-        { key: 'roles', route: '/roles' },
-        { key: 'users', route: '/users' },
-      ],
-    },
-    {
-      key: 'configuration',
-      children: [
-        { key: 'countries', route: '/countries' },
-        { key: 'cities', route: '/cities' },
-        { key: 'areas', route: '/areas' },
-      ],
-    },
-  ];
+  menus = computed<ModuleMenuDto[]>(() => this.authService.userModules());
 
   activeMenu: string | null = null;
-
+  getName(item: any): string {
+    const lang = this.translate.getCurrentLang();
+    return lang === 'ar' ? item.arabicName : item.englishName;
+  }
   toggleMenu(key: string) {
-    if (this.activeMenu === key) {
-      this.activeMenu = null;
-    } else {
-      this.activeMenu = key;
-    }
+    this.activeMenu = this.activeMenu === key ? null : key;
   }
-  isOpen = (key: string) => this.activeMenu === key;
 
-  toggleSidebar() {
-    this.collapsed = !this.collapsed;
-  }
+  isOpen = (key: string) => this.activeMenu === key;
 }

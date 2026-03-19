@@ -34,49 +34,24 @@ export interface ApiResponse {
 }
 
 export interface CreateCommandBase<TResult> {
-  createdBy: string;
-}
-export interface CreateCommandTenantBase<TResult> {
-  createdBy: string;
-  tenantId: string;
 }
 
 export interface UpdateCommandBase<TResult> {
   id: string;
-  updatedBy: string;
-}
-export interface UpdateCommandTenantBase<TResult> {
-  id: string;
-  updatedBy: string;
-  tenantId: string;
 }
 
 export interface DeleteCommandBase<TResult> {
   id: string;
-  deletedBy: string;
 }
 
-export interface DeleteCommandTenantBase<TResult> {
-  id: string;
-  deletedBy: string;
-  tenantId: string;
-}
 export interface DeleteRangeCommandBase<TResult> {
   ids: string;
-  deletedBy: string;
 }
-export interface DeleteRangeCommandTenantBase<TResult> {
-  ids: string;
-  deletedBy: string;
-  tenantId: string;
-}
+
 export interface GetQueryBase<TResponse> {
   id: string;
 }
-export interface GetQueryTenantBase<TResponse> {
-  id: string;
-  tenantId: string;
-}
+
 export interface GetListQueryBase<TResponse> {
   pageNumber: number;
   pageSize: number;
@@ -84,20 +59,9 @@ export interface GetListQueryBase<TResponse> {
   sortField: string;
   sortType: SortingType;
 }
-export interface GetListQueryTenantBase<TResponse> {
-  pageNumber: number;
-  pageSize: number;
-  searchTerm: string;
-  sortField: string;
-  sortType: SortingType;
-  tenantId: string;
-}
+
 export interface GetComboQueryBase<TResponse> {
   searchTerm?: string;
-}
-export interface GetComboQueryTenantBase<TResponse> {
-  searchTerm?: string;
-  tenantId: string;
 }
 
 export interface ComboResultBase {

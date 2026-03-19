@@ -1,18 +1,1 @@
-<div class="layout" [class]="currentTheme()">
-  <app-sidebar-component [collapsed]="isSidebarCollapsed"></app-sidebar-component>
-
-  <div class="main">
-    <app-header-component
-      [currentLang]="currentLang()"
-      (langToggle)="handleLangToggle($event)"
-      (sidebarToggle)="handleSidebarToggle()"
-      (themeToggle)="handleThemeChange($event)"
-    ></app-header-component>  
-
-    <div class="content" appScrollButtons>
-      <router-outlet></router-outlet>
-    </div>
-
-    <app-footer-component></app-footer-component>
-  </div>
-</div>
+<router-outlet></router-outlet>

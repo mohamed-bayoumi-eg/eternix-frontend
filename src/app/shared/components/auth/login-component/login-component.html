@@ -1,0 +1,55 @@
+<div class="login-wrapper">
+  <div class="shape"></div>
+  <div class="shape"></div>
+
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-area">
+        <i class="pi pi-shield"></i>
+      </div>
+      <h2>{{ 'welcome_back' | translate }}</h2>
+      <p>{{ 'subtitle' | translate }}</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+      <div class="form-field">
+        <label>{{ 'userName' | translate }}</label>
+        <div class="input-group">
+          <i class="pi pi-user"></i>
+          <input
+            type="text"
+            formControlName="userName"
+            [placeholder]="'userNamePlaceholder' | translate"
+            [class.invalid]="
+              loginForm.get('userName')?.touched && loginForm.get('userName')?.invalid
+            "
+          />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>{{ 'password' | translate }}</label>
+        <div class="input-group">
+          <i class="pi pi-lock"></i>
+          <input
+            type="password"
+            formControlName="password"
+            [placeholder]="'passwordPlaceholder' | translate"
+            [class.invalid]="
+              loginForm.get('password')?.touched && loginForm.get('password')?.invalid
+            "
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isLoading || loginForm.invalid">
+        @if (isLoading) {
+          <i class="pi pi-spin pi-spinner"></i>
+        } @else {
+          <span>{{ 'submit' | translate }}</span>
+          <i class="pi pi-sign-in"></i>
+        }
+      </button>
+    </form>
+  </div>
+</div>

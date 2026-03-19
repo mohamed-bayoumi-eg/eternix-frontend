@@ -1,39 +1,39 @@
 import {
-  CreateCommandTenantBase,
+  CreateCommandBase,
   ResultBase,
-  UpdateCommandTenantBase,
-  DeleteCommandTenantBase,
-  DeleteRangeCommandTenantBase,
-  GetQueryTenantBase,
-  GetListQueryTenantBase,
-  GetComboQueryTenantBase,
+  UpdateCommandBase,
+  DeleteCommandBase,
+  DeleteRangeCommandBase,
+  GetQueryBase,
+  GetListQueryBase,
+  GetComboQueryBase,
   ComboResultBase,
 } from 'src/app/shared/models/base-requests';
 
-export interface CreateCountryCommand extends CreateCommandTenantBase<CreateCountryCommandResult> {
+export interface CreateCountryCommand extends CreateCommandBase<CreateCountryCommandResult> {
   arabicName: string;
   englishName: string;
 }
 
 export interface CreateCountryCommandResult extends ResultBase {}
 
-export interface UpdateCountryCommand extends UpdateCommandTenantBase<UpdateCountryCommandResult> {
+export interface UpdateCountryCommand extends UpdateCommandBase<UpdateCountryCommandResult> {
   arabicName: string;
   englishName: string;
 }
 export interface UpdateCountryCommandResult extends ResultBase {}
 
-export interface DeleteCountryCommand extends DeleteCommandTenantBase<DeleteCountryCommandResult> {}
+export interface DeleteCountryCommand extends DeleteCommandBase<DeleteCountryCommandResult> {}
 
 export interface DeleteCountryCommandResult extends ResultBase {}
 
-export interface DeleteCountrysRangeCommand extends DeleteRangeCommandTenantBase<DeleteCountrysRangeCommandResult> {}
+export interface DeleteCountrysRangeCommand extends DeleteRangeCommandBase<DeleteCountrysRangeCommandResult> {}
 
 export interface DeleteCountrysRangeCommandResult {}
 
-export interface GetCountryQuery extends GetQueryTenantBase<GetCountryQueryResult> {}
+export interface GetCountryQuery extends GetQueryBase<GetCountryQueryResult> {}
 
-export interface GetCountrysListQuery extends GetListQueryTenantBase<GetCountryListQueryResult> {}
+export interface GetCountrysListQuery extends GetListQueryBase<GetCountryListQueryResult> {}
 
 export interface GetCountryListQueryResult extends ResultBase {
   code: number;
@@ -47,7 +47,6 @@ export interface GetCountryQueryResult extends ResultBase {
   englishName: string;
 }
 
-export class GetCountrysComboQuery implements GetComboQueryTenantBase<ComboResultBase[]> {
+export class GetCountrysComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
-  tenantId!: string;
 }

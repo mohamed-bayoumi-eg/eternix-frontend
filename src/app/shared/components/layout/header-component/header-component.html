@@ -14,6 +14,38 @@
     <button class="lang-toggle" (click)="onToggleLanguage()">
       {{ currentLang === 'en' ? 'AR' : 'EN' }}
     </button>
-    <button class="btn login-btn">{{ 'login' | translate }}</button>
+
+    @if (authService.token()) {
+      <div class="user-dropdown-container">
+        <div
+          class="user-trigger"
+          (click)="toggleUserMenu($event)"
+          [class.active]="isUserMenuOpen()"
+        >
+          <div class="user-avatar">
+            {{ authService.userName()?.charAt(0)?.toUpperCase() || 'U' }}
+          </div>
+          <span class="username">{{ authService.userName() }}</span>
+          <i class="chevron-icon">▼</i>
+        </div>
+
+        @if (isUserMenuOpen()) {
+          <ul class="dropdown-menu">
+            <li [routerLink]="['/profile']"> {{ 'profile' | translate }}</li>
+            <li [routerLink]="['/settings']">
+              {{ 'settings' | translate }}
+            </li>
+            <hr />
+            <li class="logout-item" (click)="onLogout()">
+              {{ 'logout' | translate }}
+            </li>
+          </ul>
+        }
+      </div>
+    } @else {
+      <button class="btn login-btn" [routerLink]="['/login']">
+        {{ 'login' | translate }}
+      </button>
+    }
   </div>
 </header>

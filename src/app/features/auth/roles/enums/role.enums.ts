@@ -1,7 +1,7 @@
 export enum PermissionType {
   Undefined = 'Undefined',
   Read = 'Read',
-  Add = 'Add',
+  Create = 'Create',
   Update = 'Update',
   Delete = 'Delete',
   FullControl = 'FullControl',

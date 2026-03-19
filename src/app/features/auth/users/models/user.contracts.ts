@@ -1,18 +1,18 @@
 import { IsActive } from 'src/app/shared/enums/common.enums';
 import {
-  CreateCommandTenantBase,
+  CreateCommandBase,
   ResultBase,
-  UpdateCommandTenantBase,
-  DeleteCommandTenantBase,
-  DeleteRangeCommandTenantBase,
-  GetQueryTenantBase,
-  GetListQueryTenantBase,
-  GetComboQueryTenantBase,
+  UpdateCommandBase,
+  DeleteCommandBase,
+  DeleteRangeCommandBase,
+  GetQueryBase,
+  GetListQueryBase,
+  GetComboQueryBase,
   ComboResultBase,
 } from 'src/app/shared/models/base-requests';
 import { UserType } from '../enums/user.enums';
 
-export interface CreateUserCommand extends CreateCommandTenantBase<CreateUserCommandResult> {
+export interface CreateUserCommand extends CreateCommandBase<CreateUserCommandResult> {
   userName: string;
   email: string;
   arabicFullName: string;
@@ -26,7 +26,7 @@ export interface CreateUserCommand extends CreateCommandTenantBase<CreateUserCom
 
 export interface CreateUserCommandResult extends ResultBase {}
 
-export interface UpdateUserCommand extends UpdateCommandTenantBase<UpdateUserCommandResult> {
+export interface UpdateUserCommand extends UpdateCommandBase<UpdateUserCommandResult> {
   userName: string;
   email: string;
   arabicName: string;
@@ -39,17 +39,17 @@ export interface UpdateUserCommand extends UpdateCommandTenantBase<UpdateUserCom
 }
 export interface UpdateUserCommandResult extends ResultBase {}
 
-export interface DeleteUserCommand extends DeleteCommandTenantBase<DeleteUserCommandResult> {}
+export interface DeleteUserCommand extends DeleteCommandBase<DeleteUserCommandResult> {}
 
 export interface DeleteUserCommandResult extends ResultBase {}
 
-export interface DeleteUsersRangeCommand extends DeleteRangeCommandTenantBase<DeleteUsersRangeCommandResult> {}
+export interface DeleteUsersRangeCommand extends DeleteRangeCommandBase<DeleteUsersRangeCommandResult> {}
 
 export interface DeleteUsersRangeCommandResult {}
 
-export interface GetUserQuery extends GetQueryTenantBase<GetUserQueryResult> {}
+export interface GetUserQuery extends GetQueryBase<GetUserQueryResult> {}
 
-export interface GetUsersListQuery extends GetListQueryTenantBase<GetUserListQueryResult> {
+export interface GetUsersListQuery extends GetListQueryBase<GetUserListQueryResult> {
   isActive?: IsActive;
   userType: UserType;
 }
@@ -79,7 +79,6 @@ export interface GetUserQueryResult extends ResultBase {
   roleIds: string[];
 }
 
-export class GetUsersComboQuery implements GetComboQueryTenantBase<ComboResultBase[]> {
+export class GetUsersComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
-  tenantId!: string;
 }

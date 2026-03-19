@@ -1,16 +1,16 @@
 import {
   ComboResultBase,
-  CreateCommandTenantBase,
-  DeleteCommandTenantBase,
-  DeleteRangeCommandTenantBase,
-  GetComboQueryTenantBase,
-  GetListQueryTenantBase,
-  GetQueryTenantBase,
+  CreateCommandBase,
+  DeleteCommandBase,
+  DeleteRangeCommandBase,
+  GetComboQueryBase,
+  GetListQueryBase,
+  GetQueryBase,
   ResultBase,
-  UpdateCommandTenantBase,
+  UpdateCommandBase,
 } from 'src/app/shared/models/base-requests';
 
-export interface CreateCityCommand extends CreateCommandTenantBase<CreateCityCommandResult> {
+export interface CreateCityCommand extends CreateCommandBase<CreateCityCommandResult> {
   arabicName: string;
   englishName: string;
   countryId: string;
@@ -18,24 +18,24 @@ export interface CreateCityCommand extends CreateCommandTenantBase<CreateCityCom
 
 export interface CreateCityCommandResult extends ResultBase {}
 
-export interface UpdateCityCommand extends UpdateCommandTenantBase<UpdateCityCommandResult> {
+export interface UpdateCityCommand extends UpdateCommandBase<UpdateCityCommandResult> {
   arabicName: string;
   englishName: string;
   countryId: string;
 }
 export interface UpdateCityCommandResult extends ResultBase {}
 
-export interface DeleteCityCommand extends DeleteCommandTenantBase<DeleteCityCommandResult> {}
+export interface DeleteCityCommand extends DeleteCommandBase<DeleteCityCommandResult> {}
 
 export interface DeleteCityCommandResult extends ResultBase {}
 
-export interface DeleteCitysRangeCommand extends DeleteRangeCommandTenantBase<DeleteCitysRangeCommandResult> {}
+export interface DeleteCitysRangeCommand extends DeleteRangeCommandBase<DeleteCitysRangeCommandResult> {}
 
 export interface DeleteCitysRangeCommandResult {}
 
-export interface GetCityQuery extends GetQueryTenantBase<GetCityQueryResult> {}
+export interface GetCityQuery extends GetQueryBase<GetCityQueryResult> {}
 
-export interface GetCitysListQuery extends GetListQueryTenantBase<GetCityListQueryResult> {
+export interface GetCitysListQuery extends GetListQueryBase<GetCityListQueryResult> {
   countryId: string;
 }
 
@@ -55,7 +55,6 @@ export interface GetCityQueryResult extends ResultBase {
   countryId: string;
 }
 
-export class GetCitesComboQuery implements GetComboQueryTenantBase<ComboResultBase[]> {
+export class GetCitesComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
-  tenantId!: string;
 }

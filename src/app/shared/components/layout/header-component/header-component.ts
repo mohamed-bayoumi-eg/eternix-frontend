@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, inject, signal, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-header-component',
@@ -11,11 +12,23 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
 })
 export class HeaderComponent {
+  public authService = inject(AuthService);
+  isUserMenuOpen = signal(false);
   @Input() currentLang!: string;
   @Output() langToggle = new EventEmitter<'en' | 'ar'>();
   @Output() sidebarToggle = new EventEmitter<void>();
   @Output() themeToggle = new EventEmitter<string>();
 
+  toggleUserMenu(event: Event) {
+    event.stopPropagation();
+    this.isUserMenuOpen.update((v) => !v);
+  }
+
+  @HostListener('document:click')
+  closeMenu() {
+    this.isUserMenuOpen.set(false);
+  }
+  
   onToggleSidebar() {
     this.sidebarToggle.emit();
   }
@@ -27,5 +40,8 @@ export class HeaderComponent {
 
   onThemeSelect(theme: string) {
     this.themeToggle.emit(theme);
+  }
+  onLogout() {
+    this.authService.logout();
   }
 }

@@ -3,6 +3,7 @@ import { inject, Injector } from '@angular/core';
 import { tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../services/auth.service';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.url.includes('./i18n/') || req.url.includes('assets/i18n/')) {
@@ -10,6 +11,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   const toastr = inject(ToastrService);
+  const authService = inject(AuthService);
   const injector = inject(Injector);
 
   const token = localStorage.getItem('token');
@@ -24,6 +26,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
 
   const isRtl = lang === 'ar';
   const toastPosition = isRtl ? 'toast-top-left' : 'toast-top-right';
+  const toastOptions = { positionClass: toastPosition, enableHtml: true };
 
   const authReq = req.clone({
     setHeaders: {
@@ -32,51 +35,63 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     },
   });
 
+  const formatErrors = (errors: any): string => {
+    let html = `<ul style="margin: 0; padding-${isRtl ? 'right' : 'left'}: 15px; list-style-type: disc;">`;
+    if (Array.isArray(errors)) {
+      errors.forEach((err: any) => {
+        html += `<li>${err.message || err}</li>`;
+      });
+    } else if (typeof errors === 'object') {
+      Object.keys(errors).forEach((key) => {
+        const messages = errors[key];
+        if (Array.isArray(messages)) {
+          messages.forEach((msg) => {
+            html += `<li>${msg}</li>`;
+          });
+        } else {
+          html += `<li>${messages}</li>`;
+        }
+      });
+    }
+    html += `</ul>`;
+    return html;
+  };
+
   return next(authReq).pipe(
     tap({
       next: (event) => {
         if (event instanceof HttpResponse) {
           const body = event.body as any;
-          const toastOptions = {
-            positionClass: toastPosition,
-            enableHtml: true,
-          };
-
           if (body && body.isSuccess !== undefined) {
             if (body.isSuccess && req.method !== 'GET') {
-              toastr.success(body.message || 'Success', '', toastOptions);
+              setTimeout(() => {
+                toastr.success(body.message || 'Success', '', toastOptions);
+              });
             } else if (body.isSuccess === false) {
-              if (body.errors && body.errors.length > 0) {
-                let errorHtml = `<ul style="margin: 0; padding-${isRtl ? 'right' : 'left'}: 15px; list-style-type: disc;">`;
-                body.errors.forEach((err: any) => {
-                  errorHtml += `<li>${err.message || 'Error'}</li>`;
-                });
-                errorHtml += `</ul>`;
-
-                toastr.error(errorHtml, '', toastOptions);
-              } else {
-                toastr.error(body.message || 'Error', '', toastOptions);
-              }
+              setTimeout(() => {
+                toastr.error(
+                  body.errors ? formatErrors(body.errors) : body.message || 'Error',
+                  '',
+                  toastOptions,
+                );
+              });
             }
           }
         }
       },
       error: (err) => {
+        if (err.status === 401) {
+          authService.logout();
+        }
         if (!req.url.includes('.json')) {
-          const toastOptions = { positionClass: toastPosition, enableHtml: true };
-
           const errorBody = err.error;
-
-          if (errorBody && errorBody.errors && errorBody.errors.length > 0) {
-            let errorHtml = `<ul style="margin: 0; padding-${isRtl ? 'right' : 'left'}: 15px; list-style-type: disc;">`;
-            errorBody.errors.forEach((e: any) => {
-              errorHtml += `<li>${e.message || 'Error'}</li>`;
-            });
-            errorHtml += `</ul>`;
-            toastr.error(errorHtml, '', toastOptions);
-          } else {
-            toastr.error(errorBody?.message || 'Server Error', '', toastOptions);
-          }
+          toastr.error(
+            errorBody?.errors
+              ? formatErrors(errorBody.errors)
+              : errorBody?.message || 'Server Error',
+            '',
+            toastOptions,
+          );
         }
       },
     }),

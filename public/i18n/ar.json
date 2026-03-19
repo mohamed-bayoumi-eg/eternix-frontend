@@ -60,5 +60,14 @@
   "searchTerm": "ابحث",
   "inValidFormat": "قيمة الحقل غير صحيحة",
   "country": "الدولة",
-  "city": "المدينة"
+  "city": "المدينة",
+  "welcome_back": "مرحباً بك مجدداً",
+  "subtitle": "سجل دخولك للمتابعة إلى Eternix ERP",
+  "userNamePlaceholder": "أدخل اسم المستخدم",
+  "passwordPlaceholder": "أدخل كلمة المرور",
+  "submit": "دخول للنظام",
+  "profile": "الملف الشخصي",
+  "settings": "الاعدادات",
+  "logout": "تسجيل الخروج",
+  "Create": "انشاء"
 }

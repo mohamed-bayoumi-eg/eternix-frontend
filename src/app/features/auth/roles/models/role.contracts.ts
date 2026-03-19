@@ -1,4 +1,4 @@
-import { CreateCommandTenantBase, ResultBase, UpdateCommandTenantBase, DeleteCommandTenantBase, DeleteRangeCommandTenantBase, GetQueryTenantBase, GetListQueryTenantBase, GetComboQueryTenantBase, ComboResultBase } from "src/app/shared/models/base-requests";
+import { CreateCommandBase, ResultBase, UpdateCommandBase, DeleteCommandBase, DeleteRangeCommandBase, GetQueryBase, GetListQueryBase, GetComboQueryBase, ComboResultBase } from "src/app/shared/models/base-requests";
 import { PermissionType } from "../enums/role.enums";
 
 
@@ -7,7 +7,7 @@ export interface RolePermissionDto {
   permissionType: PermissionType;
 }
 
-export interface CreateRoleCommand extends CreateCommandTenantBase<CreateRoleCommandResult> {
+export interface CreateRoleCommand extends CreateCommandBase<CreateRoleCommandResult> {
   arabicName: string;
   englishName: string;
   description: string;
@@ -16,7 +16,7 @@ export interface CreateRoleCommand extends CreateCommandTenantBase<CreateRoleCom
 
 export interface CreateRoleCommandResult extends ResultBase {}
 
-export interface UpdateRoleCommand extends UpdateCommandTenantBase<UpdateRoleCommandResult> {
+export interface UpdateRoleCommand extends UpdateCommandBase<UpdateRoleCommandResult> {
   arabicName: string;
   englishName: string;
   description: string;
@@ -24,17 +24,17 @@ export interface UpdateRoleCommand extends UpdateCommandTenantBase<UpdateRoleCom
 }
 export interface UpdateRoleCommandResult extends ResultBase {}
 
-export interface DeleteRoleCommand extends DeleteCommandTenantBase<DeleteRoleCommandResult> {}
+export interface DeleteRoleCommand extends DeleteCommandBase<DeleteRoleCommandResult> {}
 
 export interface DeleteRoleCommandResult extends ResultBase {}
 
-export interface DeleteRolesRangeCommand extends DeleteRangeCommandTenantBase<DeleteRolesRangeCommandResult> {}
+export interface DeleteRolesRangeCommand extends DeleteRangeCommandBase<DeleteRolesRangeCommandResult> {}
 
 export interface DeleteRolesRangeCommandResult {}
 
-export interface GetRoleQuery extends GetQueryTenantBase<GetRoleQueryResult> {}
+export interface GetRoleQuery extends GetQueryBase<GetRoleQueryResult> {}
 
-export interface GetRolesListQuery extends GetListQueryTenantBase<GetRoleListQueryResult> {}
+export interface GetRolesListQuery extends GetListQueryBase<GetRoleListQueryResult> {}
 
 export interface GetRoleListQueryResult extends ResultBase {
   code: number;
@@ -52,7 +52,6 @@ export interface GetRoleQueryResult extends ResultBase {
   permissions: RolePermissionDto[];
 }
 
-export class GetRolesComboQuery implements GetComboQueryTenantBase<ComboResultBase[]> {
+export class GetRolesComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
-  tenantId!: string;
 }

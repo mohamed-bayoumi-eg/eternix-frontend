@@ -1,12 +1,14 @@
-<app-dynamic-form-page-component
-  [config]="{ title: 'tenants' }"
-  [controls]="formConfig"
-  [initialData]="editData()"
-  [isLoading]="isLoading()"
-  (onSave)="handleSave($event)"
-  (onSaveAndNew)="handleSaveAndNew($event)"
-  (onDelete)="handleDelete()"
-  (onCopy)="handleCopy()"
-  (onCancel)="handleCancel()"
->
-</app-dynamic-form-page-component>
+@if (formConfig && formConfig.length > 0) {
+  <app-dynamic-form-page-component
+    [config]="{ title: 'tenants' }"
+    [controls]="formConfig"
+    [initialData]="editData()"
+    [isLoading]="isLoading()"
+    (onSave)="handleSave($event)"
+    (onSaveAndNew)="handleSaveAndNew($event)"
+    (onDelete)="handleDelete()"
+    (onCopy)="handleCopy()"
+    (onCancel)="handleCancel()"
+  >
+  </app-dynamic-form-page-component>
+}

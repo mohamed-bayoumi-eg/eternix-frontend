@@ -1,4 +1,4 @@
-import { Directive, OnInit, inject, signal, Input } from '@angular/core';
+import { Directive, OnInit, inject, signal, Input, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
@@ -9,6 +9,7 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
   protected abstract listRoute: string;
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
+  protected cdr = inject(ChangeDetectorRef);
   abstract formConfig: DynamicInputConfig[];
 
   editData = signal<TGetResult | null>(null);
@@ -18,16 +19,21 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
+  // داخل BaseFormComponent
   ngOnInit(): void {
-    const navigation = this.router.getCurrentNavigation();
     const copyData = history.state?.copyData;
 
     if (copyData) {
       this.editData.set(copyData);
+      // إجبار الأب على قراءة الـ Getter وتحديث الـ Child فوراً عند الـ Copy
+      this.cdr.detectChanges();
     } else {
       const id = this.route.snapshot.params['id'];
       if (id) {
         this.loadData(id);
+      } else {
+        // في حالة الإضافة الجديدة (Empty Form)
+        this.cdr.detectChanges();
       }
     }
   }
@@ -36,13 +42,18 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     this.isLoading.set(true);
     this.service
       .getById({ id } as any)
-      .pipe(finalize(() => this.isLoading.set(false)))
+      .pipe(
+        finalize(() => {
+          this.isLoading.set(false);
+          this.cdr.detectChanges();
+        }),
+      )
       .subscribe((res: any) => {
         let data = res.data;
-
         data = this.mapEnumValues(data);
         this.afterDataLoaded(data);
         this.editData.set(data);
+        this.cdr.detectChanges();
       });
   }
   protected afterDataLoaded(data: TGetResult): void {}
@@ -100,10 +111,10 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         });
     }
   }
+
   handleSaveAndNew(formData: any) {
     this.isLoading.set(true);
     const data = this.editData();
-
     const isUpdate = !!(data && (data as any).id);
 
     const request$ = isUpdate
@@ -111,8 +122,20 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
       : this.service.create(formData);
 
     request$.pipe(finalize(() => this.isLoading.set(false))).subscribe(() => {
-      this.editData.set(null);
-      this.router.navigate([this.listRoute, 'add']);
+      // مسح التاريخ تماماً
+      history.replaceState(null, '');
+
+      // إجبار الـ Signal على التغيير:
+      // إذا كانت القيمة null فعلياً، نمرر object فارغ ثم null لإجبار الـ setter على العمل
+      this.editData.set({} as any);
+
+      setTimeout(() => {
+        this.editData.set(null);
+
+        if (!this.router.url.includes('/add')) {
+          this.router.navigate([this.listRoute, 'add']);
+        }
+      });
     });
   }
 

@@ -46,6 +46,8 @@ export class DynamicFormPageComponent implements OnInit {
     this._controls = value;
     if (this.formCreated) {
       this.syncFormControls();
+    } else {
+      this.createForm();
     }
   }
 
@@ -55,12 +57,21 @@ export class DynamicFormPageComponent implements OnInit {
 
   private _initialData: any = null;
   @Input() set initialData(value: any) {
-    if (!value || typeof value === 'function') return;
     this._initialData = value;
-    this.applyPatch();
-    this.updatePermissions();
-  }
 
+    if (!value) {
+      if (this.formCreated) {
+        this.form.reset();
+        this.form.markAsPristine();
+        this.form.markAsUntouched();
+      }
+    } else if (typeof value !== 'function') {
+      this.applyPatch();
+    }
+
+    this.updatePermissions();
+    this.cdr.detectChanges();
+  }
   private _config!: DynamicFormPageConfig;
 
   @Input({ required: true }) set config(value: DynamicFormPageConfig) {
@@ -108,6 +119,8 @@ export class DynamicFormPageComponent implements OnInit {
     if (this.controls && this.controls.length > 0) {
       this.createForm();
     }
+    this.updatePermissions();
+    this.cdr.detectChanges();
   }
 
   private createForm() {
@@ -135,33 +148,37 @@ export class DynamicFormPageComponent implements OnInit {
 
   private applyPatch() {
     if (this._initialData && this.formCreated) {
+      this.form.reset(undefined, { emitEvent: false });
+      this.form.patchValue(this._initialData);
+      this.formPatched = true;
+
       setTimeout(() => {
         this.form.patchValue(this._initialData);
 
-        this.formPatched = true;
-
         const controlsMap = this.form.controls as { [key: string]: AbstractControl };
-
         Object.values(controlsMap).forEach((control) => {
           control.updateValueAndValidity({ emitEvent: false });
         });
 
         this.form.markAllAsTouched();
+
         this.cdr.detectChanges();
-      });
+      }, 0);
+
+      this.cdr.detectChanges();
     }
   }
 
   handleSave(isSaveAndNew = false) {
     if (this.form.invalid || !this.isExtraDataValid) return;
 
-    this._initialData = { ...this._initialData, ...this.form.getRawValue() };
-    console.log(this._initialData);
+    const dataToSend = { ...this._initialData, ...this.form.getRawValue() };
     this.formPatched = false;
+
     if (isSaveAndNew) {
-      this.onSaveAndNew.emit(this.form.value);
+      this.onSaveAndNew.emit(dataToSend);
     } else {
-      this.onSave.emit(this.form.value);
+      this.onSave.emit(dataToSend);
     }
   }
 

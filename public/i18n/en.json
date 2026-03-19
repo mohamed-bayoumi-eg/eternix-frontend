@@ -69,5 +69,9 @@
   "profile": "Profile",
   "settings": "Settings",
   "logout": "Logout",
-  "Create": "Create"
+  "Create": "Create",
+  "adminArabicName": "Admin Arabic Name",
+  "adminEnglishName": "Admin English Name",
+  "adminUserName": "Admin UserName",
+  "adminPassword": "Admin Password"
 }

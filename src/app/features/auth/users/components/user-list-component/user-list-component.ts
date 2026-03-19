@@ -6,6 +6,9 @@ import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-comp
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetUserListQueryResult, GetUsersListQuery } from '../../models/user.contracts';
 import { UserService } from '../../services/user.service';
+import { IsActive } from 'src/app/shared/enums/common.enums';
+import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { UserType } from '../../enums/user.enums';
 
 @Component({
   selector: 'app-user-list-component',
@@ -31,5 +34,21 @@ export class UserListComponent extends BaseListComponent<
     { field: 'userType', header: 'userType', sortable: true },
   ];
 
-  filterConfigs = [];
+
+  filterConfigs: DynamicInputConfig[] = [
+    {
+      type: InputType.Enum,
+      label: 'isActive',
+      fieldName: 'isActive',
+      enum: IsActive,
+      showErrorMessage: false,
+    },
+     {
+      type: InputType.Enum,
+      label: 'userType',
+      fieldName: 'userType',
+      enum: UserType,
+      showErrorMessage: false,
+    },
+  ];
 }

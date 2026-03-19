@@ -69,5 +69,9 @@
   "profile": "الملف الشخصي",
   "settings": "الاعدادات",
   "logout": "تسجيل الخروج",
-  "Create": "انشاء"
+  "Create": "انشاء",
+  "adminArabicName": "اسم المدير (بالعربي)",
+  "adminEnglishName": "اسم المدير (بالإنجليزي)",
+  "adminUserName": "اسم مستخدم المدير",
+  "adminPassword": "كلمة مرور المدير"
 }

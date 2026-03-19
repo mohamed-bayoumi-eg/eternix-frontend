@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MainLayoutComponent implements OnInit {
   currentTheme = signal<string>(localStorage.getItem('theme') || 'first-theme');
-  isSidebarCollapsed = false;
+  isSidebarCollapsed = signal<boolean>(localStorage.getItem('sidebarState') === 'collapsed');
   currentLang = signal<'en' | 'ar'>((localStorage.getItem('lang') as 'en' | 'ar') || 'en');
 
   constructor(private translate: TranslateService) {
@@ -32,9 +32,7 @@ export class MainLayoutComponent implements OnInit {
     document.body.className = this.currentTheme();
   }
 
-  ngOnInit() {
-    this.isSidebarCollapsed = localStorage.getItem('sidebarState') === 'collapsed';
-  }
+  ngOnInit() {}
 
   handleThemeChange(theme: string) {
     this.currentTheme.set(theme);
@@ -54,7 +52,7 @@ export class MainLayoutComponent implements OnInit {
   }
 
   handleSidebarToggle() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
-    localStorage.setItem('sidebarState', this.isSidebarCollapsed ? 'collapsed' : 'expanded');
+    this.isSidebarCollapsed.update((v) => !v);
+    localStorage.setItem('sidebarState', this.isSidebarCollapsed() ? 'collapsed' : 'expanded');
   }
 }

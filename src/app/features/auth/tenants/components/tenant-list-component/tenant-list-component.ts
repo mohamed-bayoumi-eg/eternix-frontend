@@ -32,9 +32,11 @@ export class TenantListComponent extends BaseListComponent<
     { field: 'arabicName', header: 'arabicName', sortable: true },
     { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'isActive', header: 'isActive', sortable: true },
+    { field: 'email', header: 'email', sortable: true },
+    { field: 'phoneNumber', header: 'phoneNumber', sortable: true },
   ];
 
-  filterConfigs: DynamicInputConfig<GetTenantsComboQuery>[] = [
+  filterConfigs: DynamicInputConfig[] = [
     {
       type: InputType.Enum,
       label: 'isActive',

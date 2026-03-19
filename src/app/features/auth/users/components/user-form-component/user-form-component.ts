@@ -1,25 +1,25 @@
-import { CommonModule } from '@angular/common';
-import { Component, effect, inject, signal } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { Component, inject, signal } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
+import { IsActive } from 'src/app/shared/enums/common.enums';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
-import { UserService } from '../../services/user.service';
+import { UserType } from '../../enums/user.enums';
 import {
-  CreateUserCommand,
   GetUserQueryResult,
+  CreateUserCommand,
   UpdateUserCommand,
 } from '../../models/user.contracts';
-import { IsActive } from 'src/app/shared/enums/common.enums';
-import { UserType } from '../../enums/user.enums';
+import { UserService } from '../../services/user.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
 
 @Component({
   selector: 'app-user-form-component',
+  standalone: true,
   imports: [CommonModule, DynamicFormPageComponent, TranslateModule],
   templateUrl: './user-form-component.html',
   styleUrl: './user-form-component.scss',
-  standalone: true,
 })
 export class UserFormComponent extends BaseFormComponent<
   GetUserQueryResult,
@@ -28,16 +28,18 @@ export class UserFormComponent extends BaseFormComponent<
 > {
   protected override service = inject(UserService);
   protected override listRoute = '/users';
+
+  currentUserType = signal<string>(UserType.User);
+
   constructor() {
     super();
-    effect(() => {
-      const data = this.editData();
-    });
   }
-  isTableValid = signal(false);
 
   get formConfig(): DynamicInputConfig[] {
-    return [
+    const isEdit = this.isEdit;
+    const userType = this.currentUserType();
+
+    const allConfigs: (DynamicInputConfig | null)[] = [
       {
         type: InputType.Text,
         fieldName: 'arabicName',
@@ -68,14 +70,16 @@ export class UserFormComponent extends BaseFormComponent<
         label: 'phoneNumber',
         validations: [ValidationHelper.PhoneNumber],
       },
-      {
-        type: InputType.Text,
-        fieldName: 'password',
-        label: 'password',
-        validations: this.editData()?.id
-          ? [ValidationHelper.Password]
-          : [ValidationHelper.Password],
-      },
+
+      !isEdit
+        ? {
+            type: InputType.Text,
+            fieldName: 'password',
+            label: 'password',
+            validations: [ValidationHelper.Password],
+          }
+        : null,
+
       {
         type: InputType.Enum,
         fieldName: 'isActive',
@@ -90,21 +94,34 @@ export class UserFormComponent extends BaseFormComponent<
         enum: UserType,
         validations: [ValidationHelper.Required],
       },
-      {
-        type: InputType.MultiSelect,
-        fieldName: 'roleIds',
-        label: 'roles',
-        endpoint: 'roles',
-        validations: [ValidationHelper.Required],
-        span: 6,
-      },
+
+      userType === UserType.User
+        ? {
+            type: InputType.MultiSelect,
+            fieldName: 'roleIds',
+            label: 'roles',
+            endpoint: 'roles',
+            validations: [ValidationHelper.Required],
+            span: 6,
+          }
+        : null,
     ];
+
+    return allConfigs.filter((c) => c !== null) as DynamicInputConfig[];
   }
 
-  override handleSave(formValue: any) {
-    const payload = {
-      ...formValue,
-    };
-    super.handleSave(payload);
+  protected override afterDataLoaded(data: any): void {
+    if (data.userType) {
+      this.currentUserType.set(data.userType);
+    }
+  }
+
+  onValueChange(event: { field: string; value: any }) {
+    if (event.field === 'userType') {
+      this.currentUserType.set(event.value);
+    }
+  }
+  get isEdit(): boolean {
+    return !!this.editData()?.id;
   }
 }

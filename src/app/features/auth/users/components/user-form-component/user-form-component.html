@@ -1,13 +1,19 @@
-<app-dynamic-form-page-component
-  [config]="{ title: 'user' }"
-  [controls]="formConfig"
-  [initialData]="editData()"
-  [isLoading]="isLoading()"
-  (onSave)="handleSave($event)"
-  (onSaveAndNew)="handleSaveAndNew($event)"
-  (onDelete)="handleDelete()"
-  (onCancel)="handleCancel()"
-  (onSaveAndNew)="handleSaveAndNew($event)"
-  (onCopy)="handleCopy()"
->
-</app-dynamic-form-page-component>
+@if (!isLoading()) {
+  <app-dynamic-form-page-component
+    [config]="{ title: 'user' }"
+    [controls]="formConfig"
+    [initialData]="editData()"
+    [isLoading]="isLoading()"
+    (onValueChange)="onValueChange($event)"
+    (onSave)="handleSave($event)"
+    (onSaveAndNew)="handleSaveAndNew($event)"
+    (onDelete)="handleDelete()"
+    (onCancel)="handleCancel()"
+    (onCopy)="handleCopy()"
+  >
+  </app-dynamic-form-page-component>
+} @else {
+  <div class="text-center p-5">
+    <span>Loading User Data...</span>
+  </div>
+}

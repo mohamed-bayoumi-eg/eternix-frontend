@@ -45,8 +45,7 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         this.editData.set(data);
       });
   }
-  protected afterDataLoaded(data: TGetResult): void {
-  }
+  protected afterDataLoaded(data: TGetResult): void {}
   private mapEnumValues(data: any): any {
     if (!data) return data;
 

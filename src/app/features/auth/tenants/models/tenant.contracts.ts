@@ -1,11 +1,26 @@
-import { IsActive } from "src/app/shared/enums/common.enums";
-import { CreateCommandBase, ResultBase, UpdateCommandBase, DeleteCommandBase, DeleteRangeCommandBase, GetQueryBase, GetListQueryBase, GetComboQueryBase, ComboResultBase } from "src/app/shared/models/base-requests";
-
+import { IsActive } from 'src/app/shared/enums/common.enums';
+import {
+  CreateCommandBase,
+  ResultBase,
+  UpdateCommandBase,
+  DeleteCommandBase,
+  DeleteRangeCommandBase,
+  GetQueryBase,
+  GetListQueryBase,
+  GetComboQueryBase,
+  ComboResultBase,
+} from 'src/app/shared/models/base-requests';
 
 export interface CreateTenantCommand extends CreateCommandBase<CreateTenantCommandResult> {
   arabicName: string;
   englishName: string;
   isActive: IsActive;
+  email: string;
+  phoneNumber: string;
+  adminArabicName: string;
+  adminEnglishName: string;
+  adminUserName: string;
+  adminPassword: string;
 }
 
 export interface CreateTenantCommandResult extends ResultBase {}
@@ -14,6 +29,8 @@ export interface UpdateTenantCommand extends UpdateCommandBase<UpdateTenantComma
   arabicName: string;
   englishName: string;
   isActive: IsActive;
+  email: string;
+  phoneNumber: string;
 }
 export interface UpdateTenantCommandResult extends ResultBase {}
 
@@ -36,6 +53,8 @@ export interface GetTenantListQueryResult extends ResultBase {
   arabicName: string;
   englishName: string;
   isActive: IsActive;
+  email: string;
+  phoneNumber: string;
 }
 
 export interface GetTenantQueryResult extends ResultBase {
@@ -43,6 +62,8 @@ export interface GetTenantQueryResult extends ResultBase {
   arabicName: string;
   englishName: string;
   isActive: IsActive;
+  email: string;
+  phoneNumber: string;
 }
 
 export class GetTenantsComboQuery implements GetComboQueryBase<ComboResultBase[]> {

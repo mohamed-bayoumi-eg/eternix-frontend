@@ -80,8 +80,9 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
         }
       },
       error: (err) => {
-        if (err.status === 401) {
+        if (err.status === 401 || err.status === 403) {
           authService.logout();
+          toastr.error('Session expired or access denied', '', toastOptions);
         }
         if (!req.url.includes('.json')) {
           const errorBody = err.error;

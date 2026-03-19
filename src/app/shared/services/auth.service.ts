@@ -39,7 +39,11 @@ export class AuthService {
   }
 
   hasPermission(screenKey: string, action: string): boolean {
-    if (this.isSuperAdmin() || this.userType() === 'Admin' || this.userType() === 'TenantAdmin') {
+    if (
+      this.isSuperAdmin() ||
+      this.userType() === UserType.Admin ||
+      this.userType() === UserType.TenantAdmin
+    ) {
       return true;
     }
 
@@ -49,7 +53,9 @@ export class AuthService {
     if (!screen) return false;
 
     return screen.actions.some(
-      (a: string) => a.toLowerCase() === PermissionType.FullControl.toLowerCase() || a.toLowerCase() === action.toLowerCase(),
+      (a: string) =>
+        a.toLowerCase() === PermissionType.FullControl.toLowerCase() ||
+        a.toLowerCase() === action.toLowerCase(),
     );
   }
 

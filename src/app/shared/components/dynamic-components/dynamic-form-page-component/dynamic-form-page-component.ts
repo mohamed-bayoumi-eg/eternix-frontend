@@ -71,18 +71,23 @@ export class DynamicFormPageComponent implements OnInit {
   private updatePermissions() {
     if (!this._config) return;
 
-    const title = this._config.title;
-console.log( this.authService.hasPermission(title, PermissionType.Create))
+    const screenKey = this._config.title;
+
+    const canCreate = this.authService.hasPermission(screenKey, PermissionType.Create);
+    const canUpdate = this.authService.hasPermission(screenKey, PermissionType.Update);
+    const canDelete = this.authService.hasPermission(screenKey, PermissionType.Delete);
+
     this._config = {
       ...this._config,
-      showSaveBtn: this.isEdit
-        ? this.authService.hasPermission(title, PermissionType.Update)
-        : this.authService.hasPermission(title, PermissionType.Create),
-      showSaveAndNewBtn:
-        !this.isEdit && this.authService.hasPermission(title, PermissionType.Create),
-      showDeleteBtn: this.authService.hasPermission(title, PermissionType.Delete),
-      showCopyBtn: this.authService.hasPermission(title, PermissionType.Create),
+      showSaveBtn: this.isEdit ? canUpdate : canCreate,
+
+      showSaveAndNewBtn: canCreate,
+
+      showDeleteBtn: this.isEdit && canDelete,
+      showCopyBtn: canCreate,
     };
+
+    this.cdr.detectChanges();
   }
 
   @Output() onValueChange = new EventEmitter<{ field: string; value: any }>();

@@ -25,56 +25,54 @@ export class BreadCrumbsComponent {
     });
   }
 
-  private createBreadcrumbs(url: string): Array<{ label: BreadcrumbLabel | string; url: string }> {
-    const breadcrumbs: Array<{ label: BreadcrumbLabel | string; url: string }> = [];
+private createBreadcrumbs(url: string): Array<{ label: BreadcrumbLabel | string; url: string }> {
+  const breadcrumbs: Array<{ label: BreadcrumbLabel | string; url: string }> = [];
+  
+  const segments = url.split('/').filter((s) => s && s !== 'home');
 
-    // نفصل الـ URL ونتجاهل 'home' وأي GUIDs (للـ edit) والكلمات الفارغة
-    const segments = url.split('/').filter((s) => s && s !== 'home' && !s.match(/^[0-9a-fA-F-]+$/));
+  let currentUrl = '/home';
+  const modules: ModuleMenuDto[] = this.authService.userModules();
 
-    let currentUrl = '/home';
-    const modules: ModuleMenuDto[] = this.authService.userModules();
+  for (const segment of segments) {
+    const isId = /^[0-9]+$/.test(segment) || /^[0-9a-fA-F-]{24,}$/.test(segment) || segment.match(/^[0-9a-fA-F-]{8}-[0-9a-fA-F-]{4}/);
+    
+    if (isId) continue; 
 
-    for (const segment of segments) {
-      currentUrl += `/${segment}`;
-      const segmentLower = segment.toLowerCase();
+    currentUrl += `/${segment}`;
+    const segmentLower = segment.toLowerCase();
+    const cleanRoute = (r: string) => r.replace(/^\//, '').toLowerCase();
 
-      // دالة مساعدة لتنظيف الـ route من الـ slash (مثلاً "/users" تصبح "users")
-      const cleanRoute = (r: string) => r.replace(/^\//, '').toLowerCase();
-
-      // 1. البحث في الموديولات (عن طريق الـ key أو الـ route)
-      const foundModule = modules.find(
-        (m) =>
-          m.key.toLowerCase() === segmentLower || (m.route && cleanRoute(m.route) === segmentLower),
-      );
-
-      // 2. البحث في الشاشات
-      let foundScreen: ScreenMenuDto | undefined = undefined;
-      if (!foundModule) {
-        for (const m of modules) {
-          foundScreen = m.screens?.find(
-            (scr: ScreenMenuDto) =>
-              cleanRoute(scr.route) === segmentLower || scr.key.toLowerCase() === segmentLower,
-          );
-          if (foundScreen) break;
-        }
+    const foundModule = modules.find(m => 
+      m.key.toLowerCase() === segmentLower || (m.route && cleanRoute(m.route) === segmentLower)
+    );
+    
+    let foundScreen: ScreenMenuDto | undefined = undefined;
+    if (!foundModule) {
+      for (const m of modules) {
+        foundScreen = m.screens?.find(scr => 
+          cleanRoute(scr.route) === segmentLower || scr.key.toLowerCase() === segmentLower
+        );
+        if (foundScreen) break;
       }
+    }
 
-      // 3. التعامل مع الكلمات الثابتة (Add / Edit)
-      const staticLabels: Record<string, BreadcrumbLabel> = {
-        add: { ar: 'إضافة', en: 'Add' },
-        edit: { ar: 'تعديل', en: 'Edit' },
-      };
+    const staticLabels: Record<string, BreadcrumbLabel> = {
+      'add': { ar: 'إضافة', en: 'Add' },
+      'edit': { ar: 'تعديل', en: 'Edit' }
+    };
 
-      const item = foundModule || foundScreen;
-      const staticLabel = staticLabels[segmentLower];
+    const item = foundModule || foundScreen;
+    const staticLabel = staticLabels[segmentLower];
 
+    if (item || staticLabel) {
       breadcrumbs.push({
-        label: item ? { ar: item.arabicName, en: item.englishName } : staticLabel || segment, // إذا لم يجد موديول أو شاشة، يستخدم الترجمة الثابتة أو الكلمة كما هي
-        url: currentUrl,
+        label: item ? { ar: item.arabicName, en: item.englishName } : staticLabel!,
+        url: currentUrl
       });
     }
-    return breadcrumbs;
   }
+  return breadcrumbs;
+}
   getDisplayName(label: BreadcrumbLabel | string): string {
     if (typeof label === 'string') return label;
     return this.translate.currentLang === 'ar' ? label.ar : label.en;

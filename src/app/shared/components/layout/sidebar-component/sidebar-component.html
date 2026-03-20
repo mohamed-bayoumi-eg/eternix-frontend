@@ -1,6 +1,11 @@
 <div class="sidebar" [class.collapsed]="collapsed">
-  <div class="logo">
-    <span>{{ 'screensMenu' | translate }}</span>
+  <div
+    class="logo"
+    [routerLink]="['/home']"
+    routerLinkActive="active-logo"
+  >
+    <i class="fas fa-home" style="margin-inline-end: 10px; font-size: 18px"></i>
+    <span>{{ 'home' | translate }}</span>
   </div>
 
   <ul class="menu">

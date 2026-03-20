@@ -75,5 +75,6 @@
   "adminUserName": "اسم مستخدم المدير",
   "adminPassword": "كلمة مرور المدير",
   "home": "الصفحة الرئيسية",
-  "open_screen": "فتح الشاشة"
+  "open_screen": "فتح الشاشة",
+  "screens": "شاشات"
 }

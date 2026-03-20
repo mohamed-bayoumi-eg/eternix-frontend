@@ -113,7 +113,6 @@ export class DynamicInputComponent implements OnInit {
       (this.config.type === InputType.Select || this.config.type === InputType.MultiSelect) &&
       this.config.endpoint
     ) {
-      if (this.isInitialLoadDone && search === '' && this.options().length > 0) return;
 
       this.isLoadingOptions.set(true);
       let query: any = this.config.queryModel ? new this.config.queryModel() : {};

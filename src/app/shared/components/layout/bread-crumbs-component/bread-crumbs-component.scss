@@ -2,7 +2,6 @@
   background: var(--white-color);
   padding: 12px 20px;
   border-bottom: 1px solid var(--light-gray-color);
-  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
   .breadcrumb-list {
@@ -25,15 +24,14 @@
       }
 
       &::after {
-        content: "\f105"; // أيقونة السهم من FontAwesome
-        font-family: "Font Awesome 5 Free";
+        content: '\f105';
+        font-family: 'Font Awesome 5 Free';
         font-weight: 900;
         margin-inline-start: 10px;
         color: var(--light-gray-color);
         font-size: 0.75rem;
       }
 
-      // إخفاء السهم في آخر عنصر
       &:last-child::after {
         display: none;
       }
@@ -58,7 +56,6 @@
   }
 }
 
-// تعديل اتجاه السهم في حالة الـ RTL
-[dir="rtl"] .breadcrumb-item::after {
-  content: "\f104"; 
+[dir='rtl'] .breadcrumb-item::after {
+  content: '\f104';
 }

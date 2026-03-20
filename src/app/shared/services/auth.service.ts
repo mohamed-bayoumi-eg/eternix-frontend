@@ -60,7 +60,11 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('isSuperAdmin');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('modules');
+    localStorage.removeItem('userName');
     this.userType.set(UserType.User);
     this.token.set(null);
     this.isSuperAdmin.set(false);

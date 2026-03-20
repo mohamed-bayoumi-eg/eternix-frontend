@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
 
-
   background: var(--primary-color);
   color: var(--white-color);
 
@@ -21,7 +20,6 @@
   opacity: 0;
   pointer-events: none;
 }
-
 .logo {
   height: 60px;
   padding: 0 20px;
@@ -35,11 +33,21 @@
   white-space: nowrap;
   overflow: hidden;
   flex-shrink: 0;
-}
 
-.logo span {
-  display: inline-block;
-  transition: opacity 0.2s;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: var(--secondary-color);
+  }
+
+  i {
+    transition: transform 0.2s;
+  }
+
+  &:active i {
+    transform: scale(0.9);
+  }
 }
 
 .menu {
@@ -114,12 +122,12 @@
 }
 
 .submenu .sub-link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--secondary-color);
   color: var(--white-color);
 }
 
 .submenu .sub-link.active {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--secondary-color);
   color: var(--white-color);
   font-weight: 500;
 }
@@ -133,7 +141,7 @@
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--secondary-color);
   border-radius: 10px;
 }
 

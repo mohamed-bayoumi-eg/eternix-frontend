@@ -75,5 +75,6 @@
   "adminUserName": "Admin UserName",
   "adminPassword": "Admin Password",
   "home": "Home",
-  "open_screen": "Open Screen"
+  "open_screen": "Open Screen",
+  "screens": "Screens"
 }

@@ -18,10 +18,32 @@
     gap: 15px;
 
     .logo {
-      font-weight: 700;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
       font-size: 22px;
+      letter-spacing: 1px;
+      color: var(--white-color);
+      border-bottom: 1px solid var(--gray-color);
+      white-space: nowrap;
+      overflow: hidden;
+      flex-shrink: 0;
+
       cursor: pointer;
-      letter-spacing: 0.5px;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: var(--secondary-color);
+      }
+
+      i {
+        transition: transform 0.2s;
+      }
+
+      &:active i {
+        transform: scale(0.9);
+      }
     }
 
     .toggle-sidebar {
@@ -30,10 +52,9 @@
       border: none;
       cursor: pointer;
       color: inherit;
-      transition: transform 0.3s;
-
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       &:hover {
-        transform: scale(1.1);
+        transform: rotate(90deg);
       }
     }
   }

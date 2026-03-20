@@ -25,7 +25,6 @@ export class CountryFormComponent extends BaseFormComponent<
   UpdateCountryCommand
 > {
   protected override service = inject(CountryService);
-  protected override listRoute = '/countries';
   constructor() {
     super();
     effect(() => {

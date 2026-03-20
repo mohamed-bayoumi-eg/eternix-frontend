@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
 import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
-import { GetCountryListQueryResult, GetCountrysListQuery } from '../../models/country.contracts';
+import { GetCountryListQueryResult, GetCountryListQuery } from '../../models/country.contracts';
 import { CountryService } from '../../services/country.service';
 
 @Component({
@@ -15,10 +15,9 @@ import { CountryService } from '../../services/country.service';
 })
 export class CountryListComponent extends BaseListComponent<
   GetCountryListQueryResult,
-  GetCountrysListQuery
+  GetCountryListQuery
 > {
   protected override service = inject(CountryService);
-  protected override baseRoute = '/countries';
 
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },

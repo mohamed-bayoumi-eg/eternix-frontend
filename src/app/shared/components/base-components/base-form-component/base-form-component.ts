@@ -6,7 +6,6 @@ import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-con
 @Directive()
 export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> implements OnInit {
   protected abstract service: any;
-  protected abstract listRoute: string;
   protected route = inject(ActivatedRoute);
   protected router = inject(Router);
   protected cdr = inject(ChangeDetectorRef);

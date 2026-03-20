@@ -27,7 +27,6 @@ export class UserFormComponent extends BaseFormComponent<
   UpdateUserCommand
 > {
   protected override service = inject(UserService);
-  protected override listRoute = '/users';
 
   currentUserType = signal<string>(UserType.User);
 

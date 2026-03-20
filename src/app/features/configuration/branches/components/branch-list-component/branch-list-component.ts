@@ -1,46 +1,44 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
 import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
-import {
-  GetAreaListQueryResult,
-  GetAreaListQuery,
-} from '../../models/area.contracts';
-import { AreaService } from '../../services/area.service';
-import { TranslateService } from '@ngx-translate/core';
-import { GetCityComboQuery } from '../../../cities/models/city.contracts';
+import { GetBranchListQueryResult, GetBranchListQuery, GetBranchComboQuery } from '../../models/branch.contracts';
+import { BranchService } from '../../services/branch.service';
 
 @Component({
-  selector: 'app-area-list-component',
+  selector: 'app-branch-list-component',
   imports: [CommonModule, TranslateModule, DynamicListPageComponent],
-  templateUrl: './area-list-component.html',
-  styleUrl: './area-list-component.scss',
+  templateUrl: './branch-list-component.html',
+  styleUrl: './branch-list-component.scss',
   standalone: true,
 })
-export class AreaListComponent extends BaseListComponent<GetAreaListQueryResult, GetAreaListQuery> {
-  protected override service = inject(AreaService);
+export class BranchListComponent extends BaseListComponent<
+  GetBranchListQueryResult,
+  GetBranchListQuery
+> {
+  protected override service = inject(BranchService);
   private translate = inject(TranslateService);
 
   get columns(): TableColumn[] {
     const currentLang = this.translate.getCurrentLang();
+    const userField = currentLang === 'ar' ? 'userArabicName' : 'userEnglishName';
+    const areaField = currentLang === 'ar' ? 'areaArabicName' : 'areaEnglishName';
     const cityField = currentLang === 'ar' ? 'cityArabicName' : 'cityEnglishName';
+    const countryField = currentLang === 'ar' ? 'countryArabicName' : 'countryEnglishName';
 
     return [
       { field: 'code', header: 'code', sortable: true },
       { field: 'arabicName', header: 'arabicName', sortable: true },
       { field: 'englishName', header: 'englishName', sortable: true },
+      { field: 'isActive', header: 'isActive', sortable: true },
+      { field: userField, header: 'user' },
+      { field: 'address', header: 'address', sortable: true },
+      { field: areaField, header: 'area' },
       { field: cityField, header: 'city' },
     ];
   }
-  filterConfigs: DynamicInputConfig[] = [
-    {
-      type: InputType.Select,
-      fieldName: 'cityId',
-      label: 'city',
-      endpoint: 'cities',
-    },
-  ];
+  filterConfigs: DynamicInputConfig[] = [];
 }

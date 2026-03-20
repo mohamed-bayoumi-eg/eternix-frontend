@@ -28,9 +28,9 @@ export interface DeleteRoleCommand extends DeleteCommandBase<DeleteRoleCommandRe
 
 export interface DeleteRoleCommandResult extends ResultBase {}
 
-export interface DeleteRolesRangeCommand extends DeleteRangeCommandBase<DeleteRolesRangeCommandResult> {}
+export interface DeleteRoleRangeCommand extends DeleteRangeCommandBase<DeleteRoleRangeCommandResult> {}
 
-export interface DeleteRolesRangeCommandResult {}
+export interface DeleteRoleRangeCommandResult {}
 
 export interface GetRoleQuery extends GetQueryBase<GetRoleQueryResult> {}
 
@@ -52,6 +52,6 @@ export interface GetRoleQueryResult extends ResultBase {
   permissions: RolePermissionDto[];
 }
 
-export class GetRolesComboQuery implements GetComboQueryBase<ComboResultBase[]> {
+export class GetRoleComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
 }

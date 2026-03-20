@@ -1,9 +1,8 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  GetTenantListQuery,
   GetTenantListQueryResult,
-  GetTenantsComboQuery,
-  GetTenantsListQuery,
 } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,10 +21,9 @@ import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-inp
 })
 export class TenantListComponent extends BaseListComponent<
   GetTenantListQueryResult,
-  GetTenantsListQuery
+  GetTenantListQuery
 > {
   protected override service = inject(TenantService);
-  protected override baseRoute = '/tenants';
 
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },

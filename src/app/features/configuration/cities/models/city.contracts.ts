@@ -35,7 +35,7 @@ export interface DeleteCitysRangeCommandResult {}
 
 export interface GetCityQuery extends GetQueryBase<GetCityQueryResult> {}
 
-export interface GetCitysListQuery extends GetListQueryBase<GetCityListQueryResult> {
+export interface GetCityListQuery extends GetListQueryBase<GetCityListQueryResult> {
   countryId: string;
 }
 
@@ -55,6 +55,7 @@ export interface GetCityQueryResult extends ResultBase {
   countryId: string;
 }
 
-export class GetCitesComboQuery implements GetComboQueryBase<ComboResultBase[]> {
+export class GetCityComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
+  countryId?: string;
 }

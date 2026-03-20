@@ -1,7 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BaseFeatureService } from 'src/app/shared/services/base-feature.service';
-import { GetUsersListQuery, GetUserListQueryResult, GetUserQuery, GetUserQueryResult, CreateUserCommand, CreateUserCommandResult, UpdateUserCommand, UpdateUserCommandResult, DeleteUserCommand, DeleteUserCommandResult, DeleteUsersRangeCommand, DeleteUsersRangeCommandResult } from '../models/user.contracts';
-
+import {
+  GetUsersListQuery,
+  GetUserListQueryResult,
+  GetUserQuery,
+  GetUserQueryResult,
+  CreateUserCommand,
+  CreateUserCommandResult,
+  UpdateUserCommand,
+  UpdateUserCommandResult,
+  DeleteUserCommand,
+  DeleteUserCommandResult,
+  DeleteUserRangeCommand,
+  DeleteUserRangeCommandResult,
+} from '../models/user.contracts';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseFeatureService<
@@ -15,8 +27,8 @@ export class UserService extends BaseFeatureService<
   UpdateUserCommandResult,
   DeleteUserCommand,
   DeleteUserCommandResult,
-  DeleteUsersRangeCommand,
-  DeleteUsersRangeCommandResult
+  DeleteUserRangeCommand,
+  DeleteUserRangeCommandResult
 > {
   protected override endpoint = 'Users';
 }

@@ -26,8 +26,6 @@ export class TenantFormComponent extends BaseFormComponent<
 > {
   protected override service = inject(TenantService);
 
-  protected override listRoute = '/tenants';
-
   get formConfig(): DynamicInputConfig[] {
     const isEdit = this.isEdit;
 

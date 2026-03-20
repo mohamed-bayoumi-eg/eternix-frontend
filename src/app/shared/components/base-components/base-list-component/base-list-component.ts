@@ -21,7 +21,6 @@ export abstract class BaseListComponent<
     sortType: SortingType.Descending,
   } as TQuery);
 
-  protected abstract baseRoute: string;
   selectedIds = signal<string[]>([]);
 
   handleSelectionChange(ids: string[]): void {

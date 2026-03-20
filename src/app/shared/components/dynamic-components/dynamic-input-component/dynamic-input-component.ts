@@ -106,6 +106,23 @@ export class DynamicInputComponent implements OnInit {
     this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((term) => {
       this.loadData(term);
     });
+
+    if (this.config.queryModel && this.config.endpoint) {
+    const dependencies = Object.keys(new this.config.queryModel());
+    
+    dependencies.forEach(key => {
+      this.form.get(key)?.valueChanges
+        .pipe(distinctUntilChanged())
+        .subscribe(() => {
+          this.options.set([]); 
+          this.isInitialLoadDone = false;
+          
+          if (this.dropdownOpen) {
+            this.loadData();
+          }
+        });
+    });
+  }
   }
 
   private loadData(search: string = '') {
@@ -219,12 +236,15 @@ export class DynamicInputComponent implements OnInit {
     this.closeDropdown();
   }
 
-  toggleDropdown() {
-    if (this.dropdownOpen) return this.closeDropdown();
-    this.dropdownOpen = true;
-    this.control.markAsTouched();
-    if (this.options().length === 0 && this.config.endpoint) this.loadData();
+ toggleDropdown() {
+  if (this.dropdownOpen) return this.closeDropdown();
+  this.dropdownOpen = true;
+  this.control.markAsTouched();
+
+  if (this.options().length === 0 && this.config.endpoint) {
+    this.loadData();
   }
+}
 
   closeDropdown() {
     this.dropdownOpen = false;

@@ -76,5 +76,8 @@
   "adminPassword": "كلمة مرور المدير",
   "home": "الصفحة الرئيسية",
   "open_screen": "فتح الشاشة",
-  "screens": "شاشات"
+  "screens": "شاشات",
+  "address": "العنوان",
+  "area": "المنطقة",
+  "branchManager": "مدير الفرع"
 }

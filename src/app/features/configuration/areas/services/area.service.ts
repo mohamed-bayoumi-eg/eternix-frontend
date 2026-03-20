@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseFeatureService } from 'src/app/shared/services/base-feature.service';
 import {
-  GetAreasListQuery,
+  GetAreaListQuery,
   GetAreaListQueryResult,
   GetAreaQuery,
   GetAreaQueryResult,
@@ -11,13 +11,13 @@ import {
   UpdateAreaCommandResult,
   DeleteAreaCommand,
   DeleteAreaCommandResult,
-  DeleteAreasRangeCommand,
-  DeleteAreasRangeCommandResult,
+  DeleteAreaRangeCommand,
+  DeleteAreaRangeCommandResult,
 } from '../models/area.contracts';
 
 @Injectable({ providedIn: 'root' })
 export class AreaService extends BaseFeatureService<
-  GetAreasListQuery,
+  GetAreaListQuery,
   GetAreaListQueryResult,
   GetAreaQuery,
   GetAreaQueryResult,
@@ -27,8 +27,8 @@ export class AreaService extends BaseFeatureService<
   UpdateAreaCommandResult,
   DeleteAreaCommand,
   DeleteAreaCommandResult,
-  DeleteAreasRangeCommand,
-  DeleteAreasRangeCommandResult
+  DeleteAreaRangeCommand,
+  DeleteAreaRangeCommandResult
 > {
   protected override endpoint = 'areas';
 }

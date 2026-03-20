@@ -1,10 +1,23 @@
-import { Injectable } from "@angular/core";
-import { BaseFeatureService } from "src/app/shared/services/base-feature.service";
-import { GetCitysListQuery, GetCityListQueryResult, GetCityQuery, GetCityQueryResult, CreateCityCommand, CreateCityCommandResult, UpdateCityCommand, UpdateCityCommandResult, DeleteCityCommand, DeleteCityCommandResult, DeleteCitysRangeCommand, DeleteCitysRangeCommandResult } from "../models/city.contracts";
+import { Injectable } from '@angular/core';
+import { BaseFeatureService } from 'src/app/shared/services/base-feature.service';
+import {
+  GetCityListQueryResult,
+  GetCityQuery,
+  GetCityQueryResult,
+  CreateCityCommand,
+  CreateCityCommandResult,
+  UpdateCityCommand,
+  UpdateCityCommandResult,
+  DeleteCityCommand,
+  DeleteCityCommandResult,
+  DeleteCitysRangeCommand,
+  DeleteCitysRangeCommandResult,
+  GetCityListQuery,
+} from '../models/city.contracts';
 
 @Injectable({ providedIn: 'root' })
 export class CityService extends BaseFeatureService<
-  GetCitysListQuery,
+  GetCityListQuery,
   GetCityListQueryResult,
   GetCityQuery,
   GetCityQueryResult,

@@ -29,13 +29,13 @@ export interface DeleteAreaCommand extends DeleteCommandBase<DeleteAreaCommandRe
 
 export interface DeleteAreaCommandResult extends ResultBase {}
 
-export interface DeleteAreasRangeCommand extends DeleteRangeCommandBase<DeleteAreasRangeCommandResult> {}
+export interface DeleteAreaRangeCommand extends DeleteRangeCommandBase<DeleteAreaRangeCommandResult> {}
 
-export interface DeleteAreasRangeCommandResult {}
+export interface DeleteAreaRangeCommandResult {}
 
 export interface GetAreaQuery extends GetQueryBase<GetAreaQueryResult> {}
 
-export interface GetAreasListQuery extends GetListQueryBase<GetAreaListQueryResult> {
+export interface GetAreaListQuery extends GetListQueryBase<GetAreaListQueryResult> {
   cityId: string;
 }
 
@@ -55,6 +55,7 @@ export interface GetAreaQueryResult extends ResultBase {
   cityId: string;
 }
 
-export class GetCitesComboQuery implements GetComboQueryBase<ComboResultBase[]> {
+export class GetAreaComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
+  cityId?: string;
 }

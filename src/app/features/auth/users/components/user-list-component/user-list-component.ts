@@ -22,7 +22,6 @@ export class UserListComponent extends BaseListComponent<
   GetUsersListQuery
 > {
   protected override service = inject(UserService);
-  protected override baseRoute = '/users';
 
   columns: TableColumn[] = [
     { field: 'code', header: 'code', sortable: true },
@@ -34,7 +33,6 @@ export class UserListComponent extends BaseListComponent<
     { field: 'userType', header: 'userType', sortable: true },
   ];
 
-
   filterConfigs: DynamicInputConfig[] = [
     {
       type: InputType.Enum,
@@ -43,7 +41,7 @@ export class UserListComponent extends BaseListComponent<
       enum: IsActive,
       showErrorMessage: false,
     },
-     {
+    {
       type: InputType.Enum,
       label: 'userType',
       fieldName: 'userType',

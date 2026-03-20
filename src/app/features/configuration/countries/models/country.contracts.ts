@@ -27,13 +27,13 @@ export interface DeleteCountryCommand extends DeleteCommandBase<DeleteCountryCom
 
 export interface DeleteCountryCommandResult extends ResultBase {}
 
-export interface DeleteCountrysRangeCommand extends DeleteRangeCommandBase<DeleteCountrysRangeCommandResult> {}
+export interface DeleteCountryRangeCommand extends DeleteRangeCommandBase<DeleteCountryRangeCommandResult> {}
 
-export interface DeleteCountrysRangeCommandResult {}
+export interface DeleteCountryRangeCommandResult {}
 
 export interface GetCountryQuery extends GetQueryBase<GetCountryQueryResult> {}
 
-export interface GetCountrysListQuery extends GetListQueryBase<GetCountryListQueryResult> {}
+export interface GetCountryListQuery extends GetListQueryBase<GetCountryListQueryResult> {}
 
 export interface GetCountryListQueryResult extends ResultBase {
   code: number;
@@ -47,6 +47,6 @@ export interface GetCountryQueryResult extends ResultBase {
   englishName: string;
 }
 
-export class GetCountrysComboQuery implements GetComboQueryBase<ComboResultBase[]> {
+export class GetCountryComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
 }

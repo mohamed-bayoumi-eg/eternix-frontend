@@ -16,7 +16,12 @@ export class ValidationHelper {
       maxLength: 100,
     };
   }
-
+ static get Address(): ValidationConfig {
+    return {
+      required: true,
+      maxLength: 100,
+    };
+  }
   static get Required(): ValidationConfig {
     return { required: true };
   }

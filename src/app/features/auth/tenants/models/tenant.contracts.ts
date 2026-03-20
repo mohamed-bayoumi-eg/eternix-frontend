@@ -38,13 +38,13 @@ export interface DeleteTenantCommand extends DeleteCommandBase<DeleteTenantComma
 
 export interface DeleteTenantCommandResult extends ResultBase {}
 
-export interface DeleteTenantsRangeCommand extends DeleteRangeCommandBase<DeleteTenantsRangeCommandResult> {}
+export interface DeleteTenantRangeCommand extends DeleteRangeCommandBase<DeleteTenantRangeCommandResult> {}
 
-export interface DeleteTenantsRangeCommandResult {}
+export interface DeleteTenantRangeCommandResult {}
 
 export interface GetTenantQuery extends GetQueryBase<GetTenantQueryResult> {}
 
-export interface GetTenantsListQuery extends GetListQueryBase<GetTenantListQueryResult> {
+export interface GetTenantListQuery extends GetListQueryBase<GetTenantListQueryResult> {
   isActive?: IsActive;
 }
 

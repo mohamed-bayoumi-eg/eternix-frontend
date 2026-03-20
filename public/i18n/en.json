@@ -76,5 +76,8 @@
   "adminPassword": "Admin Password",
   "home": "Home",
   "open_screen": "Open Screen",
-  "screens": "Screens"
+  "screens": "Screens",
+  "address": "Address",
+  "area": "Area",
+  "branchManager": "Branch Manager"
 }

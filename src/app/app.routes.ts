@@ -17,6 +17,8 @@ import { CityFormComponent } from './features/configuration/cities/components/ci
 import { CityListComponent } from './features/configuration/cities/components/city-list-component/city-list-component';
 import { CountryFormComponent } from './features/configuration/countries/components/country-form-component/country-form-component';
 import { CountryListComponent } from './features/configuration/countries/components/country-list-component/country-list-component';
+import { BranchListComponent } from './features/configuration/branches/components/branch-list-component/branch-list-component';
+import { BranchFormComponent } from './features/configuration/branches/components/branch-form-component/branch-form-component';
 
 export const routes: Routes = [
   {
@@ -91,6 +93,16 @@ export const routes: Routes = [
                   { path: '', component: AreaListComponent },
                   { path: 'add', component: AreaFormComponent },
                   { path: 'edit/:id', component: AreaFormComponent },
+                ],
+              },
+              {
+                path: 'branches',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Branches' },
+                children: [
+                  { path: '', component: BranchListComponent },
+                  { path: 'add', component: BranchFormComponent },
+                  { path: 'edit/:id', component: BranchFormComponent },
                 ],
               },
             ],

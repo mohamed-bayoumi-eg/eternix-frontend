@@ -24,7 +24,6 @@ export class CityFormComponent extends BaseFormComponent<
   UpdateCityCommand
 > {
   protected override service = inject(CityService);
-  protected override listRoute = '/cities';
   constructor() {
     super();
     effect(() => {

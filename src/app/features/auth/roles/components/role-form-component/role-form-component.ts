@@ -30,7 +30,6 @@ export class RoleFormComponent extends BaseFormComponent<
   UpdateRoleCommand
 > {
   protected override service = inject(RoleService);
-  protected override listRoute = '/roles';
   constructor() {
     super();
     effect(() => {

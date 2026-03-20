@@ -24,7 +24,6 @@ export class AreaFormComponent extends BaseFormComponent<
   UpdateAreaCommand
 > {
   protected override service = inject(AreaService);
-  protected override listRoute = '/areas';
   constructor() {
     super();
     effect(() => {

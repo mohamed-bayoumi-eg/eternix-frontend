@@ -5,9 +5,9 @@ import { BaseListComponent } from 'src/app/shared/components/base-components/bas
 import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import {
-  GetCitesComboQuery,
+  GetCityComboQuery,
   GetCityListQueryResult,
-  GetCitysListQuery,
+  GetCityListQuery,
 } from '../../models/city.contracts';
 import { CityService } from '../../services/city.service';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
@@ -22,10 +22,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class CityListComponent extends BaseListComponent<
   GetCityListQueryResult,
-  GetCitysListQuery
+  GetCityListQuery
 > {
   protected override service = inject(CityService);
-  protected override baseRoute = '/cities';
   private translate = inject(TranslateService);
 
   get columns(): TableColumn[] {
@@ -41,7 +40,7 @@ export class CityListComponent extends BaseListComponent<
     ];
   }
 
-  filterConfigs: DynamicInputConfig<GetCitesComboQuery>[] = [
+  filterConfigs: DynamicInputConfig[] = [
     {
       type: InputType.Select,
       fieldName: 'countryId',

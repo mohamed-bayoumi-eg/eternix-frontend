@@ -1,0 +1,13 @@
+@if (!isLoading()) {
+  <app-dynamic-form-page-component
+    [config]="{ title: 'branches' }"
+    [controls]="formConfig"
+    [initialData]="editData()"
+    [isLoading]="isLoading()"
+    (onSave)="handleSave($event)"
+    (onSaveAndNew)="handleSaveAndNew($event)"
+    (onDelete)="handleDelete()"
+    (onCopy)="handleCopy()"
+  >
+  </app-dynamic-form-page-component>
+}

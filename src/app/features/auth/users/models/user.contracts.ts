@@ -43,9 +43,9 @@ export interface DeleteUserCommand extends DeleteCommandBase<DeleteUserCommandRe
 
 export interface DeleteUserCommandResult extends ResultBase {}
 
-export interface DeleteUsersRangeCommand extends DeleteRangeCommandBase<DeleteUsersRangeCommandResult> {}
+export interface DeleteUserRangeCommand extends DeleteRangeCommandBase<DeleteUserRangeCommandResult> {}
 
-export interface DeleteUsersRangeCommandResult {}
+export interface DeleteUserRangeCommandResult {}
 
 export interface GetUserQuery extends GetQueryBase<GetUserQueryResult> {}
 

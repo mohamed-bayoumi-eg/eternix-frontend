@@ -148,8 +148,6 @@ export class DynamicFormPageComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-// داخل DynamicFormPageComponent
-
 private applyPatch() {
   if (this.formCreated) {
     if (!this._initialData || Object.keys(this._initialData).length === 0) {

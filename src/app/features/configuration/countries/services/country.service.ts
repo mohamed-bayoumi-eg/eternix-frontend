@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseFeatureService } from 'src/app/shared/services/base-feature.service';
 import {
-  GetCountrysListQuery,
+  GetCountryListQuery,
   GetCountryListQueryResult,
   GetCountryQuery,
   GetCountryQueryResult,
@@ -11,13 +11,13 @@ import {
   UpdateCountryCommandResult,
   DeleteCountryCommand,
   DeleteCountryCommandResult,
-  DeleteCountrysRangeCommand,
-  DeleteCountrysRangeCommandResult,
+  DeleteCountryRangeCommand,
+  DeleteCountryRangeCommandResult,
 } from '../models/country.contracts';
 
 @Injectable({ providedIn: 'root' })
 export class CountryService extends BaseFeatureService<
-  GetCountrysListQuery,
+  GetCountryListQuery,
   GetCountryListQueryResult,
   GetCountryQuery,
   GetCountryQueryResult,
@@ -27,8 +27,8 @@ export class CountryService extends BaseFeatureService<
   UpdateCountryCommandResult,
   DeleteCountryCommand,
   DeleteCountryCommandResult,
-  DeleteCountrysRangeCommand,
-  DeleteCountrysRangeCommandResult
+  DeleteCountryRangeCommand,
+  DeleteCountryRangeCommandResult
 > {
   protected override endpoint = 'countries';
 }

@@ -1,17 +1,19 @@
-<app-dynamic-list-page-component
-  [config]="{ title: 'users' }"
-  [columns]="columns"
-  [items]="items()"
-  [metaData]="metaData()"
-  [isLoading]="isLoading()"
-  [query]="query()"
-  [filterConfigs]="filterConfigs"
-  (onPageSizeChange)="handlePageSizeChanged($event)"
-  (onPageChange)="handlePageChanged($event)"
-  (onSearch)="handleSearch($event)"
-  (onSort)="handleSort($event)"
-  (onDelete)="handleDelete($event)"
-  (onFilterChange)="handleFilterChanged($event)"
-  (onBulkDelete)="handleBulkDelete($event)"
->
-</app-dynamic-list-page-component>
+@if (!isLoading()) {
+  <app-dynamic-list-page-component
+    [config]="{ title: 'users' }"
+    [columns]="columns"
+    [items]="items()"
+    [metaData]="metaData()"
+    [isLoading]="isLoading()"
+    [query]="query()"
+    [filterConfigs]="filterConfigs"
+    (onPageSizeChange)="handlePageSizeChanged($event)"
+    (onPageChange)="handlePageChanged($event)"
+    (onSearch)="handleSearch($event)"
+    (onSort)="handleSort($event)"
+    (onDelete)="handleDelete($event)"
+    (onFilterChange)="handleFilterChanged($event)"
+    (onBulkDelete)="handleBulkDelete($event)"
+  >
+  </app-dynamic-list-page-component>
+}

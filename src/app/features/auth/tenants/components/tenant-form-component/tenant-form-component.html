@@ -1,4 +1,4 @@
-@if (formConfig && formConfig.length > 0) {
+@if (!isLoading() && formConfig && formConfig.length > 0) {
   <app-dynamic-form-page-component
     [config]="{ title: 'tenants' }"
     [controls]="formConfig"

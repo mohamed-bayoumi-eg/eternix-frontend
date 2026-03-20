@@ -1,25 +1,27 @@
-<app-dynamic-form-page-component
-  [config]="{ title: 'roles' }"
-  [controls]="formConfig"
-  [initialData]="editData()"
-  [isLoading]="isLoading()"
-  (onSave)="handleSave($event)"
-  (onSaveAndNew)="handleSaveAndNew($event)"
-  (onDelete)="handleDelete()"
-  (onSaveAndNew)="handleSaveAndNew($event)"
-  (onCopy)="handleCopy()"
-  [tabs]="tabLabels"
-  [isExtraDataValid]="isTableValid()"
-  #roleForm
->
-  @for (tab of tabsConfig; track $index) {
-    <div [hidden]="roleForm.activeTab !== $index">
-      <app-dynamic-details-table-component
-        [config]="tab"
-        (onDataChange)="tab.data.set($event)"
-        (statusChange)="isTableValid.set($event)"
-      >
-      </app-dynamic-details-table-component>
-    </div>
-  }
-</app-dynamic-form-page-component>
+@if (!isLoading()) {
+  <app-dynamic-form-page-component
+    [config]="{ title: 'roles' }"
+    [controls]="formConfig"
+    [initialData]="editData()"
+    [isLoading]="isLoading()"
+    (onSave)="handleSave($event)"
+    (onSaveAndNew)="handleSaveAndNew($event)"
+    (onDelete)="handleDelete()"
+    (onSaveAndNew)="handleSaveAndNew($event)"
+    (onCopy)="handleCopy()"
+    [tabs]="tabLabels"
+    [isExtraDataValid]="isTableValid()"
+    #roleForm
+  >
+    @for (tab of tabsConfig; track $index) {
+      <div [hidden]="roleForm.activeTab !== $index">
+        <app-dynamic-details-table-component
+          [config]="tab"
+          (onDataChange)="tab.data.set($event)"
+          (statusChange)="isTableValid.set($event)"
+        >
+        </app-dynamic-details-table-component>
+      </div>
+    }
+  </app-dynamic-form-page-component>
+}

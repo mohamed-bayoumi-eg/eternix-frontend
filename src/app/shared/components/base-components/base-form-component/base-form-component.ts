@@ -97,14 +97,24 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
       const updateCmd = { id: id, ...formData } as TUpdateCmd;
       this.service
         .update(updateCmd)
-        .pipe(finalize(() => this.isLoading.set(false)))
+        .pipe(
+          finalize(() => {
+            this.isLoading.set(false);
+            this.isSubmitting = false;
+          }),
+        )
         .subscribe(() => {
           this.navigateToList();
         });
     } else {
       this.service
         .create(formData as TCreateCmd)
-        .pipe(finalize(() => this.isLoading.set(false)))
+        .pipe(
+          finalize(() => {
+            this.isLoading.set(false);
+            this.isSubmitting = false;
+          }),
+        )
         .subscribe((res: any) => {
           this.navigateToList();
         });

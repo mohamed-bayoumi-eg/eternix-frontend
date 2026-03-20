@@ -7,12 +7,7 @@ import { environment } from 'src/environments/environment';
 export class ApiService {
   private readonly baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {
-    if (environment.production) {
-      const host = window.location.hostname;
-      this.baseUrl = `http://${host}:5000/api`;
-    } else {
-      this.baseUrl = environment.apiUrl;
-    }
+    this.baseUrl = environment.apiUrl;
   }
   get<TResponse>(path: string, query?: any): Observable<TResponse> {
     let params = new HttpParams();

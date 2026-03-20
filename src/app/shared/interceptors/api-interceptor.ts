@@ -38,16 +38,12 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const formatErrors = (errors: any): string => {
     let html = `<ul style="margin: 0; padding-${isRtl ? 'right' : 'left'}: 15px; list-style-type: disc;">`;
     if (Array.isArray(errors)) {
-      errors.forEach((err: any) => {
-        html += `<li>${err.message || err}</li>`;
-      });
+      errors.forEach((err: any) => (html += `<li>${err.message || err}</li>`));
     } else if (typeof errors === 'object') {
       Object.keys(errors).forEach((key) => {
         const messages = errors[key];
         if (Array.isArray(messages)) {
-          messages.forEach((msg) => {
-            html += `<li>${msg}</li>`;
-          });
+          messages.forEach((msg: any) => (html += `<li>${msg}</li>`));
         } else {
           html += `<li>${messages}</li>`;
         }
@@ -63,37 +59,36 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
         if (event instanceof HttpResponse) {
           const body = event.body as any;
           if (body && body.isSuccess !== undefined) {
-            if (body.isSuccess && req.method !== 'GET') {
-              setTimeout(() => {
+            setTimeout(() => {
+              if (body.isSuccess && req.method !== 'GET') {
                 toastr.success(body.message || 'Success', '', toastOptions);
-              });
-            } else if (body.isSuccess === false) {
-              setTimeout(() => {
+              } else if (body.isSuccess === false) {
                 toastr.error(
                   body.errors ? formatErrors(body.errors) : body.message || 'Error',
                   '',
                   toastOptions,
                 );
-              });
-            }
+              }
+            }, 0);
           }
         }
       },
       error: (err) => {
-        if (err.status === 401 || err.status === 403) {
-          authService.logout();
-          toastr.error('Session expired or access denied', '', toastOptions);
-        }
-        if (!req.url.includes('.json')) {
-          const errorBody = err.error;
-          toastr.error(
-            errorBody?.errors
-              ? formatErrors(errorBody.errors)
-              : errorBody?.message || 'Server Error',
-            '',
-            toastOptions,
-          );
-        }
+        setTimeout(() => {
+          if (err.status === 401 || err.status === 403) {
+            authService.logout();
+            toastr.error('Session expired', '', toastOptions);
+          } else if (!req.url.includes('.json')) {
+            const errorBody = err.error;
+            toastr.error(
+              errorBody?.errors
+                ? formatErrors(errorBody.errors)
+                : errorBody?.message || 'Server Error',
+              '',
+              toastOptions,
+            );
+          }
+        }, 0);
       },
     }),
   );

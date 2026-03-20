@@ -148,28 +148,42 @@ export class DynamicFormPageComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  private applyPatch() {
-    if (this._initialData && this.formCreated) {
+// داخل DynamicFormPageComponent
+
+private applyPatch() {
+  if (this.formCreated) {
+    if (!this._initialData || Object.keys(this._initialData).length === 0) {
       this.form.reset(undefined, { emitEvent: false });
-      this.form.patchValue(this._initialData);
-      this.formPatched = true;
-
-      setTimeout(() => {
-        this.form.patchValue(this._initialData);
-
-        const controlsMap = this.form.controls as { [key: string]: AbstractControl };
-        Object.values(controlsMap).forEach((control) => {
-          control.updateValueAndValidity({ emitEvent: false });
-        });
-
-        this.form.markAllAsTouched();
-
-        this.cdr.detectChanges();
-      }, 0);
-
-      this.cdr.detectChanges();
+      this.form.markAsPristine();
+      this.form.markAsUntouched();
+      this.formPatched = false;
+      return;
     }
+
+    const isCopy = this._initialData && !this._initialData.id && !this._initialData.code;
+
+    this.form.reset(undefined, { emitEvent: false });
+    this.form.patchValue(this._initialData);
+    this.formPatched = true;
+
+    setTimeout(() => {
+      this.form.patchValue(this._initialData);
+      const controlsMap = this.form.controls as { [key: string]: AbstractControl };
+      Object.values(controlsMap).forEach((control) => {
+        control.updateValueAndValidity({ emitEvent: false });
+      });
+
+      if (this.isEdit || isCopy) {
+        this.form.markAllAsTouched();
+      }
+      
+      this.cdr.detectChanges();
+    }, 0);
+
+    this.cdr.detectChanges();
   }
+}
+
   handleAddCancel() {
     const targetRoute = this.isEdit ? '../../' : '../';
     this.router.navigate([targetRoute], {

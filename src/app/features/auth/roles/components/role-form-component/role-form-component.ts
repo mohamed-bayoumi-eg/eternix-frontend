@@ -122,6 +122,13 @@ export class RoleFormComponent extends BaseFormComponent<
     };
     super.handleSave(payload);
   }
+  override handleSaveAndNew(formValue: any) {
+    const payload = {
+      ...formValue,
+      permissions: this.selectedPermissions(),
+    };
+    super.handleSaveAndNew(payload);
+  }
   protected override afterDataLoaded(data: GetRoleQueryResult): void {
     if (data && data.permissions) {
       this.selectedPermissions.set([...data.permissions]);

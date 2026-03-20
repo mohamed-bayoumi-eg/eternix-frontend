@@ -141,8 +141,8 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
             this.editData.set(null);
             this.router.navigate([], { state: { copyData: null }, replaceUrl: true });
 
-            if (!this.router.url.includes('/add')) {
-              this.router.navigate([this.listRoute, 'add']);
+            if (this.route.snapshot.params['id']) {
+              this.router.navigate(['../../add'], { relativeTo: this.route });
             }
             this.cdr.detectChanges();
           });
@@ -160,7 +160,8 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
       delete copyData.id;
       delete copyData.code;
 
-      this.router.navigate([this.listRoute, 'add'], {
+      this.router.navigate(['../../add'], {
+        relativeTo: this.route,
         state: { copyData: copyData },
       });
     }
@@ -176,11 +177,13 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     }
   }
 
-  handleCancel() {
-    this.navigateToList();
-  }
-
   protected navigateToList() {
-    this.router.navigate([this.listRoute]);
+    const isEdit = !!this.route.snapshot.params['id'];
+    const backRoute = isEdit ? '../../' : '../';
+
+    this.router.navigate([backRoute], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
   }
 }

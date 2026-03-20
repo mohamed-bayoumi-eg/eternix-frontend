@@ -1,0 +1,17 @@
+<div class="dashboard-grid">
+  @for (module of modules(); track module.route) {
+    <div class="info-card" [routerLink]="['/home', module.route]">
+      <div class="icon-box">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <div class="content-box">
+        <h3>{{ getName(module) }}</h3>
+        <p>{{ module.screens?.length }} {{ 'screens' | translate }}</p>
+      </div>
+    </div>
+  } @empty {
+    <div class="no-data">
+      <p>{{ 'no_modules_found' | translate }}</p>
+    </div>
+  }
+</div>

@@ -7,19 +7,24 @@
     @for (module of menus(); track module.key) {
       <li>
         @if (module.screens) {
-          
-          <div (click)="toggleMenu(module.key)" class="menu-item menu-link" [class.active]="isOpen(module.key)">
-            <span class="text">{{ getName(module)}}</span>
+          <div
+            (click)="toggleMenu(module.key)"
+            class="menu-item menu-link"
+            [class.active]="isOpen(module.key)"
+          >
+            <span class="text">{{ getName(module) }}</span>
             <i class="arrow-icon" [class.rotated]="isOpen(module.key)"></i>
           </div>
 
           <ul class="submenu" [class.open]="isOpen(module.key)">
             @for (screen of module.screens; track screen.key) {
               <li>
-                <a [routerLink]="screen.route" 
-                   routerLinkActive="active" 
-                   class="menu-link sub-link">
-                  <span class="text">{{getName(screen) }}</span>
+                <a
+                  [routerLink]="['/home', module.route, screen.route]"
+                  routerLinkActive="active"
+                  class="menu-link sub-link"
+                >
+                  <span class="text">{{ getName(screen) }}</span>
                 </a>
               </li>
             }

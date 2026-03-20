@@ -12,6 +12,7 @@ import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-co
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-list-page-component',
@@ -28,6 +29,8 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styleUrl: './dynamic-list-page-component.scss',
 })
 export class DynamicListPageComponent implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   @Input({ required: true }) columns: TableColumn[] = [];
   @Input() items: any[] = [];
@@ -51,8 +54,6 @@ export class DynamicListPageComponent implements OnInit {
   }
 
   @Output() onFilterChange = new EventEmitter<any>();
-  @Output() onAdd = new EventEmitter<void>();
-  @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<string>();
   @Output() onSearch = new EventEmitter<string>();
   @Output() onSort = new EventEmitter<string>();
@@ -91,7 +92,12 @@ export class DynamicListPageComponent implements OnInit {
       )
       .subscribe((values) => this.onFilterChange.emit(values));
   }
-
+  handleAddClick() {
+    this.router.navigate(['add'], { relativeTo: this.route });
+  }
+  handleEditClick(item: any) {
+    this.router.navigate(['edit', item.id], { relativeTo: this.route });
+  }
   handleDeleteClick(id: string) {
     this.selectedIdToDelete = id;
     this.showConfirmDialog = true;

@@ -73,5 +73,7 @@
   "adminArabicName": "اسم المدير (بالعربي)",
   "adminEnglishName": "اسم المدير (بالإنجليزي)",
   "adminUserName": "اسم مستخدم المدير",
-  "adminPassword": "كلمة مرور المدير"
+  "adminPassword": "كلمة مرور المدير",
+  "home": "الصفحة الرئيسية",
+  "open_screen": "فتح الشاشة"
 }

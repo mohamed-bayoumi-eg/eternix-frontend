@@ -1,0 +1,64 @@
+.breadcrumbs-nav {
+  background: var(--white-color);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--light-gray-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  .breadcrumb-list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      color: var(--gray-color);
+      font-size: 0.85rem;
+      font-weight: 500;
+
+      i {
+        margin-inline-end: 6px;
+        font-size: 0.9rem;
+      }
+
+      &::after {
+        content: "\f105"; // أيقونة السهم من FontAwesome
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        margin-inline-start: 10px;
+        color: var(--light-gray-color);
+        font-size: 0.75rem;
+      }
+
+      // إخفاء السهم في آخر عنصر
+      &:last-child::after {
+        display: none;
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: 0.2s;
+
+        &:hover {
+          color: var(--accent-color);
+          text-decoration: underline;
+        }
+      }
+
+      &.active {
+        color: var(--dark-gray-color);
+        font-weight: 700;
+        cursor: default;
+      }
+    }
+  }
+}
+
+// تعديل اتجاه السهم في حالة الـ RTL
+[dir="rtl"] .breadcrumb-item::after {
+  content: "\f104"; 
+}

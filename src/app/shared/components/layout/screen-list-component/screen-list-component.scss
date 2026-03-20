@@ -1,0 +1,119 @@
+.header-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 0 15px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    font-weight: 800;
+  }
+}
+
+.back-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--light-gray-color);
+  background: var(--white-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  font-size: 18px;
+
+  &:hover {
+    background: var(--primary-color);
+    color: var(--white-color);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 15px;
+}
+
+.info-card {
+  background: var(--white-color);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--light-gray-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-color);
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+
+    &::before { opacity: 1; }
+
+    .icon-box {
+      background: var(--primary-color);
+      color: var(--white-color);
+      transform: scale(1.1);
+    }
+  }
+
+  .icon-box {
+    width: 64px;
+    height: 64px;
+    background: var(--white-color);
+    color: var(--secondary-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+  }
+
+  .content-box {
+    h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    p {
+      margin: 4px 0 0;
+      color: var(--gray-color);
+      font-size: 0.88rem;
+    }
+  }
+}
+
+.no-data {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: var(--gray-color);
+}

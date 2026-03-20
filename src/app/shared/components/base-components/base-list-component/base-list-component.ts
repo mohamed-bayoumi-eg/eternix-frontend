@@ -46,13 +46,6 @@ export abstract class BaseListComponent<
       },
     });
   }
-  handleAdd(): void {
-    this.router.navigate([`${this.baseRoute}/add`]);
-  }
-
-  handleEdit(item: any): void {
-    this.router.navigate([`${this.baseRoute}/edit`, item.id]);
-  }
 
 handleFilterChanged(filterData: any): void {
   this.query.update((q) => {

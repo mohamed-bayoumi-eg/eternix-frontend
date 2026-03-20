@@ -24,7 +24,7 @@
 
     <div class="left-actions">
       @if (config.showAddBtn) {
-        <button class="erp-btn btn-add" (click)="onAdd.emit()">
+        <button class="erp-btn btn-add" (click)="handleAddClick()">
           <i class="fas fa-plus mr-2"></i>
           <span>{{ 'addNew' | translate }}</span>
         </button>
@@ -44,7 +44,7 @@
       [showDelete]="!!config.showDeleteBtn"
       (sortChange)="onSort.emit($event)"
       (pageChange)="onPageChange.emit($event)"
-      (editAction)="onEdit.emit($event)"
+      (editAction)="handleEditClick($event)"
       (deleteAction)="handleDeleteClick($event)"
       (pageSizeChange)="onPageSizeChange.emit($event)"
       (selectionChange)="selectedIds = $event"

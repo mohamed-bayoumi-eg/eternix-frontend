@@ -18,6 +18,7 @@ import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PermissionType } from 'src/app/features/auth/roles/enums/role.enums';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-form-page-component',
@@ -33,6 +34,8 @@ import { PermissionType } from 'src/app/features/auth/roles/enums/role.enums';
   styleUrl: './dynamic-form-page-component.scss',
 })
 export class DynamicFormPageComponent implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
 
   @Input() isLoading = false;
@@ -105,7 +108,6 @@ export class DynamicFormPageComponent implements OnInit {
   @Output() onSave = new EventEmitter<any>();
   @Output() onSaveAndNew = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<void>();
-  @Output() onCancel = new EventEmitter<void>();
   @Output() onCopy = new EventEmitter<void>();
 
   form = new FormGroup({});
@@ -168,7 +170,13 @@ export class DynamicFormPageComponent implements OnInit {
       this.cdr.detectChanges();
     }
   }
-
+  handleAddCancel() {
+    const targetRoute = this.isEdit ? '../../' : '../';
+    this.router.navigate([targetRoute], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
+  }
   handleSave(isSaveAndNew = false) {
     if (this.form.invalid || !this.isExtraDataValid) return;
 

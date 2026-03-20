@@ -1,0 +1,13 @@
+<div class="dashboard-grid">
+  @for (screen of currentModule()?.screens; track screen.route) {
+    <div class="info-card" [routerLink]="['/home', moduleKey(), screen.route.toLowerCase()]">
+      <div class="icon-box">
+        <i class="fas fa-desktop"></i>
+      </div>
+      <div class="content-box">
+        <h3>{{ getName(screen) }}</h3>
+        <p>{{ 'open_screen' | translate }}</p>
+      </div>
+    </div>
+  }
+</div>

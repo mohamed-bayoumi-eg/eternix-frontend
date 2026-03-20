@@ -6,7 +6,7 @@ import { FooterComponent } from '../footer-component/footer-component';
 import { ScrollButtonsDirective } from 'src/app/shared/directives/scroll-buttons-directive';
 import { TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-
+import { BreadCrumbsComponent } from '../bread-crumbs-component/bread-crumbs-component';
 @Component({
   selector: 'app-main-layout-component',
   standalone: true,
@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
     SidebarComponent,
     FooterComponent,
     ScrollButtonsDirective,
+    BreadCrumbsComponent,
   ],
   templateUrl: './main-layout-component.html',
   styleUrl: './main-layout-component.scss',

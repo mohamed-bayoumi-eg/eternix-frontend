@@ -4,21 +4,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
-interface ScreenMenuDto {
-  key: string;
-  route: string;
-  arabicName: string;
-  englishName: string;
-  actions: string[];
-}
-
-interface ModuleMenuDto {
-  key: string;
-  arabicName: string;
-  englishName: string;
-  screens: ScreenMenuDto[];
-}
-
 @Component({
   selector: 'app-sidebar-component',
   standalone: true,

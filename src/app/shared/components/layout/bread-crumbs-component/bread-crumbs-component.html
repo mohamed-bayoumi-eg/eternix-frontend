@@ -1,0 +1,19 @@
+<nav class="breadcrumbs-nav">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a routerLink="/home">
+        <i class="fas fa-home"></i> {{ 'home' | translate }}
+      </a>
+    </li>
+
+    @for (crumb of breadcrumbs; track crumb.url; let last = $last) {
+      <li class="breadcrumb-item" [class.active]="last">
+        @if (!last) {
+          <a [routerLink]="crumb.url">{{ getDisplayName(crumb.label) }}</a>
+        } @else {
+          <span>{{ getDisplayName(crumb.label) }}</span>
+        }
+      </li>
+    }
+  </ol>
+</nav>

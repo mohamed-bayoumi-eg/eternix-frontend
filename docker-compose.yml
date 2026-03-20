@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  eternix-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eternix_frontend_container
+    image: eternix-frontend:latest
+    ports:
+      - '4200:80'
+    restart: always

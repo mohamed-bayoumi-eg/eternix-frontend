@@ -2,13 +2,18 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { ComboResultBase } from '../models/base-requests';
-
+import { environment } from 'src/environments/environment';
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly baseUrl = 'https://localhost:5001/api';
-
-  constructor(private http: HttpClient) {}
-
+  private readonly baseUrl = environment.apiUrl;
+  constructor(private http: HttpClient) {
+    if (environment.production) {
+      const host = window.location.hostname;
+      this.baseUrl = `http://${host}:5000/api`;
+    } else {
+      this.baseUrl = environment.apiUrl;
+    }
+  }
   get<TResponse>(path: string, query?: any): Observable<TResponse> {
     let params = new HttpParams();
     if (query) {

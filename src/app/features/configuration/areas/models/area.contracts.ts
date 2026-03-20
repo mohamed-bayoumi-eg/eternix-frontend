@@ -36,7 +36,7 @@ export interface DeleteAreasRangeCommandResult {}
 export interface GetAreaQuery extends GetQueryBase<GetAreaQueryResult> {}
 
 export interface GetAreasListQuery extends GetListQueryBase<GetAreaListQueryResult> {
-  countryId: string;
+  cityId: string;
 }
 
 export interface GetAreaListQueryResult extends ResultBase {

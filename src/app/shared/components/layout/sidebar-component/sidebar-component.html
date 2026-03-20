@@ -1,9 +1,5 @@
 <div class="sidebar" [class.collapsed]="collapsed">
-  <div
-    class="logo"
-    [routerLink]="['/home']"
-    routerLinkActive="active-logo"
-  >
+  <div class="logo" [routerLink]="['/home']" routerLinkActive="active-logo">
     <i class="fas fa-home" style="margin-inline-end: 10px; font-size: 18px"></i>
     <span>{{ 'home' | translate }}</span>
   </div>
@@ -18,7 +14,7 @@
             [class.active]="isOpen(module.key)"
           >
             <span class="text">{{ getName(module) }}</span>
-            <i class="arrow-icon" [class.rotated]="isOpen(module.key)"></i>
+            <i class="fas fa-chevron-down arrow-icon" [class.rotated]="isOpen(module.key)"></i>
           </div>
 
           <ul class="submenu" [class.open]="isOpen(module.key)">

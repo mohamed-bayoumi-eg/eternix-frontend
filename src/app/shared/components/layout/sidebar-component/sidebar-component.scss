@@ -76,8 +76,18 @@
   text-decoration: none;
   transition: all 0.2s ease-in-out;
   color: var(--white-color);
-
   white-space: nowrap;
+  justify-content: space-between;
+}
+
+.menu-item .arrow-icon {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  margin-inline-start: auto;
+  transform: rotate(90deg);
+  &.rotated {
+    transform: rotate(0deg);
+  }
 }
 
 .menu-link:hover,

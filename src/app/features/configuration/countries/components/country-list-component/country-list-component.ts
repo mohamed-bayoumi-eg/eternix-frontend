@@ -1,17 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
-import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetCountryListQueryResult, GetCountryListQuery } from '../../models/country.contracts';
 import { CountryService } from '../../services/country.service';
+import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-country-list-component',
-  imports: [CommonModule, TranslateModule, DynamicListPageComponent],
+  imports: [BASE_LIST_RESOURCES],
   templateUrl: './country-list-component.html',
   styleUrl: './country-list-component.scss',
+  standalone :true
 })
 export class CountryListComponent extends BaseListComponent<
   GetCountryListQueryResult,

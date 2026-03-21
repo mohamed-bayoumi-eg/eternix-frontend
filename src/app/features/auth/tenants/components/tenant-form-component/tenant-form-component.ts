@@ -11,11 +11,12 @@ import {
   UpdateTenantCommand,
 } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-tenant-form-component',
   standalone: true,
-  imports: [CommonModule, DynamicFormPageComponent],
+  imports: [BASE_FORM_RESOURCES],
   templateUrl: './tenant-form-component.html',
   styleUrl: './tenant-form-component.scss',
 })

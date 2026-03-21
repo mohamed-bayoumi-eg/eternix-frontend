@@ -1,16 +1,19 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
-import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
-import { GetBranchListQueryResult, GetBranchListQuery, GetBranchComboQuery } from '../../models/branch.contracts';
+import {
+  GetBranchListQueryResult,
+  GetBranchListQuery,
+  GetBranchComboQuery,
+} from '../../models/branch.contracts';
 import { BranchService } from '../../services/branch.service';
+import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-branch-list-component',
-  imports: [CommonModule, TranslateModule, DynamicListPageComponent],
+  imports: [BASE_LIST_RESOURCES],
   templateUrl: './branch-list-component.html',
   styleUrl: './branch-list-component.scss',
   standalone: true,

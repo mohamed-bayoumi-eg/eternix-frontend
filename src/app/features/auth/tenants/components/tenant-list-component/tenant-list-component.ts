@@ -1,21 +1,19 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   GetTenantListQuery,
   GetTenantListQueryResult,
 } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
-import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { IsActive } from 'src/app/shared/enums/common.enums';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-tenant-list-component',
   standalone: true,
-  imports: [CommonModule, TranslateModule, DynamicListPageComponent],
+  imports: [BASE_LIST_RESOURCES],
   templateUrl: './tenant-list-component.html',
   styleUrl: './tenant-list-component.scss',
 })

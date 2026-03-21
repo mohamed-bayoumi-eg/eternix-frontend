@@ -10,16 +10,14 @@ import {
   UpdateUserCommand,
 } from '../../models/user.contracts';
 import { UserService } from '../../services/user.service';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-user-form-component',
-  standalone: true,
-  imports: [CommonModule, DynamicFormPageComponent, TranslateModule],
+  imports: [BASE_FORM_RESOURCES],
   templateUrl: './user-form-component.html',
   styleUrl: './user-form-component.scss',
+  standalone: true,
 })
 export class UserFormComponent extends BaseFormComponent<
   GetUserQueryResult,

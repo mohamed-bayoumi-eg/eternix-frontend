@@ -16,7 +16,7 @@ export class DynamicTableComponent implements OnChanges {
   @Input({ required: true }) items: any[] = [];
   @Input() metaData: MetaData | null = null;
   @Input() isLoading = false;
-  @Input() sortField = '';
+  @Input() sortField = 'UpdatedOn';
   @Input() sortType: SortingType = SortingType.Ascending;
   @Input() showEdit = true;
   @Input() showDelete = true;

@@ -16,7 +16,7 @@ export class ValidationHelper {
       maxLength: 100,
     };
   }
- static get Address(): ValidationConfig {
+  static get Address(): ValidationConfig {
     return {
       required: true,
       maxLength: 100,
@@ -42,6 +42,20 @@ export class ValidationHelper {
       minLength: 8,
       maxLength: 50,
       pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
+    };
+  }
+  static get Code(): ValidationConfig {
+    return {
+      maxLength: 50,
+    };
+  }
+
+  static get Percentage(): ValidationConfig {
+    return {
+      required: true,
+      min: 0,
+      max: 100,
+      pattern: '^[0-9]*\\.?[0-9]+$',
     };
   }
 }

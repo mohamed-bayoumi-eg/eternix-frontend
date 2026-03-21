@@ -19,6 +19,12 @@ import { CountryFormComponent } from './features/configuration/countries/compone
 import { CountryListComponent } from './features/configuration/countries/components/country-list-component/country-list-component';
 import { BranchListComponent } from './features/configuration/branches/components/branch-list-component/branch-list-component';
 import { BranchFormComponent } from './features/configuration/branches/components/branch-form-component/branch-form-component';
+import { CurrencyListComponent } from './features/configuration/currencies/components/currency-list-component/currency-list-component';
+import { CurrencyFormComponent } from './features/configuration/currencies/components/currency-form-component/currency-form-component';
+import { TaxListComponent } from './features/configuration/taxes/components/tax-list-component/tax-list-component';
+import { TaxFormComponent } from './features/configuration/taxes/components/tax-form-component/tax-form-component';
+import { UnitListComponent } from './features/configuration/units/components/unit-list-component/unit-list-component';
+import { UnitFormComponent } from './features/configuration/units/components/unit-form-component/unit-form-component';
 
 export const routes: Routes = [
   {
@@ -103,6 +109,36 @@ export const routes: Routes = [
                   { path: '', component: BranchListComponent },
                   { path: 'add', component: BranchFormComponent },
                   { path: 'edit/:id', component: BranchFormComponent },
+                ],
+              },
+              {
+                path: 'currencies',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Currencies' },
+                children: [
+                  { path: '', component: CurrencyListComponent },
+                  { path: 'add', component: CurrencyFormComponent },
+                  { path: 'edit/:id', component: CurrencyFormComponent },
+                ],
+              },
+              {
+                path: 'taxes',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Taxes' },
+                children: [
+                  { path: '', component: TaxListComponent },
+                  { path: 'add', component: TaxFormComponent },
+                  { path: 'edit/:id', component: TaxFormComponent },
+                ],
+              },
+              {
+                path: 'units',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Units' },
+                children: [
+                  { path: '', component: UnitListComponent },
+                  { path: 'add', component: UnitFormComponent },
+                  { path: 'edit/:id', component: UnitFormComponent },
                 ],
               },
             ],

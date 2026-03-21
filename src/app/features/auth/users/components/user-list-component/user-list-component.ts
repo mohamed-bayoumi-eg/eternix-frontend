@@ -1,18 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
-import { DynamicListPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-list-page-component/dynamic-list-page-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetUserListQueryResult, GetUsersListQuery } from '../../models/user.contracts';
 import { UserService } from '../../services/user.service';
 import { IsActive } from 'src/app/shared/enums/common.enums';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { UserType } from '../../enums/user.enums';
+import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-user-list-component',
-  imports: [CommonModule, TranslateModule, DynamicListPageComponent],
+  imports: [BASE_LIST_RESOURCES],
   templateUrl: './user-list-component.html',
   styleUrl: './user-list-component.scss',
   standalone: true,

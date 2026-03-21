@@ -1,8 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
@@ -11,12 +8,14 @@ import {
   UpdateAreaCommand,
 } from '../../models/area.contracts';
 import { AreaService } from '../../services/area.service';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-area-form-component',
-  imports: [CommonModule, DynamicFormPageComponent, TranslateModule],
+  imports: [BASE_FORM_RESOURCES],
   templateUrl: './area-form-component.html',
   styleUrl: './area-form-component.scss',
+  standalone: true,
 })
 export class AreaFormComponent extends BaseFormComponent<
   GetAreaQueryResult,

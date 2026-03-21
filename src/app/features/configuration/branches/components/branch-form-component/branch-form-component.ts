@@ -1,8 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, effect, signal } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
@@ -14,11 +11,11 @@ import { BranchService } from '../../services/branch.service';
 import { IsActive } from 'src/app/shared/enums/common.enums';
 import { GetCityComboQuery } from '../../../cities/models/city.contracts';
 import { GetAreaComboQuery } from '../../../areas/models/area.contracts';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-branch-form-component',
-  imports: [CommonModule, DynamicFormPageComponent, TranslateModule],
-
+  imports: [BASE_FORM_RESOURCES],
   templateUrl: './branch-form-component.html',
   styleUrl: './branch-form-component.scss',
   standalone: true,

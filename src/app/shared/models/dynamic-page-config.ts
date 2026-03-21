@@ -1,5 +1,5 @@
 export interface DynamicListPageConfig {
-  title: string;
+  title?: string;
   showSearch?: boolean;
   showAddBtn?: boolean;
   showEditBtn?: boolean;
@@ -8,7 +8,7 @@ export interface DynamicListPageConfig {
   customActions?: CustomAction[];
 }
 export interface DynamicFormPageConfig {
-  title: string;
+  title?: string;
   showSaveBtn?: boolean;
   showSaveAndNewBtn?: boolean;
   showDeleteBtn?: boolean;

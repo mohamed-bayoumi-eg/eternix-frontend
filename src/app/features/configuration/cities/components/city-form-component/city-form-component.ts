@@ -1,8 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
@@ -11,10 +8,11 @@ import {
   UpdateCityCommand,
 } from '../../models/city.contracts';
 import { CityService } from '../../services/city.service';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-city-form-component',
-  imports: [CommonModule, DynamicFormPageComponent, TranslateModule],
+  imports: [BASE_FORM_RESOURCES],
   templateUrl: './city-form-component.html',
   styleUrl: './city-form-component.scss',
 })

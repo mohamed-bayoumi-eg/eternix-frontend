@@ -85,7 +85,7 @@ export class DynamicFormPageComponent implements OnInit {
   private updatePermissions() {
     if (!this._config) return;
 
-    const screenKey = this._config.title;
+    const screenKey = this.route.snapshot.data['screenKey'] as string;
 
     const canCreate = this.authService.hasPermission(screenKey, PermissionType.Create);
     const canUpdate = this.authService.hasPermission(screenKey, PermissionType.Update);
@@ -148,39 +148,39 @@ export class DynamicFormPageComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-private applyPatch() {
-  if (this.formCreated) {
-    if (!this._initialData || Object.keys(this._initialData).length === 0) {
-      this.form.reset(undefined, { emitEvent: false });
-      this.form.markAsPristine();
-      this.form.markAsUntouched();
-      this.formPatched = false;
-      return;
-    }
-
-    const isCopy = this._initialData && !this._initialData.id && !this._initialData.code;
-
-    this.form.reset(undefined, { emitEvent: false });
-    this.form.patchValue(this._initialData);
-    this.formPatched = true;
-
-    setTimeout(() => {
-      this.form.patchValue(this._initialData);
-      const controlsMap = this.form.controls as { [key: string]: AbstractControl };
-      Object.values(controlsMap).forEach((control) => {
-        control.updateValueAndValidity({ emitEvent: false });
-      });
-
-      if (this.isEdit || isCopy) {
-        this.form.markAllAsTouched();
+  private applyPatch() {
+    if (this.formCreated) {
+      if (!this._initialData || Object.keys(this._initialData).length === 0) {
+        this.form.reset(undefined, { emitEvent: false });
+        this.form.markAsPristine();
+        this.form.markAsUntouched();
+        this.formPatched = false;
+        return;
       }
-      
-      this.cdr.detectChanges();
-    }, 0);
 
-    this.cdr.detectChanges();
+      const isCopy = this._initialData && !this._initialData.id && !this._initialData.code;
+
+      this.form.reset(undefined, { emitEvent: false });
+      this.form.patchValue(this._initialData);
+      this.formPatched = true;
+
+      setTimeout(() => {
+        this.form.patchValue(this._initialData);
+        const controlsMap = this.form.controls as { [key: string]: AbstractControl };
+        Object.values(controlsMap).forEach((control) => {
+          control.updateValueAndValidity({ emitEvent: false });
+        });
+
+        if (this.isEdit || isCopy) {
+          this.form.markAllAsTouched();
+        }
+
+        this.cdr.detectChanges();
+      }, 0);
+
+      this.cdr.detectChanges();
+    }
   }
-}
 
   handleAddCancel() {
     const targetRoute = this.isEdit ? '../../' : '../';

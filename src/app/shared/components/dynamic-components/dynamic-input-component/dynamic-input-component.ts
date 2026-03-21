@@ -108,21 +108,22 @@ export class DynamicInputComponent implements OnInit {
     });
 
     if (this.config.queryModel && this.config.endpoint) {
-    const dependencies = Object.keys(new this.config.queryModel());
-    
-    dependencies.forEach(key => {
-      this.form.get(key)?.valueChanges
-        .pipe(distinctUntilChanged())
-        .subscribe(() => {
-          this.options.set([]); 
-          this.isInitialLoadDone = false;
-          
-          if (this.dropdownOpen) {
-            this.loadData();
-          }
-        });
-    });
-  }
+      const dependencies = Object.keys(new this.config.queryModel());
+
+      dependencies.forEach((key) => {
+        this.form
+          .get(key)
+          ?.valueChanges.pipe(distinctUntilChanged())
+          .subscribe(() => {
+            this.options.set([]);
+            this.isInitialLoadDone = false;
+
+            if (this.dropdownOpen) {
+              this.loadData();
+            }
+          });
+      });
+    }
   }
 
   private loadData(search: string = '') {
@@ -130,7 +131,6 @@ export class DynamicInputComponent implements OnInit {
       (this.config.type === InputType.Select || this.config.type === InputType.MultiSelect) &&
       this.config.endpoint
     ) {
-
       this.isLoadingOptions.set(true);
       let query: any = this.config.queryModel ? new this.config.queryModel() : {};
 
@@ -236,15 +236,15 @@ export class DynamicInputComponent implements OnInit {
     this.closeDropdown();
   }
 
- toggleDropdown() {
-  if (this.dropdownOpen) return this.closeDropdown();
-  this.dropdownOpen = true;
-  this.control.markAsTouched();
+  toggleDropdown() {
+    if (this.dropdownOpen) return this.closeDropdown();
+    this.dropdownOpen = true;
+    this.control.markAsTouched();
 
-  if (this.options().length === 0 && this.config.endpoint) {
-    this.loadData();
+    if (this.options().length === 0 && this.config.endpoint) {
+      this.loadData();
+    }
   }
-}
 
   closeDropdown() {
     this.dropdownOpen = false;
@@ -344,6 +344,8 @@ export class DynamicInputComponent implements OnInit {
       minlength: 'minlength',
       maxlength: 'maxlength',
       pattern: 'inValidFormat',
+      min: 'minValueAllowed',
+      max: 'maxValueAllowed',
     };
     const key = Object.keys(map).find((k) => errs[k]);
     return key ? map[key] : 'inValidFormat';
@@ -356,8 +358,8 @@ export class DynamicInputComponent implements OnInit {
           value:
             e['minlength']?.requiredLength ||
             e['maxlength']?.requiredLength ||
-            e['min']?.min ||
-            e['max']?.max ||
+            (e['min'] !== undefined ? e['min'].min : null) ||
+            (e['max'] !== undefined ? e['max'].max : null) ||
             0,
         }
       : {};

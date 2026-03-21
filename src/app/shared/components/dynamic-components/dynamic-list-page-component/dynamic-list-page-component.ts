@@ -3,11 +3,9 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-
 import { TableColumn, MetaData } from '../../../models/base-requests';
 import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
 import { DynamicListPageConfig } from '../../../models/dynamic-page-config';
-
 import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { ConfirmDialogComponent } from '../../ui-components/confirm-dialog-component/confirm-dialog-component';
@@ -39,19 +37,7 @@ export class DynamicListPageComponent implements OnInit {
   @Input() query: any = null;
   @Input() filterConfigs: DynamicInputConfig[] = [];
 
-  private _config!: DynamicListPageConfig;
-  @Input({ required: true }) set config(value: DynamicListPageConfig) {
-    this._config = {
-      showSearch: true,
-      showAddBtn: this.authService.hasPermission(value.title, 'Create'),
-      showEditBtn: this.authService.hasPermission(value.title, 'Update'),
-      showDeleteBtn: this.authService.hasPermission(value.title, 'Delete'),
-      ...value,
-    };
-  }
-  get config() {
-    return this._config;
-  }
+  @Input({ required: true }) config!: DynamicListPageConfig;
 
   @Output() onFilterChange = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<string>();
@@ -75,9 +61,25 @@ export class DynamicListPageComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.applyPermissionsFromRoute();
     this.initFilterForm();
   }
+  private applyPermissionsFromRoute() {
+    const screenKey = this.route.snapshot.data['screenKey'];
 
+    if (screenKey) {
+      this.config = {
+        ...this.config,
+        title: screenKey,
+        showSearch: this.config.showSearch ?? true,
+        showAddBtn: this.authService.hasPermission(screenKey, 'Create'),
+        showEditBtn: this.authService.hasPermission(screenKey, 'Update'),
+        showDeleteBtn: this.authService.hasPermission(screenKey, 'Delete'),
+      };
+    } else {
+      console.warn('ScreenKey not found in route data!');
+    }
+  }
   private initFilterForm() {
     this.filterForm.addControl(this.searchConfig.fieldName, new FormControl(null));
 

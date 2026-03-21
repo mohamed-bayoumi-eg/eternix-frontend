@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 
 import {
@@ -8,18 +7,17 @@ import {
   RolePermissionDto,
 } from '../../models/role.contracts';
 import { RoleService } from '../../services/role.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { DynamicDetailsTableComponent } from 'src/app/shared/components/dynamic-components/dynamic-details-table-component/dynamic-details-table-component';
 import { PermissionType } from '../../enums/role.enums';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import { DynamicDetailsTableConfig } from 'src/app/shared/models/dynamic-details-table-config';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
   selector: 'app-role-form-component',
-  imports: [CommonModule, DynamicFormPageComponent, TranslateModule, DynamicDetailsTableComponent],
+  imports: [BASE_FORM_RESOURCES, DynamicDetailsTableComponent],
   templateUrl: './role-form-component.html',
   styleUrl: './role-form-component.scss',
   standalone: true,

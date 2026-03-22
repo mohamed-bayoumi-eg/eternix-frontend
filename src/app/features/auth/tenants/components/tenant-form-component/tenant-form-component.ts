@@ -91,7 +91,7 @@ export class TenantFormComponent extends BaseFormComponent<
             type: InputType.Text,
             fieldName: 'adminPassword',
             label: 'adminPassword',
-            validations: [ValidationHelper.Password, ValidationHelper.Required],
+            validations: [/*ValidationHelper.Password,*/ ValidationHelper.Required],
           }
         : null,
     ];

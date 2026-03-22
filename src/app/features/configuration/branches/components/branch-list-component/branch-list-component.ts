@@ -23,24 +23,23 @@ export class BranchListComponent extends BaseListComponent<
   GetBranchListQuery
 > {
   protected override service = inject(BranchService);
-  private translate = inject(TranslateService);
 
   get columns(): TableColumn[] {
     const currentLang = this.translate.getCurrentLang();
-    const userField = currentLang === 'ar' ? 'userArabicName' : 'userEnglishName';
-    const areaField = currentLang === 'ar' ? 'areaArabicName' : 'areaEnglishName';
-    const cityField = currentLang === 'ar' ? 'cityArabicName' : 'cityEnglishName';
-    const countryField = currentLang === 'ar' ? 'countryArabicName' : 'countryEnglishName';
+    const branchManager = currentLang === 'ar' ? 'managerArabicName' : 'managerEnglishName';
+    const area = currentLang === 'ar' ? 'areaArabicName' : 'areaEnglishName';
+    const city = currentLang === 'ar' ? 'cityArabicName' : 'cityEnglishName';
+    const country = currentLang === 'ar' ? 'countryArabicName' : 'countryEnglishName';
 
     return [
       { field: 'code', header: 'code', sortable: true },
       { field: 'arabicName', header: 'arabicName', sortable: true },
       { field: 'englishName', header: 'englishName', sortable: true },
       { field: 'isActive', header: 'isActive', sortable: true },
-      { field: userField, header: 'user' },
+      { field: branchManager, header: 'branchManager' },
       { field: 'address', header: 'address', sortable: true },
-      { field: areaField, header: 'area' },
-      { field: cityField, header: 'city' },
+      { field: area, header: 'area' },
+      { field: city, header: 'city' },
     ];
   }
   filterConfigs: DynamicInputConfig[] = [];

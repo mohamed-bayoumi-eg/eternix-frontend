@@ -16,17 +16,16 @@ import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/b
 })
 export class AreaListComponent extends BaseListComponent<GetAreaListQueryResult, GetAreaListQuery> {
   protected override service = inject(AreaService);
-  private translate = inject(TranslateService);
 
   get columns(): TableColumn[] {
     const currentLang = this.translate.getCurrentLang();
-    const cityField = currentLang === 'ar' ? 'cityArabicName' : 'cityEnglishName';
+    const city = currentLang === 'ar' ? 'cityArabicName' : 'cityEnglishName';
 
     return [
       { field: 'code', header: 'code', sortable: true },
       { field: 'arabicName', header: 'arabicName', sortable: true },
       { field: 'englishName', header: 'englishName', sortable: true },
-      { field: cityField, header: 'city' },
+      { field: city, header: 'city' },
     ];
   }
   filterConfigs: DynamicInputConfig[] = [

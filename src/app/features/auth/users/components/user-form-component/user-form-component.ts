@@ -73,7 +73,7 @@ export class UserFormComponent extends BaseFormComponent<
             type: InputType.Text,
             fieldName: 'password',
             label: 'password',
-            validations: [ValidationHelper.Password],
+            validations: [/*ValidationHelper.Password,*/ ValidationHelper.Required],
           }
         : null,
 
@@ -99,7 +99,6 @@ export class UserFormComponent extends BaseFormComponent<
             label: 'roles',
             endpoint: 'roles',
             validations: [ValidationHelper.Required],
-            span: 6,
           }
         : null,
     ];

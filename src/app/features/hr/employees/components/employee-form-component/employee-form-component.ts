@@ -1,31 +1,29 @@
 import { Component, inject, effect, signal } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+import { IsActive } from 'src/app/shared/enums/common.enums';
 import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
-  GetBranchQueryResult,
-  CreateBranchCommand,
-  UpdateBranchCommand,
-} from '../../models/branch.contracts';
-import { BranchService } from '../../services/branch.service';
-import { IsActive } from 'src/app/shared/enums/common.enums';
-import { GetCityComboQuery } from '../../../cities/models/city.contracts';
-import { GetAreaComboQuery } from '../../../areas/models/area.contracts';
-import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+  GetEmployeeQueryResult,
+  CreateEmployeeCommand,
+  UpdateEmployeeCommand,
+} from '../../models/employee.contracts';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
-  selector: 'app-branch-form-component',
+  selector: 'app-employee-form-component',
   imports: [BASE_FORM_RESOURCES],
-  templateUrl: './branch-form-component.html',
-  styleUrl: './branch-form-component.scss',
+  templateUrl: './employee-form-component.html',
+  styleUrl: './employee-form-component.scss',
   standalone: true,
 })
-export class BranchFormComponent extends BaseFormComponent<
-  GetBranchQueryResult,
-  CreateBranchCommand,
-  UpdateBranchCommand
+export class EmployeeFormComponent extends BaseFormComponent<
+  GetEmployeeQueryResult,
+  CreateEmployeeCommand,
+  UpdateEmployeeCommand
 > {
-  protected override service = inject(BranchService);
+  protected override service = inject(EmployeeService);
   constructor() {
     super();
     effect(() => {
@@ -48,53 +46,50 @@ export class BranchFormComponent extends BaseFormComponent<
         label: 'englishName',
         validations: [ValidationHelper.EnglishName],
       },
-
       {
         type: InputType.Text,
-        fieldName: 'phoneNumber',
-        label: 'phoneNumber',
-        validations: [ValidationHelper.PhoneNumber],
-      },
-      {
-        type: InputType.Text,
-        fieldName: 'email',
-        label: 'email',
-        validations: [ValidationHelper.Email],
+        fieldName: 'employeeCode',
+        label: 'employeeCode',
+        validations: [ValidationHelper.Code, ValidationHelper.Required],
       },
       {
         type: InputType.Select,
-        fieldName: 'managerId',
-        label: 'branchManager',
+        fieldName: 'departmentId',
+        label: 'department',
+        endpoint: 'departments',
+        validations: [ValidationHelper.Required],
+      },
+      {
+        type: InputType.Select,
+        fieldName: 'jobTitleId',
+        label: 'jobTitle',
+        endpoint: 'job-titles',
+        validations: [ValidationHelper.Required],
+      },
+      {
+        type: InputType.Select,
+        fieldName: 'branchId',
+        label: 'branch',
+        endpoint: 'branches',
+        validations: [ValidationHelper.Required],
+      },
+      {
+        type: InputType.Select,
+        fieldName: 'userId',
+        label: 'user',
         endpoint: 'users',
       },
       {
-        type: InputType.Select,
-        fieldName: 'countryId',
-        label: 'country',
-        endpoint: 'countries',
+        type: InputType.Date,
+        fieldName: 'hireDate',
+        label: 'hireDate',
         validations: [ValidationHelper.Required],
       },
       {
-        type: InputType.Select,
-        fieldName: 'cityId',
-        label: 'city',
-        endpoint: 'cities',
-        queryModel: GetCityComboQuery,
-        validations: [ValidationHelper.Required],
-      },
-      {
-        type: InputType.Select,
-        fieldName: 'areaId',
-        label: 'area',
-        endpoint: 'areas',
-        queryModel: GetAreaComboQuery,
-        validations: [ValidationHelper.Required],
-      },
-      {
-        type: InputType.Text,
-        fieldName: 'address',
-        label: 'address',
-        validations: [ValidationHelper.Address],
+        type: InputType.MultiSelect,
+        fieldName: 'otherBranchIds',
+        label: 'otherBranches',
+        endpoint: 'branches',
       },
       {
         type: InputType.Enum,

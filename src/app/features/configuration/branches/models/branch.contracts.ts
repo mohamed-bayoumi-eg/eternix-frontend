@@ -18,7 +18,7 @@ export interface CreateBranchCommand extends CreateCommandBase<CreateBranchComma
   address: string;
   phoneNumber: string;
   email: string;
-  userId: string;
+  managerId: string | null;
   areaId: string;
 }
 
@@ -31,7 +31,7 @@ export interface UpdateBranchCommand extends UpdateCommandBase<UpdateBranchComma
   address: string;
   phoneNumber: string;
   email: string;
-  userId: string;
+  managerId: string | null;
   areaId: string;
 }
 export interface UpdateBranchCommandResult extends ResultBase {}
@@ -56,8 +56,8 @@ export interface GetBranchListQueryResult extends ResultBase {
   address: string;
   phoneNumber: string;
   email: string;
-  userArabicName: string;
-  userEnglishName: string;
+  managerArabicName: string;
+  managerEnglishName: string;
   areaArabicName: string;
   areaEnglishName: string;
   cityArabicName: string;
@@ -74,7 +74,9 @@ export interface GetBranchQueryResult extends ResultBase {
   address: string;
   phoneNumber: string;
   email: string;
-  userId: string;
+  managerId: string | null;
+  countryId: string;
+  cityId: string;
   areaId: string;
 }
 

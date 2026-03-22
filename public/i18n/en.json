@@ -97,5 +97,11 @@
   "taxType": "Tax Type",
   "percentage": "Percentage",
   "globalUnitCode": "Global Unit Code",
-  "unitType": "Unit Type"
+  "unitType": "Unit Type",
+  "employeeCode": "Employee Code",
+  "department": "Department",
+  "jobTitle": "Job Title",
+  "branch": "Branch",
+  "hireDate": "Hire Date",
+  "otherBranches": "Other Branches"
 }

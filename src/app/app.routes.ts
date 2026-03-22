@@ -25,6 +25,12 @@ import { TaxListComponent } from './features/configuration/taxes/components/tax-
 import { TaxFormComponent } from './features/configuration/taxes/components/tax-form-component/tax-form-component';
 import { UnitListComponent } from './features/configuration/units/components/unit-list-component/unit-list-component';
 import { UnitFormComponent } from './features/configuration/units/components/unit-form-component/unit-form-component';
+import { DepartmentListComponent } from './features/hr/departments/components/department-list-component/department-list-component';
+import { DepartmentFormComponent } from './features/hr/departments/components/department-form-component/department-form-component';
+import { JobTitleListComponent } from './features/hr/job-titles/components/job-title-list-component/job-title-list-component';
+import { JobTitleFormComponent } from './features/hr/job-titles/components/job-title-form-component/job-title-form-component';
+import { EmployeeListComponent } from './features/hr/employees/components/employee-list-component/employee-list-component';
+import { EmployeeFormComponent } from './features/hr/employees/components/employee-form-component/employee-form-component';
 
 export const routes: Routes = [
   {
@@ -139,6 +145,36 @@ export const routes: Routes = [
                   { path: '', component: UnitListComponent },
                   { path: 'add', component: UnitFormComponent },
                   { path: 'edit/:id', component: UnitFormComponent },
+                ],
+              },
+              {
+                path: 'departments',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Departments' },
+                children: [
+                  { path: '', component: DepartmentListComponent },
+                  { path: 'add', component: DepartmentFormComponent },
+                  { path: 'edit/:id', component: DepartmentFormComponent },
+                ],
+              },
+              {
+                path: 'job-titles',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'JobTitles' },
+                children: [
+                  { path: '', component: JobTitleListComponent },
+                  { path: 'add', component: JobTitleFormComponent },
+                  { path: 'edit/:id', component: JobTitleFormComponent },
+                ],
+              },
+              {
+                path: 'employees',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Employees' },
+                children: [
+                  { path: '', component: EmployeeListComponent },
+                  { path: 'add', component: EmployeeFormComponent },
+                  { path: 'edit/:id', component: EmployeeFormComponent },
                 ],
               },
             ],

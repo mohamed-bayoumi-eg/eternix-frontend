@@ -1,6 +1,7 @@
 import { OnInit, signal, inject, Directive } from '@angular/core';
 import { GetListQueryBase, MetaData, SortingType, PagedList } from '../../../models/base-requests';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Directive()
 export abstract class BaseListComponent<
@@ -9,6 +10,7 @@ export abstract class BaseListComponent<
 > implements OnInit {
   protected abstract service: any;
   protected router = inject(Router);
+  protected translate = inject(TranslateService);
 
   items = signal<TResult[]>([]);
   metaData = signal<MetaData | null>(null);

@@ -97,5 +97,13 @@
   "taxType": "نوع الضريبة",
   "percentage": "النسبة",
   "globalUnitCode": "كود الوحدة العالمي",
-  "unitType": "نوع الوحدة"
+  "unitType": "نوع الوحدة",
+  "departmentManager": "مدير القسم",
+  "parentDepartment": "القسم الرئيسي",
+  "employeeCode": "كود الموظف",
+  "department": "القسم",
+  "jobTitle": "المسمي الوظيفي",
+  "branch": "الفرع",
+  "hireDate": "تاريخ التعيين",
+  "otherBranches": "الفروع الاخري"
 }

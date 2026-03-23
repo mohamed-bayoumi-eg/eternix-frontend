@@ -162,22 +162,35 @@ export class DynamicInputComponent implements OnInit {
     if (Array.isArray(val)) return val.length > 0;
     return val !== null && val !== undefined && val !== '';
   }
-  selectedLabelsSignal = computed(() => {
+  selectedOptions = computed(() => {
     const values = this.currentValue();
     const opts = this.options();
 
     if (!Array.isArray(values) || values.length === 0 || opts.length === 0) {
-      return '';
+      return [];
     }
 
     const selectedKeys = values.map((v: any) => String(v).trim());
 
-    return opts
-      .filter((o) => selectedKeys.includes(String(o.key).trim()))
-      .map((o) => o.value)
-      .join(', ');
+    return opts.filter((o) => selectedKeys.includes(String(o.key).trim()));
   });
+  removeSelectedOption(opt: ComboResultBase, event: MouseEvent) {
+    event.stopPropagation();
 
+    let currentValues = this.control.value;
+
+    if (!Array.isArray(currentValues)) {
+      currentValues = currentValues ? [currentValues] : [];
+    }
+
+    const updatedValues = currentValues.filter(
+      (v: any) => String(v).trim() !== String(opt.key).trim(),
+    );
+
+    this.control.setValue(updatedValues);
+    this.control.markAsDirty();
+    this.valueChange.emit({ field: this.config.fieldName, value: updatedValues });
+  }
   toggleOption(opt: ComboResultBase) {
     let currentValues = this.control.value;
 
@@ -330,7 +343,8 @@ export class DynamicInputComponent implements OnInit {
       [InputType.Checkbox]: 6,
       [InputType.Date]: 6,
       [InputType.Select]: 6,
-      [InputType.Enum]: 4,
+      [InputType.Enum]: 3,
+      [InputType.Number]: 3,
     };
     return spans[this.config.type] || 6;
   }

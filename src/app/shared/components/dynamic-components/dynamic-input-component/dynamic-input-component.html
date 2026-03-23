@@ -11,7 +11,7 @@
       </div>
     }
 
-    <div class="input-side flex-grow-1" [style.min-width]="inputWidth">
+    <div class="input-side flex-grow-1" [style.width]="inputWidth">
       <div class="input-relative-container" [class.skeleton-loader]="isLoadingOptions()">
         @switch (config.type) {
           @case (types.Text) {
@@ -97,10 +97,25 @@
                 [class.is-invalid-field]="isInvalid && isRequired"
                 [class.is-valid-field]="isControlValid && isRequired"
               >
-                <div class="select-display" (click)="toggleDropdown()">
-                  <span class="text-truncate" [class.is-placeholder]="!control.value?.length">
-                    {{ selectedLabelsSignal() || ('choose' | translate) }}
-                  </span>
+                <div class="select-display multi-select-display" (click)="toggleDropdown()">
+                  @if (control.value?.length) {
+                    <div class="selected-tags">
+                      @for (opt of selectedOptions(); track opt.key) {
+                        <span class="selected-tag" (click)="$event.stopPropagation()">
+                          {{ opt.value }}
+                          <i
+                            class="fas fa-times tag-remove"
+                            (click)="removeSelectedOption(opt, $event)"
+                          ></i>
+                        </span>
+                      }
+                    </div>
+                  } @else {
+                    <span class="text-truncate is-placeholder">
+                      {{ 'choose' | translate }}
+                    </span>
+                  }
+
                   <i class="fas fa-chevron-down arrow"></i>
                 </div>
 

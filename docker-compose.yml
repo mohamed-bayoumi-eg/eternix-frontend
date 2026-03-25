@@ -1,12 +1,15 @@
-version: '3.8'
-
+name: eternix-project
 services:
   eternix-frontend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: eternix_frontend_container
-    image: eternix-frontend:latest
+    image: mbayoumieg/eternix-frontend:latest
+    container_name: eternix-frontend-container
     ports:
       - '4200:80'
-    restart: always
+    networks:
+      - eternix-network
+networks:
+  eternix-network:
+    external: true

@@ -4,6 +4,7 @@ import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/b
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetTaxListQueryResult, GetTaxListQuery } from '../../models/tax.contracts';
 import { TaxService } from '../../services/tax.service';
+import { FieldType } from 'src/app/shared/models/dynamic-input-config';
 
 @Component({
   selector: 'app-tax-list-component',
@@ -21,8 +22,8 @@ export class TaxListComponent extends BaseListComponent<GetTaxListQueryResult, G
     { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'percentage', header: 'percentage', sortable: true },
     { field: 'taxAuthorityCode', header: 'taxAuthorityCode', sortable: true },
-    { field: 'taxType', header: 'taxType', sortable: true },
-    { field: 'isActive', header: 'isActive', sortable: true },
+    { field: 'taxType', header: 'taxType', sortable: true, type: FieldType.Enum },
+    { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
   ];
 
   filterConfigs = [];

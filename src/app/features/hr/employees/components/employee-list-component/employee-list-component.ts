@@ -4,6 +4,7 @@ import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/b
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetEmployeeListQueryResult, GetEmployeeListQuery } from '../../models/employee.contracts';
 import { EmployeeService } from '../../services/employee.service';
+import { FieldType } from 'src/app/shared/models/dynamic-input-config';
 
 @Component({
   selector: 'app-employee-list-component',
@@ -35,7 +36,7 @@ export class EmployeeListComponent extends BaseListComponent<
       { field: branch, header: 'branch' },
       { field: user, header: 'user' },
       { field: 'hireDate', header: 'hireDate', sortable: true },
-      { field: 'isActive', header: 'isActive', sortable: true },
+      { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
     ];
   }
 

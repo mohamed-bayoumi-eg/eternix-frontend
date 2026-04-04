@@ -10,7 +10,7 @@ import { RoleService } from '../../services/role.service';
 import { DynamicDetailsTableComponent } from 'src/app/shared/components/dynamic-components/dynamic-details-table-component/dynamic-details-table-component';
 import { PermissionType } from '../../enums/role.enums';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import { DynamicDetailsTableConfig } from 'src/app/shared/models/dynamic-details-table-config';
 import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
@@ -44,26 +44,26 @@ export class RoleFormComponent extends BaseFormComponent<
   selectedPermissions = signal<RolePermissionDto[]>([]);
   readonly formConfig: DynamicInputConfig[] = [
     {
-      type: InputType.Text,
+      type: FieldType.Text,
       fieldName: 'arabicName',
       label: 'arabicName',
       validations: [ValidationHelper.ArabicName],
     },
     {
-      type: InputType.Text,
+      type: FieldType.Text,
       fieldName: 'englishName',
       label: 'englishName',
       validations: [ValidationHelper.EnglishName],
     },
     {
-      type: InputType.TextArea,
+      type: FieldType.TextArea,
       fieldName: 'description',
       label: 'description',
     },
   ];
   readonly permissionFormConfig: DynamicInputConfig[] = [
     {
-      type: InputType.Select,
+      type: FieldType.Select,
       fieldName: 'screenId',
       label: 'screen',
       endpoint: 'screens',
@@ -71,7 +71,7 @@ export class RoleFormComponent extends BaseFormComponent<
       span: 6,
     },
     {
-      type: InputType.Enum,
+      type: FieldType.Enum,
       fieldName: 'permissionType',
       label: 'permissionType',
       enum: PermissionType,

@@ -4,7 +4,7 @@ import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetUserListQueryResult, GetUsersListQuery } from '../../models/user.contracts';
 import { UserService } from '../../services/user.service';
 import { IsActive } from 'src/app/shared/enums/common.enums';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { UserType } from '../../enums/user.enums';
 import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
@@ -27,20 +27,20 @@ export class UserListComponent extends BaseListComponent<
     { field: 'arabicName', header: 'arabicName', sortable: true },
     { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'phoneNumber', header: 'phoneNumber', sortable: true },
-    { field: 'isActive', header: 'isActive', sortable: true },
-    { field: 'userType', header: 'userType', sortable: true },
+    { field: 'isActive', header: 'isActive', sortable: true , type: FieldType.Enum},
+    { field: 'userType', header: 'userType', sortable: true , type: FieldType.Enum},
   ];
 
   filterConfigs: DynamicInputConfig[] = [
     {
-      type: InputType.Enum,
+      type: FieldType.Enum,
       label: 'isActive',
       fieldName: 'isActive',
       enum: IsActive,
       showErrorMessage: false,
     },
     {
-      type: InputType.Enum,
+      type: FieldType.Enum,
       label: 'userType',
       fieldName: 'userType',
       enum: UserType,

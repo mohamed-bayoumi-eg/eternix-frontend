@@ -4,6 +4,7 @@ import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/b
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetUnitListQueryResult, GetUnitListQuery } from '../../models/unit.contracts';
 import { UnitService } from '../../services/unit.service';
+import { FieldType } from 'src/app/shared/models/dynamic-input-config';
 
 @Component({
   selector: 'app-unit-list-component',
@@ -21,8 +22,8 @@ export class UnitListComponent extends BaseListComponent<GetUnitListQueryResult,
     { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'symbol', header: 'symbol', sortable: true },
     { field: 'globalUnitCode', header: 'globalUnitCode', sortable: true },
-    { field: 'unitType', header: 'unitType', sortable: true },
-    { field: 'isActive', header: 'isActive', sortable: true },
+    { field: 'unitType', header: 'unitType', sortable: true, type: FieldType.Enum },
+    { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
   ];
   filterConfigs = [];
 }

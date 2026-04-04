@@ -3,7 +3,7 @@ import { BaseListComponent } from 'src/app/shared/components/base-components/bas
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetCityListQueryResult, GetCityListQuery } from '../../models/city.contracts';
 import { CityService } from '../../services/city.service';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
 @Component({
@@ -31,7 +31,7 @@ export class CityListComponent extends BaseListComponent<GetCityListQueryResult,
 
   filterConfigs: DynamicInputConfig[] = [
     {
-      type: InputType.Select,
+      type: FieldType.Select,
       fieldName: 'countryId',
       label: 'country',
       endpoint: 'countries',

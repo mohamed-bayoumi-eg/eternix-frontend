@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from '../../../models/dynamic-input-config';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { DynamicDetailsTableConfig } from 'src/app/shared/models/dynamic-details-table-config';
 

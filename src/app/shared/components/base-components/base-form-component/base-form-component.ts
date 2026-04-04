@@ -1,7 +1,7 @@
 import { Directive, OnInit, inject, signal, Input, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from '../../../models/dynamic-input-config';
 
 @Directive()
 export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> implements OnInit {
@@ -57,7 +57,7 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
     if (!data) return data;
 
     this.formConfig.forEach((config) => {
-      if (config.type === InputType.Enum && config.enum) {
+      if (config.type === FieldType.Enum && config.enum) {
         const fieldName = config.fieldName;
         const apiValue = data[fieldName];
 

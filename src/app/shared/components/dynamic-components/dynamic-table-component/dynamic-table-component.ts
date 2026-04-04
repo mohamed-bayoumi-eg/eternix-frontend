@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TableColumn, MetaData, SortingType } from '../../../models/base-requests';
 import { FormsModule } from '@angular/forms';
+import { FieldType } from 'src/app/shared/models/dynamic-input-config';
 
 @Component({
   selector: 'app-dynamic-table-component',
@@ -30,7 +31,7 @@ export class DynamicTableComponent implements OnChanges {
   @Output() onBulkDelete = new EventEmitter<string[]>();
 
   selectedIds = new Set<string>();
-
+  protected readonly FieldType = FieldType;
   ngOnChanges(changes: SimpleChanges) {
     if (changes['items']) {
       this.selectedIds.clear();
@@ -83,7 +84,7 @@ export class DynamicTableComponent implements OnChanges {
     let start = Math.max(1, current - 2);
     let end = Math.min(total, current + 2);
 
-    return Array.from({ length: (end - start) + 1 }, (_, i) => start + i);
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }
 
   goToPage(page: number) {

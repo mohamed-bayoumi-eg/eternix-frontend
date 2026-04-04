@@ -1,3 +1,5 @@
+import { FieldType } from "./dynamic-input-config";
+
 export interface ResultBase {
   id: string;
 }
@@ -24,6 +26,7 @@ export interface TableColumn {
   field: string;
   header: string;
   sortable?: boolean;
+  type?: FieldType;
 }
 
 export interface ApiResponse {

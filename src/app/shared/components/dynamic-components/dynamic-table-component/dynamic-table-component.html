@@ -59,7 +59,13 @@
               }
 
               @for (col of columns; track $index) {
-                <td>{{ item[col.field] }}</td>
+                <td>
+                  @if (col.type === FieldType.Enum) {
+                    {{ item[col.field] | translate }}
+                  } @else {
+                    {{ item[col.field] }}
+                  }
+                </td>
               }
 
               <td class="actions-cell">

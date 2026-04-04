@@ -7,6 +7,7 @@ import {
   GetDepartmentListQuery,
 } from '../../models/department.contracts';
 import { DepartmentService } from '../../services/department.service';
+import { FieldType } from 'src/app/shared/models/dynamic-input-config';
 
 @Component({
   selector: 'app-department-list-component',
@@ -34,7 +35,7 @@ export class DepartmentListComponent extends BaseListComponent<
       { field: 'englishName', header: 'englishName', sortable: true },
       { field: departmentManager, header: 'departmentManager' },
       { field: parentDepartment, header: 'parentDepartment' },
-      { field: 'isActive', header: 'isActive', sortable: true },
+      { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
     ];
   }
 

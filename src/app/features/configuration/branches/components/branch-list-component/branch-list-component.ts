@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import {
   GetBranchListQueryResult,
   GetBranchListQuery,
@@ -35,7 +35,7 @@ export class BranchListComponent extends BaseListComponent<
       { field: 'code', header: 'code', sortable: true },
       { field: 'arabicName', header: 'arabicName', sortable: true },
       { field: 'englishName', header: 'englishName', sortable: true },
-      { field: 'isActive', header: 'isActive', sortable: true },
+      { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
       { field: branchManager, header: 'branchManager' },
       { field: 'address', header: 'address', sortable: true },
       { field: area, header: 'area' },

@@ -1,7 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
 import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import { GetTaxQueryResult, CreateTaxCommand, UpdateTaxCommand } from '../../models/tax.contracts';
 import { TaxService } from '../../services/tax.service';
@@ -32,38 +32,38 @@ export class TaxFormComponent extends BaseFormComponent<
   get formConfig(): DynamicInputConfig[] {
     return [
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'arabicName',
         label: 'arabicName',
         validations: [ValidationHelper.ArabicName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'englishName',
         label: 'englishName',
         validations: [ValidationHelper.EnglishName],
       },
       {
-        type: InputType.Number,
+        type: FieldType.Number,
         fieldName: 'percentage',
         label: 'percentage',
         validations: [ValidationHelper.Percentage],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'taxAuthorityCode',
         label: 'taxAuthorityCode',
         validations: [ValidationHelper.Code],
       },
       {
-        type: InputType.Enum,
+        type: FieldType.Enum,
         fieldName: 'taxType',
         label: 'taxType',
         enum: TaxType,
         validations: [ValidationHelper.Required],
       },
       {
-        type: InputType.Enum,
+        type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
         enum: IsActive,

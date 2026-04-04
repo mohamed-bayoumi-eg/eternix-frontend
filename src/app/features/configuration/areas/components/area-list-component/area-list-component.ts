@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { GetAreaListQueryResult, GetAreaListQuery } from '../../models/area.contracts';
 import { AreaService } from '../../services/area.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,7 +30,7 @@ export class AreaListComponent extends BaseListComponent<GetAreaListQueryResult,
   }
   filterConfigs: DynamicInputConfig[] = [
     {
-      type: InputType.Select,
+      type: FieldType.Select,
       fieldName: 'cityId',
       label: 'city',
       endpoint: 'cities',

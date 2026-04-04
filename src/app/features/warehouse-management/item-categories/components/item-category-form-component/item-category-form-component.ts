@@ -1,32 +1,33 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
-  GetCountryQueryResult,
-  CreateCountryCommand,
-  UpdateCountryCommand,
-} from '../../models/country.contracts';
-import { CountryService } from '../../services/country.service';
-import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+  GetItemCategoryQueryResult,
+  CreateItemCategoryCommand,
+  UpdateItemCategoryCommand,
+} from '../../models/item-category.contracts';
+import { ItemCategoryService } from '../../services/item-category.service';
+import { IsActive } from 'src/app/shared/enums/common.enums';
 
 @Component({
-  selector: 'app-country-form-component',
+  selector: 'app-item-category-form-component',
   imports: [BASE_FORM_RESOURCES],
-  templateUrl: './country-form-component.html',
-  styleUrl: './country-form-component.scss',
+  templateUrl: './item-category-form-component.html',
+  styleUrl: './item-category-form-component.scss',
   standalone: true,
 })
-export class CountryFormComponent extends BaseFormComponent<
-  GetCountryQueryResult,
-  CreateCountryCommand,
-  UpdateCountryCommand
+export class ItemCategoryFormComponent extends BaseFormComponent<
+  GetItemCategoryQueryResult,
+  CreateItemCategoryCommand,
+  UpdateItemCategoryCommand
 > {
-  protected override service = inject(CountryService);
+  protected override service = inject(ItemCategoryService);
   constructor() {
     super();
     effect(() => {
-      const data = this.editData();
+      this.editData();
     });
   }
   isTableValid = signal(false);
@@ -44,6 +45,13 @@ export class CountryFormComponent extends BaseFormComponent<
         fieldName: 'englishName',
         label: 'englishName',
         validations: [ValidationHelper.EnglishName],
+      },
+      {
+        type: FieldType.Enum,
+        fieldName: 'isActive',
+        label: 'isActive',
+        enum: IsActive,
+        validations: [ValidationHelper.Required],
       },
     ];
   }

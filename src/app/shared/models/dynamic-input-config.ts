@@ -1,4 +1,4 @@
-export enum InputType {
+export enum FieldType {
   Text = 'text',
   Number = 'number',
   TextArea = 'textarea',
@@ -21,7 +21,7 @@ export interface ValidationConfig {
 }
 
 export interface DynamicInputConfig<TQuery = any> {
-  type: InputType;
+  type: FieldType;
   fieldName: string;
   label?: string;
   endpoint?: string;

@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
   GetCurrencyQueryResult,
@@ -34,37 +34,37 @@ export class CurrencyFormComponent extends BaseFormComponent<
   get formConfig(): DynamicInputConfig[] {
     return [
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'arabicName',
         label: 'arabicName',
         validations: [ValidationHelper.ArabicName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'englishName',
         label: 'englishName',
         validations: [ValidationHelper.EnglishName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'isoCode',
         label: 'isoCode',
         validations: [ValidationHelper.Code, ValidationHelper.Required],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'symbol',
         label: 'symbol',
         validations: [ValidationHelper.Code, ValidationHelper.Required],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'arabicSubUnitName',
         label: 'arabicSubUnitName',
         validations: [ValidationHelper.ArabicName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'englishSubUnitName',
         label: 'englishSubUnitName',
         validations: [ValidationHelper.EnglishName],

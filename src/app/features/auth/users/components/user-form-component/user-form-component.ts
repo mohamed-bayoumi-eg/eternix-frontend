@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
 import { IsActive } from 'src/app/shared/enums/common.enums';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import { UserType } from '../../enums/user.enums';
 import {
@@ -38,31 +38,31 @@ export class UserFormComponent extends BaseFormComponent<
 
     const allConfigs: (DynamicInputConfig | null)[] = [
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'arabicName',
         label: 'arabicName',
         validations: [ValidationHelper.ArabicName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'englishName',
         label: 'englishName',
         validations: [ValidationHelper.EnglishName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'userName',
         label: 'userName',
         validations: [ValidationHelper.EnglishName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'email',
         label: 'email',
         validations: [ValidationHelper.Email],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'phoneNumber',
         label: 'phoneNumber',
         validations: [ValidationHelper.PhoneNumber],
@@ -70,7 +70,7 @@ export class UserFormComponent extends BaseFormComponent<
 
       !isEdit
         ? {
-            type: InputType.Text,
+            type: FieldType.Text,
             fieldName: 'password',
             label: 'password',
             validations: [/*ValidationHelper.Password,*/ ValidationHelper.Required],
@@ -78,14 +78,14 @@ export class UserFormComponent extends BaseFormComponent<
         : null,
 
       {
-        type: InputType.Enum,
+        type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
         enum: IsActive,
         validations: [ValidationHelper.Required],
       },
       {
-        type: InputType.Enum,
+        type: FieldType.Enum,
         fieldName: 'userType',
         label: 'userType',
         enum: UserType,
@@ -94,7 +94,7 @@ export class UserFormComponent extends BaseFormComponent<
 
       userType === UserType.User
         ? {
-            type: InputType.MultiSelect,
+            type: FieldType.MultiSelect,
             fieldName: 'roleIds',
             label: 'roles',
             endpoint: 'roles',

@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { TableColumn, MetaData } from '../../../models/base-requests';
-import { DynamicInputConfig, InputType } from '../../../models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from '../../../models/dynamic-input-config';
 import { DynamicListPageConfig } from '../../../models/dynamic-page-config';
 import { DynamicTableComponent } from '../../dynamic-components/dynamic-table-component/dynamic-table-component';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
@@ -54,7 +54,7 @@ export class DynamicListPageComponent implements OnInit {
   showBulkConfirm = false;
 
   searchConfig: DynamicInputConfig = {
-    type: InputType.Text,
+    type: FieldType.Text,
     fieldName: 'searchTerm',
     label: 'search',
     showErrorMessage: false,

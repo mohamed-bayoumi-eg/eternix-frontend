@@ -31,6 +31,8 @@ import { JobTitleListComponent } from './features/hr/job-titles/components/job-t
 import { JobTitleFormComponent } from './features/hr/job-titles/components/job-title-form-component/job-title-form-component';
 import { EmployeeListComponent } from './features/hr/employees/components/employee-list-component/employee-list-component';
 import { EmployeeFormComponent } from './features/hr/employees/components/employee-form-component/employee-form-component';
+import { ItemCategoryListComponent } from './features/warehouse-management/item-categories/components/item-category-list-component/item-category-list-component';
+import { ItemCategoryFormComponent } from './features/warehouse-management/item-categories/components/item-category-form-component/item-category-form-component';
 
 export const routes: Routes = [
   {
@@ -175,6 +177,16 @@ export const routes: Routes = [
                   { path: '', component: EmployeeListComponent },
                   { path: 'add', component: EmployeeFormComponent },
                   { path: 'edit/:id', component: EmployeeFormComponent },
+                ],
+              },
+              {
+                path: 'item-categories',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'ItemCategories' },
+                children: [
+                  { path: '', component: ItemCategoryListComponent },
+                  { path: 'add', component: ItemCategoryFormComponent },
+                  { path: 'edit/:id', component: ItemCategoryFormComponent },
                 ],
               },
             ],

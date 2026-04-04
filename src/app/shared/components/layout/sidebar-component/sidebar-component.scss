@@ -79,7 +79,13 @@
   white-space: nowrap;
   justify-content: space-between;
 }
-
+.menu-link .text,
+.menu-item .text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .menu-item .arrow-icon {
   font-size: 12px;
   transition: transform 0.3s ease;

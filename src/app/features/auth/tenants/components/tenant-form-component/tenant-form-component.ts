@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
 import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
 import { IsActive } from 'src/app/shared/enums/common.enums';
-import { DynamicInputConfig, InputType } from 'src/app/shared/models/dynamic-input-config';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
   GetTenantQueryResult,
@@ -32,39 +32,39 @@ export class TenantFormComponent extends BaseFormComponent<
 
     const allConfigs: (DynamicInputConfig | null)[] = [
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'arabicName',
         label: 'arabicName',
         validations: [ValidationHelper.ArabicName],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'englishName',
         label: 'englishName',
         validations: [ValidationHelper.EnglishName],
       },
       {
-        type: InputType.Enum,
+        type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
         enum: IsActive,
         validations: [ValidationHelper.Required],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'email',
         label: 'email',
         validations: [ValidationHelper.Email],
       },
       {
-        type: InputType.Text,
+        type: FieldType.Text,
         fieldName: 'phoneNumber',
         label: 'phoneNumber',
         validations: [ValidationHelper.PhoneNumber],
       },
       !isEdit
         ? {
-            type: InputType.Text,
+            type: FieldType.Text,
             fieldName: 'adminArabicName',
             label: 'adminArabicName',
             validations: [ValidationHelper.ArabicName],
@@ -72,7 +72,7 @@ export class TenantFormComponent extends BaseFormComponent<
         : null,
       !isEdit
         ? {
-            type: InputType.Text,
+            type: FieldType.Text,
             fieldName: 'adminEnglishName',
             label: 'adminEnglishName',
             validations: [ValidationHelper.EnglishName],
@@ -80,7 +80,7 @@ export class TenantFormComponent extends BaseFormComponent<
         : null,
       !isEdit
         ? {
-            type: InputType.Text,
+            type: FieldType.Text,
             fieldName: 'adminUserName',
             label: 'adminUserName',
             validations: [ValidationHelper.EnglishName],
@@ -88,7 +88,7 @@ export class TenantFormComponent extends BaseFormComponent<
         : null,
       !isEdit
         ? {
-            type: InputType.Text,
+            type: FieldType.Text,
             fieldName: 'adminPassword',
             label: 'adminPassword',
             validations: [/*ValidationHelper.Password,*/ ValidationHelper.Required],

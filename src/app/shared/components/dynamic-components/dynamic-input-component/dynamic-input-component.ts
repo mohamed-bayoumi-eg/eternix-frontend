@@ -22,7 +22,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import {
   DynamicInputConfig,
-  InputType,
+  FieldType,
   ValidationConfig,
 } from '../../../models/dynamic-input-config';
 import { ApiService } from '../../../services/api.service';
@@ -53,7 +53,7 @@ export class DynamicInputComponent implements OnInit {
   private apiService = inject(ApiService);
   private elementRef = inject(ElementRef);
 
-  types = InputType;
+  types = FieldType;
   options = signal<ComboResultBase[]>([]);
   isLoadingOptions = signal<boolean>(false);
   dropdownOpen = false;
@@ -99,7 +99,7 @@ export class DynamicInputComponent implements OnInit {
       this.loadData();
     }
 
-    if (this.config.type !== InputType.Select && this.config.type !== InputType.MultiSelect) {
+    if (this.config.type !== FieldType.Select && this.config.type !== FieldType.MultiSelect) {
       this.loadData();
     }
 
@@ -128,7 +128,7 @@ export class DynamicInputComponent implements OnInit {
 
   private loadData(search: string = '') {
     if (
-      (this.config.type === InputType.Select || this.config.type === InputType.MultiSelect) &&
+      (this.config.type === FieldType.Select || this.config.type === FieldType.MultiSelect) &&
       this.config.endpoint
     ) {
       this.isLoadingOptions.set(true);
@@ -152,7 +152,7 @@ export class DynamicInputComponent implements OnInit {
           },
           error: () => this.isLoadingOptions.set(false),
         });
-    } else if (this.config.type === InputType.Enum && this.config.enum) {
+    } else if (this.config.type === FieldType.Enum && this.config.enum) {
       this.options.set(this.mapEnum(this.config.enum));
     } else if (this.config.options) {
       this.options.set(this.config.options);
@@ -339,12 +339,12 @@ export class DynamicInputComponent implements OnInit {
   get fieldSpan(): number {
     if (this.config.span) return this.config.span;
     const spans: any = {
-      [InputType.TextArea]: 6,
-      [InputType.Checkbox]: 6,
-      [InputType.Date]: 6,
-      [InputType.Select]: 6,
-      [InputType.Enum]: 3,
-      [InputType.Number]: 3,
+      [FieldType.TextArea]: 6,
+      [FieldType.Checkbox]: 6,
+      [FieldType.Date]: 6,
+      [FieldType.Select]: 6,
+      [FieldType.Enum]: 3,
+      [FieldType.Number]: 3,
     };
     return spans[this.config.type] || 6;
   }

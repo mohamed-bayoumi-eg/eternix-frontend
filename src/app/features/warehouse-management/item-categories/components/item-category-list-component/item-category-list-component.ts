@@ -23,11 +23,13 @@ export class ItemCategoryListComponent extends BaseListComponent<
   protected override service = inject(ItemCategoryService);
 
   get columns(): TableColumn[] {
+    const currentLang = this.translate.getCurrentLang();
+    const itemType = currentLang === 'ar' ? 'itemTypeArabicName' : 'itemTypeEnglishName';
     return [
       { field: 'code', header: 'code', sortable: true },
       { field: 'arabicName', header: 'arabicName', sortable: true },
       { field: 'englishName', header: 'englishName', sortable: true },
-      { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
+      { field: itemType, header: 'itemType' },
     ];
   }
 

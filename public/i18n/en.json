@@ -103,5 +103,7 @@
   "jobTitle": "Job Title",
   "branch": "Branch",
   "hireDate": "Hire Date",
-  "otherBranches": "Other Branches"
+  "otherBranches": "Other Branches",
+  "taxes": "Taxes",
+  "itemType": "Item Type"
 }

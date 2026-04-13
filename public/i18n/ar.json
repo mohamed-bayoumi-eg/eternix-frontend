@@ -105,5 +105,7 @@
   "jobTitle": "المسمي الوظيفي",
   "branch": "الفرع",
   "hireDate": "تاريخ التعيين",
-  "otherBranches": "الفروع الاخري"
+  "otherBranches": "الفروع الاخري",
+  "taxes": "الضرائب",
+  "itemType": "نوع الصنف"
 }

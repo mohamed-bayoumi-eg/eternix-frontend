@@ -33,6 +33,8 @@ import { EmployeeListComponent } from './features/hr/employees/components/employ
 import { EmployeeFormComponent } from './features/hr/employees/components/employee-form-component/employee-form-component';
 import { ItemCategoryListComponent } from './features/warehouse-management/item-categories/components/item-category-list-component/item-category-list-component';
 import { ItemCategoryFormComponent } from './features/warehouse-management/item-categories/components/item-category-form-component/item-category-form-component';
+import { ItemTypeListComponent } from './features/warehouse-management/item-types/components/item-type-list-component/item-type-list-component';
+import { ItemTypeFormComponent } from './features/warehouse-management/item-types/components/item-type-form-component/item-type-form-component';
 
 export const routes: Routes = [
   {
@@ -187,6 +189,16 @@ export const routes: Routes = [
                   { path: '', component: ItemCategoryListComponent },
                   { path: 'add', component: ItemCategoryFormComponent },
                   { path: 'edit/:id', component: ItemCategoryFormComponent },
+                ],
+              },
+              {
+                path: 'item-types',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'ItemTypes' },
+                children: [
+                  { path: '', component: ItemTypeListComponent },
+                  { path: 'add', component: ItemTypeFormComponent },
+                  { path: 'edit/:id', component: ItemTypeFormComponent },
                 ],
               },
             ],

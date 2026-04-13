@@ -45,7 +45,7 @@ export interface GetAreaListQueryResult extends ResultBase {
   englishName: string;
   cityId: string;
   cityArabicName: string;
-  cityenglishName: string;
+  cityEnglishName: string;
 }
 
 export interface GetAreaQueryResult extends ResultBase {

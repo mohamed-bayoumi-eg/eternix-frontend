@@ -14,7 +14,7 @@ import {
 export interface CreateItemCategoryCommand extends CreateCommandBase<CreateItemCategoryCommandResult> {
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  itemTypeId: string;
 }
 
 export interface CreateItemCategoryCommandResult extends ResultBase {}
@@ -22,7 +22,7 @@ export interface CreateItemCategoryCommandResult extends ResultBase {}
 export interface UpdateItemCategoryCommand extends UpdateCommandBase<UpdateItemCategoryCommandResult> {
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  itemTypeId: string;
 }
 export interface UpdateItemCategoryCommandResult extends ResultBase {}
 
@@ -42,14 +42,16 @@ export interface GetItemCategoryListQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  itemTypeId: string;
+  itemTypeArabicName: string;
+  itemTypeEnglishName: string;
 }
 
 export interface GetItemCategoryQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  itemTypeId: string;
 }
 
 export class GetItemCategoryComboQuery implements GetComboQueryBase<ComboResultBase[]> {

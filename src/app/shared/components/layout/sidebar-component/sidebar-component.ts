@@ -16,8 +16,19 @@ export class SidebarComponent {
   private authService = inject(AuthService);
   private translate = inject(TranslateService);
 
-  menus = computed<ModuleMenuDto[]>(() => this.authService.userModules());
+  menus = computed<ModuleMenuDto[]>(() => {
+    const modules = this.authService.userModules() ?? [];
 
+    return modules
+      .map((module) => ({
+        ...module,
+        screens: (module.screens ?? [])
+          .slice()
+          .sort((a: ScreenMenuDto, b: ScreenMenuDto) => a.order - b.order),
+      }))
+      .slice()
+      .sort((a: ModuleMenuDto, b: ModuleMenuDto) => a.order - b.order);
+  });
   activeMenu: string | null = null;
   getName(item: any): string {
     const lang = this.translate.getCurrentLang();

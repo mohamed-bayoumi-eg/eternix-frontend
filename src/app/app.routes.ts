@@ -21,10 +21,10 @@ import { BranchListComponent } from './features/configuration/branches/component
 import { BranchFormComponent } from './features/configuration/branches/components/branch-form-component/branch-form-component';
 import { CurrencyListComponent } from './features/configuration/currencies/components/currency-list-component/currency-list-component';
 import { CurrencyFormComponent } from './features/configuration/currencies/components/currency-form-component/currency-form-component';
-import { TaxListComponent } from './features/configuration/taxes/components/tax-list-component/tax-list-component';
-import { TaxFormComponent } from './features/configuration/taxes/components/tax-form-component/tax-form-component';
-import { UnitListComponent } from './features/configuration/units/components/unit-list-component/unit-list-component';
-import { UnitFormComponent } from './features/configuration/units/components/unit-form-component/unit-form-component';
+import { TaxListComponent } from './features/warehouse-management/taxes/components/tax-list-component/tax-list-component';
+import { TaxFormComponent } from './features/warehouse-management/taxes/components/tax-form-component/tax-form-component';
+import { UnitListComponent } from './features/warehouse-management/units/components/unit-list-component/unit-list-component';
+import { UnitFormComponent } from './features/warehouse-management/units/components/unit-form-component/unit-form-component';
 import { DepartmentListComponent } from './features/hr/departments/components/department-list-component/department-list-component';
 import { DepartmentFormComponent } from './features/hr/departments/components/department-form-component/department-form-component';
 import { JobTitleListComponent } from './features/hr/job-titles/components/job-title-list-component/job-title-list-component';
@@ -35,6 +35,8 @@ import { ItemCategoryListComponent } from './features/warehouse-management/item-
 import { ItemCategoryFormComponent } from './features/warehouse-management/item-categories/components/item-category-form-component/item-category-form-component';
 import { ItemTypeListComponent } from './features/warehouse-management/item-types/components/item-type-list-component/item-type-list-component';
 import { ItemTypeFormComponent } from './features/warehouse-management/item-types/components/item-type-form-component/item-type-form-component';
+import { WarehouseListComponent } from './features/warehouse-management/warehouses/components/warehouse-list-component/warehouse-list-component';
+import { WarehouseFormComponent } from './features/warehouse-management/warehouses/components/warehouse-form-component/warehouse-form-component';
 
 export const routes: Routes = [
   {
@@ -199,6 +201,16 @@ export const routes: Routes = [
                   { path: '', component: ItemTypeListComponent },
                   { path: 'add', component: ItemTypeFormComponent },
                   { path: 'edit/:id', component: ItemTypeFormComponent },
+                ],
+              },
+              {
+                path: 'warehouses',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Warehouses' },
+                children: [
+                  { path: '', component: WarehouseListComponent },
+                  { path: 'add', component: WarehouseFormComponent },
+                  { path: 'edit/:id', component: WarehouseFormComponent },
                 ],
               },
             ],

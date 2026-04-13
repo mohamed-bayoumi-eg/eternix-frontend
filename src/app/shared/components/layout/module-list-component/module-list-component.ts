@@ -14,8 +14,11 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class ModuleListComponent {
   private authService = inject(AuthService);
   private translate = inject(TranslateService);
-  modules = computed(() => this.authService.userModules());
-
+  modules = computed<ModuleMenuDto[]>(() => {
+    return (this.authService.userModules() ?? [])
+      .slice()
+      .sort((a: ModuleMenuDto, b: ModuleMenuDto) => a.order - b.order);
+  });
   getName(item: any): string {
     return this.translate.getCurrentLang() === 'ar' ? item.arabicName : item.englishName;
   }

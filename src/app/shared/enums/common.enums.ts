@@ -3,3 +3,8 @@ export enum IsActive {
   Active = 'Active',
   InActive = 'InActive',
 }
+export enum IsMain {
+  Undefined = 'Undefined',
+  Main = 'Main',
+  NotMain = 'NotMain',
+}

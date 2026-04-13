@@ -17,9 +17,19 @@ export class ScreenListComponent {
   private authService = inject(AuthService);
   private translate = inject(TranslateService);
 
-  moduleKey = toSignal(this.route.params.pipe(map(p => p['moduleRoute'])));
-  currentModule = computed(() => this.authService.userModules().find(m => m.route === this.moduleKey()));
+  moduleKey = toSignal(this.route.params.pipe(map((p) => p['moduleRoute'])));
+  currentModule = computed<ModuleMenuDto | undefined>(() => {
+    const module = this.authService.userModules().find((m) => m.route === this.moduleKey());
 
+    if (!module) return undefined;
+
+    return {
+      ...module,
+      screens: (module.screens ?? [])
+        .slice()
+        .sort((a: ScreenMenuDto, b: ScreenMenuDto) => a.order - b.order),
+    };
+  });
   getName(item: any): string {
     return this.translate.currentLang === 'ar' ? item.arabicName : item.englishName;
   }

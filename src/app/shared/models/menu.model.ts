@@ -3,6 +3,7 @@ interface ScreenMenuDto {
   route: string;
   arabicName: string;
   englishName: string;
+  order: number;
   actions: string[];
 }
 
@@ -11,6 +12,7 @@ interface ModuleMenuDto {
   arabicName: string;
   englishName: string;
   route: string;
+  order: number;
   screens: ScreenMenuDto[];
 }
 

@@ -105,5 +105,8 @@
   "hireDate": "Hire Date",
   "otherBranches": "Other Branches",
   "taxes": "Taxes",
-  "itemType": "Item Type"
+  "itemType": "Item Type",
+  "isMain": "Is Main",
+  "Main": "Main",
+  "NotMain": "Not Main"
 }

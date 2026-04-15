@@ -10,7 +10,7 @@ import {
   ComboResultBase,
 } from 'src/app/shared/models/base-requests';
 import { UnitType } from '../enums/unit.enums';
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 export interface CreateUnitCommand extends CreateCommandBase<CreateUnitCommandResult> {
   arabicName: string;
@@ -18,7 +18,7 @@ export interface CreateUnitCommand extends CreateCommandBase<CreateUnitCommandRe
   symbol: string;
   globalUnitCode: string | null;
   unitType: UnitType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface CreateUnitCommandResult extends ResultBase {}
@@ -29,7 +29,7 @@ export interface UpdateUnitCommand extends UpdateCommandBase<UpdateUnitCommandRe
   symbol: string;
   globalUnitCode: string | null;
   unitType: UnitType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 export interface UpdateUnitCommandResult extends ResultBase {}
 
@@ -52,7 +52,7 @@ export interface GetUnitListQueryResult extends ResultBase {
   symbol: string;
   globalUnitCode: string | null;
   unitType: UnitType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface GetUnitQueryResult extends ResultBase {
@@ -62,7 +62,7 @@ export interface GetUnitQueryResult extends ResultBase {
   symbol: string;
   globalUnitCode: string | null;
   unitType: UnitType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export class GetUnitComboQuery implements GetComboQueryBase<ComboResultBase[]> {

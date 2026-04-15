@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseFeatureService } from 'src/app/shared/services/base-feature.service';
 import {
-  GetRolesListQuery,
+  GetRoleListQuery,
   GetRoleListQueryResult,
   GetRoleQuery,
   GetRoleQueryResult,
@@ -17,7 +17,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class RoleService extends BaseFeatureService<
-  GetRolesListQuery,
+  GetRoleListQuery,
   GetRoleListQueryResult,
   GetRoleQuery,
   GetRoleQueryResult,

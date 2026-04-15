@@ -1,4 +1,3 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -11,6 +10,7 @@ import {
   ComboResultBase,
 } from 'src/app/shared/models/base-requests';
 import { UserType } from '../enums/user.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 export interface CreateUserCommand extends CreateCommandBase<CreateUserCommandResult> {
   userName: string;
@@ -19,7 +19,7 @@ export interface CreateUserCommand extends CreateCommandBase<CreateUserCommandRe
   englishFullName: string;
   phoneNumber: string;
   password: string;
-  isActive: IsActive;
+  isActive: YesNo;
   userType: UserType;
   roleIds: string[];
 }
@@ -33,7 +33,7 @@ export interface UpdateUserCommand extends UpdateCommandBase<UpdateUserCommandRe
   englishName: string;
   phoneNumber: string;
   password: string;
-  isActive: IsActive;
+  isActive: YesNo;
   userType: UserType;
   roleIds: string[];
 }
@@ -50,7 +50,7 @@ export interface DeleteUserRangeCommandResult {}
 export interface GetUserQuery extends GetQueryBase<GetUserQueryResult> {}
 
 export interface GetUsersListQuery extends GetListQueryBase<GetUserListQueryResult> {
-  isActive?: IsActive;
+  isActive?: YesNo;
   userType: UserType;
 }
 
@@ -62,7 +62,7 @@ export interface GetUserListQueryResult extends ResultBase {
   englishFullName: string;
   phoneNumber: string;
   password: string;
-  isActive: IsActive;
+  isActive: YesNo;
   userType: UserType;
 }
 
@@ -74,7 +74,7 @@ export interface GetUserQueryResult extends ResultBase {
   englishName: string;
   phoneNumber: string;
   password: string;
-  isActive: IsActive;
+  isActive: YesNo;
   userType: UserType;
   roleIds: string[];
 }

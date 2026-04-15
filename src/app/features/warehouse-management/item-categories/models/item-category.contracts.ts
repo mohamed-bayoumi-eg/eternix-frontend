@@ -1,4 +1,3 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -56,4 +55,5 @@ export interface GetItemCategoryQueryResult extends ResultBase {
 
 export class GetItemCategoryComboQuery implements GetComboQueryBase<ComboResultBase[]> {
   searchTerm?: string;
+  itemTypeId?: string;
 }

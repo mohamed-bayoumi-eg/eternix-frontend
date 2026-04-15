@@ -1,4 +1,4 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -20,7 +20,7 @@ export interface CreateEmployeeCommand extends CreateCommandBase<CreateEmployeeC
   branchId: string;
   userId: string | null;
   hireDate: Date;
-  isActive: IsActive;
+  isActive: YesNo;
   otherBranchIds: string[];
 }
 
@@ -35,7 +35,7 @@ export interface UpdateEmployeeCommand extends UpdateCommandBase<UpdateEmployeeC
   branchId: string;
   userId: string | null;
   hireDate: Date;
-  isActive: IsActive;
+  isActive: YesNo;
   otherBranchIds: string[];
 }
 export interface UpdateEmployeeCommandResult extends ResultBase {}
@@ -66,7 +66,7 @@ export interface GetEmployeeListQueryResult extends ResultBase {
   userArabicName: string;
   userEnglishName: string;
   hireDate: Date;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface GetEmployeeQueryResult extends ResultBase {
@@ -79,7 +79,7 @@ export interface GetEmployeeQueryResult extends ResultBase {
   branchId: string;
   userId: string;
   hireDate: Date;
-  isActive: IsActive;
+  isActive: YesNo;
   otherBranchIds: string[];
 }
 

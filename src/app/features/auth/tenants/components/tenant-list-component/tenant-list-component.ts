@@ -1,11 +1,11 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GetTenantListQuery, GetTenantListQueryResult } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-tenant-list-component',
@@ -34,7 +34,7 @@ export class TenantListComponent extends BaseListComponent<
       type: FieldType.Enum,
       label: 'isActive',
       fieldName: 'isActive',
-      enum: IsActive,
+      enum: YesNo,
       showErrorMessage: false,
     },
   ];

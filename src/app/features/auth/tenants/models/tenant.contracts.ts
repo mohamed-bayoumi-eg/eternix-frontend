@@ -1,4 +1,4 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -14,7 +14,7 @@ import {
 export interface CreateTenantCommand extends CreateCommandBase<CreateTenantCommandResult> {
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   email: string;
   phoneNumber: string;
   adminArabicName: string;
@@ -28,7 +28,7 @@ export interface CreateTenantCommandResult extends ResultBase {}
 export interface UpdateTenantCommand extends UpdateCommandBase<UpdateTenantCommandResult> {
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   email: string;
   phoneNumber: string;
 }
@@ -45,14 +45,14 @@ export interface DeleteTenantRangeCommandResult {}
 export interface GetTenantQuery extends GetQueryBase<GetTenantQueryResult> {}
 
 export interface GetTenantListQuery extends GetListQueryBase<GetTenantListQueryResult> {
-  isActive?: IsActive;
+  isActive?: YesNo;
 }
 
 export interface GetTenantListQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   email: string;
   phoneNumber: string;
 }
@@ -61,7 +61,7 @@ export interface GetTenantQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   email: string;
   phoneNumber: string;
 }

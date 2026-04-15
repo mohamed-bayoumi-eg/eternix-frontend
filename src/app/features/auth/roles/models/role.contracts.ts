@@ -34,7 +34,7 @@ export interface DeleteRoleRangeCommandResult {}
 
 export interface GetRoleQuery extends GetQueryBase<GetRoleQueryResult> {}
 
-export interface GetRolesListQuery extends GetListQueryBase<GetRoleListQueryResult> {}
+export interface GetRoleListQuery extends GetListQueryBase<GetRoleListQueryResult> {}
 
 export interface GetRoleListQueryResult extends ResultBase {
   code: number;

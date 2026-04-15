@@ -1,4 +1,4 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -16,7 +16,7 @@ export interface CreateDepartmentCommand extends CreateCommandBase<CreateDepartm
   englishName: string;
   parentDepartmentId: string | null;
   managerId: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface CreateDepartmentCommandResult extends ResultBase {}
@@ -26,7 +26,7 @@ export interface UpdateDepartmentCommand extends UpdateCommandBase<UpdateDepartm
   englishName: string;
   parentDepartmentId: string | null;
   managerId: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 export interface UpdateDepartmentCommandResult extends ResultBase {}
 
@@ -50,7 +50,7 @@ export interface GetDepartmentListQueryResult extends ResultBase {
   managerEnglishName: string;
   parentDepartmentArabicName: string;
   parentDepartmentEnglishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface GetDepartmentQueryResult extends ResultBase {
@@ -59,7 +59,7 @@ export interface GetDepartmentQueryResult extends ResultBase {
   englishName: string;
   parentDepartmentId: string | null;
   managerId: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export class GetDepartmentComboQuery implements GetComboQueryBase<ComboResultBase[]> {

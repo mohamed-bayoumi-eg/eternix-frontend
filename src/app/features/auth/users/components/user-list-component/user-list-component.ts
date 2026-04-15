@@ -3,10 +3,10 @@ import { BaseListComponent } from 'src/app/shared/components/base-components/bas
 import { TableColumn } from 'src/app/shared/models/base-requests';
 import { GetUserListQueryResult, GetUsersListQuery } from '../../models/user.contracts';
 import { UserService } from '../../services/user.service';
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { UserType } from '../../enums/user.enums';
 import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-user-list-component',
@@ -36,7 +36,7 @@ export class UserListComponent extends BaseListComponent<
       type: FieldType.Enum,
       label: 'isActive',
       fieldName: 'isActive',
-      enum: IsActive,
+      enum: YesNo,
       showErrorMessage: false,
     },
     {

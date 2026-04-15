@@ -57,7 +57,7 @@
 @if (showConfirmDialog) {
   <app-confirm-dialog-component
     [title]="'deleteTitle'"
-    [message]="'deleteConfirmMessage' | translate: { name: (config.title | translate) }"
+    [message]="'areYouSureYouWantToDeleteThisItem' | translate"
     (result)="handleDialogResult($event)"
   >
   </app-confirm-dialog-component>

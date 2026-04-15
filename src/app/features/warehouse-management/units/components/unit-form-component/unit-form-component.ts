@@ -10,7 +10,7 @@ import {
   UpdateUnitCommand,
 } from '../../models/unit.contracts';
 import { UnitService } from '../../services/unit.service';
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-unit-form-component',
@@ -70,7 +70,7 @@ export class UnitFormComponent extends BaseFormComponent<
         type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
-        enum: IsActive,
+        enum: YesNo,
         validations: [ValidationHelper.Required],
       },
     ];

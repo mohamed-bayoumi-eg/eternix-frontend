@@ -13,7 +13,7 @@ import {
 export interface CreateItemTypeCommand extends CreateCommandBase<CreateItemTypeCommandResult> {
   arabicName: string;
   englishName: string;
-  taxIds: string[];
+  taxIds: string[] | null;
 }
 
 export interface CreateItemTypeCommandResult extends ResultBase {}
@@ -21,8 +21,7 @@ export interface CreateItemTypeCommandResult extends ResultBase {}
 export interface UpdateItemTypeCommand extends UpdateCommandBase<UpdateItemTypeCommandResult> {
   arabicName: string;
   englishName: string;
-  taxIds: string[];
-
+  taxIds: string[] | null;
 }
 export interface UpdateItemTypeCommandResult extends ResultBase {}
 
@@ -48,8 +47,7 @@ export interface GetItemTypeQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  taxIds: string[];
-
+  taxIds: string[] | null;
 }
 
 export class GetItemTypeComboQuery implements GetComboQueryBase<ComboResultBase[]> {

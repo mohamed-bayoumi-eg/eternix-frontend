@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { BaseListComponent } from 'src/app/shared/components/base-components/base-list-component/base-list-component';
 import { TableColumn } from 'src/app/shared/models/base-requests';
-import { GetRoleListQueryResult, GetRolesListQuery } from '../../models/role.contracts';
+import { GetRoleListQueryResult, GetRoleListQuery } from '../../models/role.contracts';
 import { RoleService } from '../../services/role.service';
 import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
 
@@ -14,7 +14,7 @@ import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/b
 })
 export class RoleListComponent extends BaseListComponent<
   GetRoleListQueryResult,
-  GetRolesListQuery
+  GetRoleListQuery
 > {
   protected override service = inject(RoleService);
 

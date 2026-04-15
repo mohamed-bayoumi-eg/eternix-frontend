@@ -6,7 +6,7 @@ import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import { GetTaxQueryResult, CreateTaxCommand, UpdateTaxCommand } from '../../models/tax.contracts';
 import { TaxService } from '../../services/tax.service';
 import { TaxType } from '../../enums/tax.enums';
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-tax-form-component',
@@ -66,7 +66,7 @@ export class TaxFormComponent extends BaseFormComponent<
         type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
-        enum: IsActive,
+        enum: YesNo,
         validations: [ValidationHelper.Required],
       },
     ];

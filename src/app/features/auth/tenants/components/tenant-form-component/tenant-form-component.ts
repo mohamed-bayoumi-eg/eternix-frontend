@@ -1,8 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
-import { DynamicFormPageComponent } from 'src/app/shared/components/dynamic-components/dynamic-form-page-component/dynamic-form-page-component';
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
 import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
 import {
@@ -12,6 +9,7 @@ import {
 } from '../../models/tenant.contracts';
 import { TenantService } from '../../services/tenant.service';
 import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-tenant-form-component',
@@ -47,7 +45,7 @@ export class TenantFormComponent extends BaseFormComponent<
         type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
-        enum: IsActive,
+        enum: YesNo,
         validations: [ValidationHelper.Required],
       },
       {

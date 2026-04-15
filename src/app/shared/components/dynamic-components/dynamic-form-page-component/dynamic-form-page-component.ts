@@ -206,7 +206,12 @@ export class DynamicFormPageComponent implements OnInit {
     this.showConfirmDialog = false;
     if (result) this.onDelete.emit();
   }
-
+  get visibleControls() {
+    return this.controls.filter((ctrl) => {
+      if (!ctrl.visibleWhen) return true;
+      return ctrl.visibleWhen(this.form);
+    });
+  }
   get config() {
     return this._config;
   }

@@ -1,4 +1,4 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -14,7 +14,7 @@ import {
 export interface CreateBranchCommand extends CreateCommandBase<CreateBranchCommandResult> {
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   address: string;
   phoneNumber: string;
   email: string;
@@ -27,7 +27,7 @@ export interface CreateBranchCommandResult extends ResultBase {}
 export interface UpdateBranchCommand extends UpdateCommandBase<UpdateBranchCommandResult> {
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   address: string;
   phoneNumber: string;
   email: string;
@@ -52,7 +52,7 @@ export interface GetBranchListQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   address: string;
   phoneNumber: string;
   email: string;
@@ -70,7 +70,7 @@ export interface GetBranchQueryResult extends ResultBase {
   code: number;
   arabicName: string;
   englishName: string;
-  isActive: IsActive;
+  isActive: YesNo;
   address: string;
   phoneNumber: string;
   email: string;

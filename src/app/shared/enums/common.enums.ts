@@ -1,10 +1,5 @@
-export enum IsActive {
+export enum YesNo {
   Undefined = 'Undefined',
-  Active = 'Active',
-  InActive = 'InActive',
-}
-export enum IsMain {
-  Undefined = 'Undefined',
-  Main = 'Main',
-  NotMain = 'NotMain',
+  Yes = 'Yes',
+  No = 'No',
 }

@@ -6,7 +6,6 @@ import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-inp
 import {
   GetBranchListQueryResult,
   GetBranchListQuery,
-  GetBranchComboQuery,
 } from '../../models/branch.contracts';
 import { BranchService } from '../../services/branch.service';
 import { BASE_LIST_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';

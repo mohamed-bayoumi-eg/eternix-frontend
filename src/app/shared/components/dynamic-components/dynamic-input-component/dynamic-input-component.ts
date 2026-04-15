@@ -115,6 +115,8 @@ export class DynamicInputComponent implements OnInit {
           .get(key)
           ?.valueChanges.pipe(distinctUntilChanged())
           .subscribe(() => {
+            this.resetFieldCompletely();
+
             this.options.set([]);
             this.isInitialLoadDone = false;
 
@@ -125,7 +127,21 @@ export class DynamicInputComponent implements OnInit {
       });
     }
   }
+  private resetFieldCompletely() {
+    this.control.reset(null, { emitEvent: false });
 
+    this.currentValue.set(null);
+    this.options.set([]);
+
+    this.dropdownOpen = false;
+    this.searchTerm = '';
+
+    this.control.markAsPristine();
+    this.control.markAsUntouched();
+    this.control.updateValueAndValidity({ emitEvent: false });
+
+    this.isInitialLoadDone = false;
+  }
   private loadData(search: string = '') {
     if (
       (this.config.type === FieldType.Select || this.config.type === FieldType.MultiSelect) &&
@@ -274,7 +290,7 @@ export class DynamicInputComponent implements OnInit {
 
   clearSelection(event: MouseEvent) {
     event.stopPropagation();
-    this.control.setValue(null);
+    this.resetFieldCompletely();
     this.control.markAsDirty();
     this.valueChange.emit({ field: this.config.fieldName, value: null });
     this.closeDropdown();

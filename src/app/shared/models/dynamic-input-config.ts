@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 export enum FieldType {
   Text = 'text',
   Number = 'number',
@@ -32,4 +34,6 @@ export interface DynamicInputConfig<TQuery = any> {
   validations?: ValidationConfig[];
   span?: number;
   showErrorMessage?: boolean;
+  visibleWhen?: (form: FormGroup) => boolean;
+  dependsOn?: string[];
 }

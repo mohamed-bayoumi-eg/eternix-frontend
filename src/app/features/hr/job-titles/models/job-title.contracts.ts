@@ -1,4 +1,4 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -15,7 +15,7 @@ export interface CreateJobTitleCommand extends CreateCommandBase<CreateJobTitleC
   arabicName: string;
   englishName: string;
   description: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface CreateJobTitleCommandResult extends ResultBase {}
@@ -24,7 +24,7 @@ export interface UpdateJobTitleCommand extends UpdateCommandBase<UpdateJobTitleC
   arabicName: string;
   englishName: string;
   description: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 export interface UpdateJobTitleCommandResult extends ResultBase {}
 
@@ -45,7 +45,7 @@ export interface GetJobTitleListQueryResult extends ResultBase {
   arabicName: string;
   englishName: string;
   description: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface GetJobTitleQueryResult extends ResultBase {
@@ -53,7 +53,7 @@ export interface GetJobTitleQueryResult extends ResultBase {
   arabicName: string;
   englishName: string;
   description: string | null;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export class GetJobTitleComboQuery implements GetComboQueryBase<ComboResultBase[]> {

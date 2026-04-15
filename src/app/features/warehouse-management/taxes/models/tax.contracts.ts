@@ -1,4 +1,3 @@
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import {
   CreateCommandBase,
   ResultBase,
@@ -11,6 +10,7 @@ import {
   ComboResultBase,
 } from 'src/app/shared/models/base-requests';
 import { TaxType } from '../enums/tax.enums';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 export interface CreateTaxCommand extends CreateCommandBase<CreateTaxCommandResult> {
   arabicName: string;
@@ -18,7 +18,7 @@ export interface CreateTaxCommand extends CreateCommandBase<CreateTaxCommandResu
   percentage: number;
   taxAuthorityCode: string | null;
   taxType: TaxType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface CreateTaxCommandResult extends ResultBase {}
@@ -29,7 +29,7 @@ export interface UpdateTaxCommand extends UpdateCommandBase<UpdateTaxCommandResu
   percentage: number;
   taxAuthorityCode: string | null;
   taxType: TaxType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 export interface UpdateTaxCommandResult extends ResultBase {}
 
@@ -52,7 +52,7 @@ export interface GetTaxListQueryResult extends ResultBase {
   percentage: number;
   taxAuthorityCode: string | null;
   taxType: TaxType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export interface GetTaxQueryResult extends ResultBase {
@@ -62,7 +62,7 @@ export interface GetTaxQueryResult extends ResultBase {
   percentage: number;
   taxAuthorityCode: string | null;
   taxType: TaxType;
-  isActive: IsActive;
+  isActive: YesNo;
 }
 
 export class GetTaxComboQuery implements GetComboQueryBase<ComboResultBase[]> {

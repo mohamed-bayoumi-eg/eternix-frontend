@@ -8,10 +8,10 @@ import {
   UpdateBranchCommand,
 } from '../../models/branch.contracts';
 import { BranchService } from '../../services/branch.service';
-import { IsActive } from 'src/app/shared/enums/common.enums';
 import { GetCityComboQuery } from '../../../cities/models/city.contracts';
 import { GetAreaComboQuery } from '../../../areas/models/area.contracts';
 import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+import { YesNo } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-branch-form-component',
@@ -65,7 +65,7 @@ export class BranchFormComponent extends BaseFormComponent<
         type: FieldType.Select,
         fieldName: 'managerId',
         label: 'branchManager',
-        endpoint: 'users',
+        endpoint: 'employees',
       },
       {
         type: FieldType.Select,
@@ -100,7 +100,7 @@ export class BranchFormComponent extends BaseFormComponent<
         type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
-        enum: IsActive,
+        enum: YesNo,
         validations: [ValidationHelper.Required],
       },
     ];

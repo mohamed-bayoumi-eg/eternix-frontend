@@ -58,4 +58,11 @@ export class ValidationHelper {
       pattern: '^[0-9]*\\.?[0-9]+$',
     };
   }
+  static get PositiveNumber(): ValidationConfig {
+    return {
+      required: true,
+      min: 0.01,
+      pattern: '^[0-9]*\\.?[0-9]+$',
+    };
+  }
 }

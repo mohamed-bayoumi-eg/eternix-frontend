@@ -1,13 +1,17 @@
-import { Component, inject, effect, signal } from "@angular/core";
-import { GetAreaComboQuery } from "src/app/features/configuration/areas/models/area.contracts";
-import { GetCityComboQuery } from "src/app/features/configuration/cities/models/city.contracts";
-import { BaseFormComponent } from "src/app/shared/components/base-components/base-form-component/base-form-component";
-import { BASE_FORM_RESOURCES } from "src/app/shared/components/base-components/base-list.imports";
-import { IsActive, IsMain } from "src/app/shared/enums/common.enums";
-import { DynamicInputConfig, FieldType } from "src/app/shared/models/dynamic-input-config";
-import { ValidationHelper } from "src/app/shared/utils/validation-helper";
-import { GetWarehouseQueryResult, CreateWarehouseCommand, UpdateWarehouseCommand } from "../../models/warehouse.contracts";
-import { WarehouseService } from "../../services/warehouse.service";
+import { Component, inject, effect, signal } from '@angular/core';
+import { GetAreaComboQuery } from 'src/app/features/configuration/areas/models/area.contracts';
+import { GetCityComboQuery } from 'src/app/features/configuration/cities/models/city.contracts';
+import { BaseFormComponent } from 'src/app/shared/components/base-components/base-form-component/base-form-component';
+import { BASE_FORM_RESOURCES } from 'src/app/shared/components/base-components/base-list.imports';
+import { YesNo } from 'src/app/shared/enums/common.enums';
+import { DynamicInputConfig, FieldType } from 'src/app/shared/models/dynamic-input-config';
+import { ValidationHelper } from 'src/app/shared/utils/validation-helper';
+import {
+  GetWarehouseQueryResult,
+  CreateWarehouseCommand,
+  UpdateWarehouseCommand,
+} from '../../models/warehouse.contracts';
+import { WarehouseService } from '../../services/warehouse.service';
 
 @Component({
   selector: 'app-warehouse-form-component',
@@ -74,17 +78,24 @@ export class WarehouseFormComponent extends BaseFormComponent<
         validations: [ValidationHelper.Address],
       },
       {
+        type: FieldType.Select,
+        fieldName: 'branchId',
+        label: 'branch',
+        endpoint: 'branches',
+        validations: [ValidationHelper.Required],
+      },
+      {
         type: FieldType.Enum,
         fieldName: 'isActive',
         label: 'isActive',
-        enum: IsActive,
+        enum: YesNo,
         validations: [ValidationHelper.Required],
       },
       {
         type: FieldType.Enum,
         fieldName: 'isMain',
         label: 'isMain',
-        enum: IsMain,
+        enum: YesNo,
         validations: [ValidationHelper.Required],
       },
     ];

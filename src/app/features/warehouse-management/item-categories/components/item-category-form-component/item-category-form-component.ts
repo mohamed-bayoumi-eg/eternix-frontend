@@ -9,7 +9,6 @@ import {
   UpdateItemCategoryCommand,
 } from '../../models/item-category.contracts';
 import { ItemCategoryService } from '../../services/item-category.service';
-import { IsActive } from 'src/app/shared/enums/common.enums';
 
 @Component({
   selector: 'app-item-category-form-component',

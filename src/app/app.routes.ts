@@ -37,6 +37,10 @@ import { ItemTypeListComponent } from './features/warehouse-management/item-type
 import { ItemTypeFormComponent } from './features/warehouse-management/item-types/components/item-type-form-component/item-type-form-component';
 import { WarehouseListComponent } from './features/warehouse-management/warehouses/components/warehouse-list-component/warehouse-list-component';
 import { WarehouseFormComponent } from './features/warehouse-management/warehouses/components/warehouse-form-component/warehouse-form-component';
+import { ItemBrandListComponent } from './features/warehouse-management/item-brands/components/item-brand-list-component/item-brand-list-component';
+import { ItemBrandFormComponent } from './features/warehouse-management/item-brands/components/item-brand-form-component/item-brand-form-component';
+import { ItemListComponent } from './features/warehouse-management/items/components/item-list-component/item-list-component';
+import { ItemFormComponent } from './features/warehouse-management/items/components/item-form-component/item-form-component';
 
 export const routes: Routes = [
   {
@@ -211,6 +215,26 @@ export const routes: Routes = [
                   { path: '', component: WarehouseListComponent },
                   { path: 'add', component: WarehouseFormComponent },
                   { path: 'edit/:id', component: WarehouseFormComponent },
+                ],
+              },
+              {
+                path: 'item-brands',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'ItemBrands' },
+                children: [
+                  { path: '', component: ItemBrandListComponent },
+                  { path: 'add', component: ItemBrandFormComponent },
+                  { path: 'edit/:id', component: ItemBrandFormComponent },
+                ],
+              },
+               {
+                path: 'items',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'Items' },
+                children: [
+                  { path: '', component: ItemListComponent },
+                  { path: 'add', component: ItemFormComponent },
+                  { path: 'edit/:id', component: ItemFormComponent },
                 ],
               },
             ],

@@ -3,7 +3,7 @@
     <form [formGroup]="form" (ngSubmit)="handleSave()">
       <div class="form-body p-4">
         <div class="row g-4">
-          @for (ctrl of controls; track $index) {
+          @for (ctrl of visibleControls; track $index) {
             <div class="filter-row">
               <app-dynamic-input-component
                 [config]="ctrl"
@@ -89,7 +89,7 @@
 @if (showConfirmDialog) {
   <app-confirm-dialog-component
     [title]="'deleteTitle'"
-    [message]="'deleteConfirmMessage' | translate: { name: (config.title | translate) }"
+    [message]="'areYouSureYouWantToDeleteThisItem' | translate"
     (result)="handleDialogResult($event)"
   >
   </app-confirm-dialog-component>

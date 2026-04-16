@@ -87,6 +87,7 @@ export class DynamicInputComponent implements OnInit {
   }
   ngOnInit(): void {
     this.setupValidations();
+    this.subscribeToVisibility();
 
     const initialValue = this.control?.value;
     this.currentValue.set(initialValue);
@@ -291,6 +292,9 @@ export class DynamicInputComponent implements OnInit {
   clearSelection(event: MouseEvent) {
     event.stopPropagation();
     this.resetFieldCompletely();
+    if (this.config.type === FieldType.Enum && this.config.enum) {
+      this.options.set(this.mapEnum(this.config.enum));
+    }
     this.control.markAsDirty();
     this.valueChange.emit({ field: this.config.fieldName, value: null });
     this.closeDropdown();
@@ -299,23 +303,64 @@ export class DynamicInputComponent implements OnInit {
   private setupValidations() {
     const configs = this.config.validations;
     if (!configs) return;
-    const validationArray = Array.isArray(configs) ? configs : [configs];
-    const validators: ValidatorFn[] = [];
 
-    validationArray.forEach((v) => {
-      if (v.required) validators.push(Validators.required);
-      if (v.minLength) validators.push(Validators.minLength(v.minLength));
-      if (v.maxLength) validators.push(Validators.maxLength(v.maxLength));
-      if (v.email) validators.push(Validators.email);
-      if (v.pattern) validators.push(Validators.pattern(v.pattern));
-      if (v.min !== undefined) validators.push(Validators.min(v.min));
-      if (v.max !== undefined) validators.push(Validators.max(v.max));
+    const applyValidators = () => {
+      const shouldApply = this.config.validationWhen ? this.config.validationWhen(this.form) : true;
+      if (!shouldApply) {
+        this.control.clearValidators();
+        this.control.updateValueAndValidity({ emitEvent: false });
+        return;
+      }
+
+      let validationArray: ValidationConfig[] = [];
+
+      if (this.config.validations) {
+        validationArray.push(
+          ...(Array.isArray(this.config.validations)
+            ? this.config.validations
+            : [this.config.validations]),
+        );
+      }
+
+      if (this.config.dynamicValidations) {
+        validationArray.push(...this.config.dynamicValidations(this.form));
+      }
+
+      const validators: ValidatorFn[] = [];
+
+      validationArray.forEach((v) => {
+        if (v.required) validators.push(Validators.required);
+        if (v.minLength) validators.push(Validators.minLength(v.minLength));
+        if (v.maxLength) validators.push(Validators.maxLength(v.maxLength));
+        if (v.email) validators.push(Validators.email);
+        if (v.pattern) validators.push(Validators.pattern(v.pattern));
+        if (v.min !== undefined) validators.push(Validators.min(v.min));
+        if (v.max !== undefined) validators.push(Validators.max(v.max));
+      });
+
+      this.control.setValidators(validators);
+      this.control.updateValueAndValidity({ emitEvent: false });
+    };
+    applyValidators();
+
+    this.form.valueChanges.subscribe(() => {
+      applyValidators();
     });
-
-    this.control.setValidators(validators);
-    this.control.updateValueAndValidity({ emitEvent: false });
   }
+  private subscribeToVisibility() {
+    if (!this.config.visibleWhen) return;
 
+    this.form.valueChanges.subscribe(() => {
+      const visible = this.config.visibleWhen!(this.form);
+
+      if (!visible) {
+        this.control.setValue(null, { emitEvent: false });
+        this.control.disable({ emitEvent: false });
+      } else {
+        this.control.enable({ emitEvent: false });
+      }
+    });
+  }
   private mapEnum(enumObj: any): ComboResultBase[] {
     const entries = Object.entries(enumObj)
       .filter(([key]) => isNaN(Number(key)))

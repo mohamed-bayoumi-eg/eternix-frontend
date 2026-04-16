@@ -22,7 +22,6 @@ export class UnitListComponent extends BaseListComponent<GetUnitListQueryResult,
     { field: 'englishName', header: 'englishName', sortable: true },
     { field: 'symbol', header: 'symbol', sortable: true },
     { field: 'globalUnitCode', header: 'globalUnitCode', sortable: true },
-    { field: 'unitType', header: 'unitType', sortable: true, type: FieldType.Enum },
     { field: 'isActive', header: 'isActive', sortable: true, type: FieldType.Enum },
   ];
   filterConfigs = [];

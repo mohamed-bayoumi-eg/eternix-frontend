@@ -49,15 +49,11 @@ export class ValidationHelper {
       maxLength: 50,
     };
   }
-
-  static get Percentage(): ValidationConfig {
-    return {
-      required: true,
-      min: 0,
-      max: 100,
-      pattern: '^[0-9]*\\.?[0-9]+$',
-    };
-  }
+  static Percentage: ValidationConfig = {
+    min: 0,
+    max: 100,
+    pattern: '^[0-9]*\\.?[0-9]+$',
+  };
   static get PositiveNumber(): ValidationConfig {
     return {
       required: true,

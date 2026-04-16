@@ -104,39 +104,56 @@ export class ItemFormComponent extends BaseFormComponent<
       fieldName: 'marginType',
       label: 'marginType',
       enum: MarginType,
+      validations: [ValidationHelper.Required],
+      validationWhen: (form) => form.get('pricingMethod')?.value === PricingMethod.CostPlusMargin,
       visibleWhen: (form) => form.get('pricingMethod')?.value === PricingMethod.CostPlusMargin,
+      dependsOn: ['pricingMethod'],
     },
     {
       type: FieldType.Number,
       fieldName: 'sellingPrice',
       label: 'sellingPrice',
-      validations: [ValidationHelper.PositiveNumber],
-      visibleWhen: (form) => form.get('pricingMethod')?.value !== PricingMethod.CostPlusMargin,
+      validations: [ValidationHelper.Required, ValidationHelper.PositiveNumber],
+      validationWhen: (form) => form.get('pricingMethod')?.value === PricingMethod.FixedPrice,
+      visibleWhen: (form) => form.get('pricingMethod')?.value === PricingMethod.FixedPrice,
+      dependsOn: ['pricingMethod'],
     },
     {
       type: FieldType.Number,
       fieldName: 'margin',
       label: 'margin',
-      validations: [ValidationHelper.PositiveNumber, ValidationHelper.Percentage],
+      validations: [ValidationHelper.PositiveNumber],
+      dynamicValidations: (form) => {
+        const type = form.get('marginType')?.value;
+        if (type === MarginType.Percentage) {
+          return [ValidationHelper.Percentage];
+        }
+        return [];
+      },
+      validationWhen: (form) => form.get('pricingMethod')?.value === PricingMethod.CostPlusMargin,
       visibleWhen: (form) => form.get('pricingMethod')?.value === PricingMethod.CostPlusMargin,
+      dependsOn: ['pricingMethod', 'marginType'],
     },
     {
       type: FieldType.Enum,
       fieldName: 'hasExpiry',
       label: 'hasExpiry',
       enum: YesNo,
+      validations: [ValidationHelper.Required],
     },
     {
       type: FieldType.Enum,
       fieldName: 'hasBatch',
       label: 'hasBatch',
       enum: YesNo,
+      validations: [ValidationHelper.Required],
     },
     {
       type: FieldType.Enum,
       fieldName: 'hasSerial',
       label: 'hasSerial',
       enum: YesNo,
+      validations: [ValidationHelper.Required],
     },
     {
       type: FieldType.Enum,
@@ -168,7 +185,6 @@ export class ItemFormComponent extends BaseFormComponent<
       title: 'itemUnits',
       columns: this.itemUnitFormConfig,
       data: this.selectedItemUnits,
-      required: true,
       showAddBtn: true,
       showDeleteBtn: true,
     },
@@ -199,14 +215,14 @@ export class ItemFormComponent extends BaseFormComponent<
   override handleSave(formValue: any) {
     const payload = {
       ...formValue,
-      permissions: this.selectedItemUnits(),
+      itemUnits: this.selectedItemUnits(),
     };
     super.handleSave(payload);
   }
   override handleSaveAndNew(formValue: any) {
     const payload = {
       ...formValue,
-      permissions: this.selectedItemUnits(),
+      itemUnits: this.selectedItemUnits(),
     };
     super.handleSaveAndNew(payload);
   }

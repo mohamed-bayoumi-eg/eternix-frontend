@@ -32,6 +32,8 @@ export interface DynamicInputConfig<TQuery = any> {
   showUndefined?: boolean;
   options?: any[];
   validations?: ValidationConfig[];
+  validationWhen?: (form: FormGroup) => boolean;
+  dynamicValidations?: (form: FormGroup) => ValidationConfig[];
   span?: number;
   showErrorMessage?: boolean;
   visibleWhen?: (form: FormGroup) => boolean;

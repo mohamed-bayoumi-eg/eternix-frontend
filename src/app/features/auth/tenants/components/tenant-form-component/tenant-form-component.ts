@@ -25,77 +25,76 @@ export class TenantFormComponent extends BaseFormComponent<
 > {
   protected override service = inject(TenantService);
 
-  get formConfig(): DynamicInputConfig[] {
-    const isEdit = this.isEdit;
+get formConfig(): DynamicInputConfig[] {
+  const isEdit = this.isEdit;
 
-    const allConfigs: (DynamicInputConfig | null)[] = [
-      {
-        type: FieldType.Text,
-        fieldName: 'arabicName',
-        label: 'arabicName',
-        validations: [ValidationHelper.ArabicName],
-      },
-      {
-        type: FieldType.Text,
-        fieldName: 'englishName',
-        label: 'englishName',
-        validations: [ValidationHelper.EnglishName],
-      },
-      {
-        type: FieldType.Enum,
-        fieldName: 'isActive',
-        label: 'isActive',
-        enum: YesNo,
-        validations: [ValidationHelper.Required],
-      },
-      {
-        type: FieldType.Text,
-        fieldName: 'email',
-        label: 'email',
-        validations: [ValidationHelper.Email],
-      },
-      {
-        type: FieldType.Text,
-        fieldName: 'phoneNumber',
-        label: 'phoneNumber',
-        validations: [ValidationHelper.PhoneNumber],
-      },
-      !isEdit
-        ? {
-            type: FieldType.Text,
-            fieldName: 'adminArabicName',
-            label: 'adminArabicName',
-            validations: [ValidationHelper.ArabicName],
-          }
-        : null,
-      !isEdit
-        ? {
-            type: FieldType.Text,
-            fieldName: 'adminEnglishName',
-            label: 'adminEnglishName',
-            validations: [ValidationHelper.EnglishName],
-          }
-        : null,
-      !isEdit
-        ? {
-            type: FieldType.Text,
-            fieldName: 'adminUserName',
-            label: 'adminUserName',
-            validations: [ValidationHelper.EnglishName],
-          }
-        : null,
-      !isEdit
-        ? {
-            type: FieldType.Text,
-            fieldName: 'adminPassword',
-            label: 'adminPassword',
-            validations: [/*ValidationHelper.Password,*/ ValidationHelper.Required],
-          }
-        : null,
-    ];
+  return [
+    {
+      type: FieldType.Text,
+      fieldName: 'arabicName',
+      label: 'arabicName',
+      validations: [ValidationHelper.ArabicName],
+    },
+    {
+      type: FieldType.Text,
+      fieldName: 'englishName',
+      label: 'englishName',
+      validations: [ValidationHelper.EnglishName],
+    },
+    {
+      type: FieldType.Enum,
+      fieldName: 'isActive',
+      label: 'isActive',
+      enum: YesNo,
+      validations: [ValidationHelper.Required],
+    },
+    {
+      type: FieldType.Text,
+      fieldName: 'email',
+      label: 'email',
+      validations: [ValidationHelper.Email],
+    },
+    {
+      type: FieldType.Text,
+      fieldName: 'phoneNumber',
+      label: 'phoneNumber',
+      validations: [ValidationHelper.PhoneNumber],
+    },
 
-    return allConfigs.filter((c) => c !== null) as DynamicInputConfig[];
-  }
+    {
+      type: FieldType.Text,
+      fieldName: 'adminArabicName',
+      label: 'adminArabicName',
+      validations: [ValidationHelper.ArabicName],
+      visibleWhen: () => !isEdit,
+      validationWhen: () => !isEdit,
+    },
+    {
+      type: FieldType.Text,
+      fieldName: 'adminEnglishName',
+      label: 'adminEnglishName',
+      validations: [ValidationHelper.EnglishName],
+      visibleWhen: () => !isEdit,
+      validationWhen: () => !isEdit,
+    },
+    {
+      type: FieldType.Text,
+      fieldName: 'adminUserName',
+      label: 'adminUserName',
+      validations: [ValidationHelper.EnglishName],
+      visibleWhen: () => !isEdit,
+      validationWhen: () => !isEdit,
+    },
+    {
+      type: FieldType.Text,
+      fieldName: 'adminPassword',
+      label: 'adminPassword',
+      validations: [ValidationHelper.Required],
+      visibleWhen: () => !isEdit,
+      validationWhen: () => !isEdit,
+    },
+  ];
+}
 
   get isEdit(): boolean {
     return !!this.editData()?.id;

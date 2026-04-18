@@ -1,4 +1,4 @@
-import { FieldType } from "./dynamic-input-config";
+import { FieldType } from './dynamic-input-config';
 
 export interface ResultBase {
   id: string;
@@ -27,6 +27,7 @@ export interface TableColumn {
   header: string;
   sortable?: boolean;
   type?: FieldType;
+  visibleWhen?: (row: any) => boolean;
 }
 
 export interface ApiResponse {
@@ -36,8 +37,7 @@ export interface ApiResponse {
   data?: any;
 }
 
-export interface CreateCommandBase<TResult> {
-}
+export interface CreateCommandBase<TResult> {}
 
 export interface UpdateCommandBase<TResult> {
   id: string;

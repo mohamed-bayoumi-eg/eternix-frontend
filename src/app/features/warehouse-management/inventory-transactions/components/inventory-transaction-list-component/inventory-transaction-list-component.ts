@@ -32,9 +32,20 @@ export class InventoryTransactionListComponent extends BaseListComponent<
 
     return [
       { field: 'code', header: 'code', sortable: true },
-      { field: 'inventoryTransactionType', header: 'inventoryTransactionType', sortable: true },
-      { field: 'postedDateTime', header: 'postedDateTime', sortable: true },
+      {
+        field: 'inventoryTransactionType',
+        header: 'inventoryTransactionType',
+        sortable: true,
+        type: FieldType.Enum,
+      },
       { field: 'isPosted', header: 'isPosted', sortable: true, type: FieldType.Enum },
+      {
+        field: 'postedDateTime',
+        header: 'postedDateTime',
+        sortable: true,
+        visibleWhen: (row) => row.isPosted === YesNo.Yes,
+      },
+
       { field: fromWarehouse, header: 'fromWarehouse' },
       { field: toWarehouse, header: 'toWarehouse' },
     ];

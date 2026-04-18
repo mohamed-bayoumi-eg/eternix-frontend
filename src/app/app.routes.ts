@@ -41,6 +41,8 @@ import { ItemBrandListComponent } from './features/warehouse-management/item-bra
 import { ItemBrandFormComponent } from './features/warehouse-management/item-brands/components/item-brand-form-component/item-brand-form-component';
 import { ItemListComponent } from './features/warehouse-management/items/components/item-list-component/item-list-component';
 import { ItemFormComponent } from './features/warehouse-management/items/components/item-form-component/item-form-component';
+import { InventoryTransactionFormComponent } from './features/warehouse-management/inventory-transactions/components/inventory-transaction-form-component/inventory-transaction-form-component';
+import { InventoryTransactionListComponent } from './features/warehouse-management/inventory-transactions/components/inventory-transaction-list-component/inventory-transaction-list-component';
 
 export const routes: Routes = [
   {
@@ -235,6 +237,16 @@ export const routes: Routes = [
                   { path: '', component: ItemListComponent },
                   { path: 'add', component: ItemFormComponent },
                   { path: 'edit/:id', component: ItemFormComponent },
+                ],
+              },
+              {
+                path: 'inventory-transactions',
+                canActivateChild: [permissionGuard],
+                data: { screenKey: 'InventoryTransactions' },
+                children: [
+                  { path: '', component: InventoryTransactionListComponent },
+                  { path: 'add', component: InventoryTransactionFormComponent },
+                  { path: 'edit/:id', component: InventoryTransactionFormComponent },
                 ],
               },
             ],

@@ -48,7 +48,16 @@
               [class.is-valid-field]="isControlValid && isRequired"
             />
           }
-
+          @case (types.DateTime) {
+            <input
+              type="datetime-local"
+              [formControlName]="config.fieldName"
+              class="erp-input"
+              [id]="config.fieldName"
+              [class.is-invalid-field]="isInvalid && isRequired"
+              [class.is-valid-field]="isControlValid && isRequired"
+            />
+          }
           @case (types.Select) {
             <div class="select-wrapper w-100">
               <div

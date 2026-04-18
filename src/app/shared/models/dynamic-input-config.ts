@@ -28,14 +28,14 @@ export interface DynamicInputConfig<TQuery = any> {
   label?: string;
   endpoint?: string;
   queryModel?: new () => TQuery;
+  options?: any[];
   enum?: any;
   showUndefined?: boolean;
-  options?: any[];
-  validations?: ValidationConfig[];
-  validationWhen?: (form: FormGroup) => boolean;
-  dynamicValidations?: (form: FormGroup) => ValidationConfig[];
   span?: number;
   showErrorMessage?: boolean;
+  validations?: ValidationConfig[];
+  dynamicValidations?: (form: FormGroup) => ValidationConfig[];
+  validationWhen?: (form: FormGroup) => boolean;
   visibleWhen?: (form: FormGroup) => boolean;
   dependsOn?: string[];
 }

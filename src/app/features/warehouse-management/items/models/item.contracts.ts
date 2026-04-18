@@ -10,7 +10,6 @@ import {
   ComboResultBase,
 } from 'src/app/shared/models/base-requests';
 import { MarginType, PricingMethod } from '../enums/item.enums';
-import { get } from 'https';
 
 export interface ItemUnitDto {
   unitId: string;

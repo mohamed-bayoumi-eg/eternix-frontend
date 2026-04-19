@@ -52,7 +52,7 @@ export class DynamicInputComponent implements OnInit {
   @Output() valueChange = new EventEmitter<{ field: string; value: any }>();
   private apiService = inject(ApiService);
   private elementRef = inject(ElementRef);
-
+  private originalValidators: ValidatorFn[] = [];
   types = FieldType;
   options = signal<ComboResultBase[]>([]);
   isLoadingOptions = signal<boolean>(false);
@@ -305,7 +305,9 @@ export class DynamicInputComponent implements OnInit {
     if (!configs) return;
 
     const applyValidators = () => {
-      const shouldApply = this.config.validationWhen ? this.config.validationWhen(this.getFormContext()) : true;
+      const shouldApply = this.config.validationWhen
+        ? this.config.validationWhen(this.getFormContext())
+        : true;
       if (!shouldApply) {
         this.control.clearValidators();
         this.control.updateValueAndValidity({ emitEvent: false });
@@ -337,7 +339,7 @@ export class DynamicInputComponent implements OnInit {
         if (v.min !== undefined) validators.push(Validators.min(v.min));
         if (v.max !== undefined) validators.push(Validators.max(v.max));
       });
-
+      this.originalValidators = validators;
       this.control.setValidators(validators);
       this.control.updateValueAndValidity({ emitEvent: false });
     };
@@ -355,9 +357,18 @@ export class DynamicInputComponent implements OnInit {
 
       if (!visible) {
         this.control.setValue(null, { emitEvent: false });
+
+        this.control.clearValidators();
+        this.control.updateValueAndValidity({ emitEvent: false });
+
         this.control.disable({ emitEvent: false });
       } else {
         this.control.enable({ emitEvent: false });
+
+        this.control.setValidators(this.originalValidators);
+        this.control.updateValueAndValidity({ emitEvent: false });
+
+        this.control.markAsTouched();
       }
     });
   }
@@ -442,16 +453,13 @@ export class DynamicInputComponent implements OnInit {
   get config(): DynamicInputConfig {
     return this._config;
   }
-private getFormContext(): any {
-  return {
-    ...this.parentForm?.value,
-    ...this.form?.value,
-    get: (key: string) => {
-      return (
-        this.form?.get(key) ??
-        this.parentForm?.get(key)
-      );
-    },
-  };
-}
+  private getFormContext(): any {
+    return {
+      ...this.parentForm?.value,
+      ...this.form?.value,
+      get: (key: string) => {
+        return this.form?.get(key) ?? this.parentForm?.get(key);
+      },
+    };
+  }
 }

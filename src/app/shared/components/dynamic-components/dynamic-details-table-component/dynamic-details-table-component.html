@@ -21,14 +21,17 @@
           <tr class="table-row">
             @for (col of config.columns; track $index) {
               <td>
-               <div class="cell-content-wrapper">
-                  <app-dynamic-input-component
-                    [config]="col"
-                    [form]="getRowForm(i, row)"
-                    [showLabel]="false"
-                    class="w-100"
-                  ></app-dynamic-input-component>
-                </div>
+                @if (isColumnVisible(col, getRowForm(i, row), i)) {
+                  <div class="cell-content-wrapper">
+                    <app-dynamic-input-component
+                      [config]="col"
+                      [form]="getRowForm(i, row)"
+                      [showLabel]="false"
+                      [parentForm]="parentForm"
+                      class="w-100"
+                    ></app-dynamic-input-component>
+                  </div>
+                } @else {}
               </td>
             }
             @if (config.showDeleteBtn) {

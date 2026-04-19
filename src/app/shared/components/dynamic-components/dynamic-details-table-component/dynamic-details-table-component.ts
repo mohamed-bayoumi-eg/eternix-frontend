@@ -14,6 +14,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TranslateModule } from '@ngx-translate/core';
 import { DynamicInputComponent } from '../dynamic-input-component/dynamic-input-component';
 import { DynamicDetailsTableConfig } from 'src/app/shared/models/dynamic-details-table-config';
+import { DynamicInputConfig } from 'src/app/shared/models/dynamic-input-config';
 
 @Component({
   selector: 'app-dynamic-details-table-component',
@@ -24,6 +25,7 @@ import { DynamicDetailsTableConfig } from 'src/app/shared/models/dynamic-details
 })
 export class DynamicDetailsTableComponent implements OnInit, OnChanges {
   @Input({ required: true }) config!: DynamicDetailsTableConfig;
+  @Input() parentForm?: FormGroup;
 
   @Output() onDataChange = new EventEmitter<any[]>();
   @Output() statusChange = new EventEmitter<boolean>();
@@ -32,6 +34,11 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
   rowForms: FormGroup[] = [];
 
   ngOnInit() {
+    this.parentForm?.valueChanges.subscribe(() => {
+      this.rowForms.forEach((form, i) => {
+        this.handleVisibilityCleanup(i, form);
+      });
+    });
     setTimeout(() => {
       if (this.config.required && this.config.data().length === 0) {
         this.addRow();
@@ -65,6 +72,9 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
   getRowForm(index: number, row: any): FormGroup {
     if (this.rowForms[index]) {
       const group = this.rowForms[index];
+      group.valueChanges.subscribe(() => {
+        this.handleVisibilityCleanup(index, group);
+      });
       this.config.columns.forEach((col) => {
         const control = group.get(col.fieldName);
         if (control && control.value !== row[col.fieldName]) {
@@ -142,5 +152,49 @@ export class DynamicDetailsTableComponent implements OnInit, OnChanges {
     this.rowForms.splice(index, 1);
     this.onDataChange.emit(this.config.data());
     this.checkValidity();
+  }
+
+  isColumnVisible(col: DynamicInputConfig, rowForm: FormGroup, index: number): boolean {
+    if (!col.visibleWhen) return true;
+
+    const context = this.buildContext(rowForm);
+    return col.visibleWhen(context);
+  }
+
+  private buildContext(rowForm: FormGroup): any {
+    return {
+      ...this.parentForm?.getRawValue(),
+      ...rowForm.getRawValue(),
+      get: (key: string) => {
+        return rowForm.get(key) ?? this.parentForm?.get(key);
+      },
+    };
+  }
+  private handleVisibilityCleanup(index: number, rowForm: FormGroup) {
+    this.config.columns.forEach((col) => {
+      if (!col.visibleWhen) return;
+
+      const context = this.buildContext(rowForm);
+      const visible = col.visibleWhen(context);
+
+      if (!visible) {
+        const control = rowForm.get(col.fieldName);
+
+        control?.setValue(null, { emitEvent: false });
+
+        this.clearField(index, col.fieldName);
+      }
+    });
+  }
+  clearField(index: number, fieldName: string) {
+    const currentData = [...this.config.data()];
+    if (currentData[index]) {
+      if (currentData[index][fieldName] !== null) {
+        currentData[index][fieldName] = null;
+
+        this.config.data.set(currentData);
+        this.onDataChange.emit(currentData);
+      }
+    }
   }
 }

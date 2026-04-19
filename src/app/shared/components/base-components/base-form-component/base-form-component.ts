@@ -78,6 +78,8 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
   }
 
   handleSave(formData: any) {
+    formData = this.normalizeNullables(formData);
+
     if (this.isSubmitting) return;
     this.isSubmitting = true;
     const oldData = this.editData();
@@ -121,6 +123,8 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
   }
 
   handleSaveAndNew(formData: any) {
+    formData = this.normalizeNullables(formData);
+
     if (this.isSubmitting) return;
 
     this.isSubmitting = true;
@@ -185,7 +189,25 @@ export abstract class BaseFormComponent<TGetResult, TCreateCmd, TUpdateCmd> impl
         .subscribe(() => this.navigateToList());
     }
   }
+  private normalizeNullables(obj: any): any {
+    if (Array.isArray(obj)) {
+      return obj.map((x) => this.normalizeNullables(x));
+    }
 
+    if (obj !== null && typeof obj === 'object') {
+      const result: any = {};
+
+      Object.keys(obj).forEach((key) => {
+        const value = obj[key];
+
+        result[key] = value === '' || value === undefined ? null : this.normalizeNullables(value);
+      });
+
+      return result;
+    }
+
+    return obj;
+  }
   protected navigateToList() {
     const isEdit = !!this.route.snapshot.params['id'];
     const backRoute = isEdit ? '../../' : '../';

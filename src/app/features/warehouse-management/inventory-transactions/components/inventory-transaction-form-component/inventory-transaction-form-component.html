@@ -1,6 +1,6 @@
 @if (!isLoading()) {
   <app-dynamic-form-page-component
-    [config]="{  }"
+    [config]="{}"
     [controls]="formConfig"
     [initialData]="editData()"
     [isLoading]="isLoading()"
@@ -19,6 +19,7 @@
           [config]="tab"
           (onDataChange)="tab.data.set($event)"
           (statusChange)="isTableValid.set($event)"
+          [parentForm]="inventoryTransactionLineForm.form"
         >
         </app-dynamic-details-table-component>
       </div>

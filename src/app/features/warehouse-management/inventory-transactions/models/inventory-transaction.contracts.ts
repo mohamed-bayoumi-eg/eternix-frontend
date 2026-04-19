@@ -59,7 +59,7 @@ export interface GetInventoryTransactionListQuery extends GetListQueryBase<GetIn
 export interface GetInventoryTransactionListQueryResult extends ResultBase {
   code: number;
   inventoryTransactionType: string;
-  postedDateTime: Date;
+  postedDateTime: Date | null;
   isPosted: string;
   fromWarehouseArabicName: string;
   fromWarehouseEnglishName: string;

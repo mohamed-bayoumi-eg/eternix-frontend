@@ -166,6 +166,7 @@ export class InventoryTransactionFormComponent extends BaseFormComponent<
       data: this.selectedInventoryTransactionLines,
       showAddBtn: true,
       showDeleteBtn: true,
+      required : true,
     },
   ];
 
@@ -196,14 +197,14 @@ export class InventoryTransactionFormComponent extends BaseFormComponent<
   override handleSave(formValue: any) {
     const payload = {
       ...formValue,
-      itemUnits: this.selectedInventoryTransactionLines(),
+      inventoryTransactionLines: this.selectedInventoryTransactionLines(),
     };
     super.handleSave(payload);
   }
   override handleSaveAndNew(formValue: any) {
     const payload = {
       ...formValue,
-      itemUnits: this.selectedInventoryTransactionLines(),
+      inventoryTransactionLines: this.selectedInventoryTransactionLines(),
     };
     super.handleSaveAndNew(payload);
   }

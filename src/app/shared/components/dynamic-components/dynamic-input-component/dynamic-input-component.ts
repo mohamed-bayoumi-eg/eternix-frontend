@@ -48,8 +48,8 @@ export class DynamicInputComponent implements OnInit {
   }
   @Input({ required: true }) form!: FormGroup;
   @Input() showLabel = true;
+  @Input() parentForm?: FormGroup;
   @Output() valueChange = new EventEmitter<{ field: string; value: any }>();
-
   private apiService = inject(ApiService);
   private elementRef = inject(ElementRef);
 
@@ -305,7 +305,7 @@ export class DynamicInputComponent implements OnInit {
     if (!configs) return;
 
     const applyValidators = () => {
-      const shouldApply = this.config.validationWhen ? this.config.validationWhen(this.form) : true;
+      const shouldApply = this.config.validationWhen ? this.config.validationWhen(this.getFormContext()) : true;
       if (!shouldApply) {
         this.control.clearValidators();
         this.control.updateValueAndValidity({ emitEvent: false });
@@ -351,7 +351,7 @@ export class DynamicInputComponent implements OnInit {
     if (!this.config.visibleWhen) return;
 
     this.form.valueChanges.subscribe(() => {
-      const visible = this.config.visibleWhen!(this.form);
+      const visible = this.config.visibleWhen!(this.getFormContext());
 
       if (!visible) {
         this.control.setValue(null, { emitEvent: false });
@@ -442,4 +442,16 @@ export class DynamicInputComponent implements OnInit {
   get config(): DynamicInputConfig {
     return this._config;
   }
+private getFormContext(): any {
+  return {
+    ...this.parentForm?.value,
+    ...this.form?.value,
+    get: (key: string) => {
+      return (
+        this.form?.get(key) ??
+        this.parentForm?.get(key)
+      );
+    },
+  };
+}
 }
